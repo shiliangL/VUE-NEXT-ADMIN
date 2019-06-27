@@ -7,6 +7,12 @@ const Menu = [
     name: 'Dashboard'
   },
   {
+    title: 'VirtualList',
+    group: 'apps',
+    icon: 'list',
+    name: 'VirtualList'
+  },
+  {
     title: 'Chat',
     group: 'apps',
     icon: 'chat_bubble',

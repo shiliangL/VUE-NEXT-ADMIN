@@ -7,7 +7,6 @@
       <page-header/>
       <div class="page-wrapper">
         <router-view/>
-        <div v-for="item in 1000" :key="item.id">{{ item }}</div>
       </div>
       <!-- App Footer -->
       <v-footer height="auto" class="white pa-3 app--footer">
@@ -56,6 +55,6 @@ export default {
 <style scoped>
 .page-wrapper {
   overflow: auto;
-  min-height: calc(100vh - 64px - 50px - 81px);
+  min-height: calc(100vh - 64px - 50px - 60px);
 }
 </style>

@@ -25,9 +25,10 @@
           >
             <v-list-tile slot="activator" ripple="ripple">
               <v-list-tile-content>
-                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                <v-list-tile-title>{{ item.title }} </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+
             <template v-for="subItem in item.items">
               <!--sub group-->
               <v-list-group
@@ -74,6 +75,7 @@
               </v-list-tile>
             </template>
           </v-list-group>
+
           <v-subheader v-else-if="item.header" :key="item.name">{{ item.header }}</v-subheader>
           <v-divider v-else-if="item.divider" :key="item.name"></v-divider>
           <!--top-level link-->
@@ -91,7 +93,7 @@
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              <v-list-tile-title>{{ item.title }}  </v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action v-if="item.subAction">
               <v-icon class="success--text">{{ item.subAction }}</v-icon>

@@ -31,7 +31,12 @@ export const protectedRoute = [
         meta: { title: 'Home', group: 'apps', icon: 'dashboard' },
         component: () => import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue')
       },
-
+      {
+        path: '/VirtualList',
+        name: 'VirtualList',
+        meta: { title: 'VirtualList', group: 'apps', icon: 'list' },
+        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/VirtualList.vue')
+      },
       {
         path: '/403',
         name: 'Forbidden',
