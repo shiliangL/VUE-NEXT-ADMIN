@@ -3,14 +3,18 @@
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'font-awesome/css/font-awesome.css'
+import 'iview/dist/styles/iview.css'
 import './styles/index.less'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import sysConfig from './cofing'
 
 import './plugins/vuetify'
 
 Vue.config.productionTip = false
+
+Vue.prototype.$sysConfig = sysConfig
 
 /* eslint-disable no-new */
 new Vue({

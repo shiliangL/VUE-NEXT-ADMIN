@@ -18,8 +18,8 @@
       </v-footer>
     </v-content>
     <!-- Go to top -->
-    <app-fab></app-fab>
-    <app-setting></app-setting>
+    <BackTop :height="300" :bottom="20" :right="0" container=".v-content__wrap"/>
+    <app-setting/>
   </v-app>
 </template>
 
@@ -27,12 +27,12 @@
 import AppDrawer from './AppDrawer'
 import AppToolbar from './AppToolbar'
 import PageHeader from './PageHeader'
-import AppFab from './AppFab'
 import AppSetting from './settings'
+import { BackTop } from 'iview'
 
 export default {
   components: {
-    AppFab,
+    BackTop,
     AppDrawer,
     AppToolbar,
     AppSetting,

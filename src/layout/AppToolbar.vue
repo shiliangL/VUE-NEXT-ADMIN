@@ -5,7 +5,7 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <v-btn icon href="https://github.com/tookit/vue-material-admin">
+      <v-btn icon :href="$sysConfig.github" target="_blank">
         <v-icon class="fa-2x">fa-github</v-icon>
       </v-btn>
       <v-btn icon @click="handleFullScreen()">
