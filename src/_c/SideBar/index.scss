@@ -1,0 +1,11 @@
+.page-header {
+    z-index: 2;
+    background-color: #a972bb;
+    border-bottom: 1px solid rgba(0, 0, 0, .0975);
+    transition: height .2s ease-in-out;
+
+    .line {
+        height: 2.5rem;
+        background: #cccccc;
+    }
+}

@@ -1,0 +1,23 @@
+.app-login-form {
+    margin-top: 12.5rem
+        /* 200/16 */
+    ;
+    max-width: 18.75rem
+        /* 300/16 */
+    ;
+    margin: 0 auto;
+}
+
+.app-login-form .login-form-button {
+    width: 100%;
+}
+
+.app-login-form .flex-box {
+    justify-content: space-between;
+}
+
+.app-login-form .ant-form-item {
+    margin-bottom: .625rem
+        /* 10/16 */
+    ;
+}

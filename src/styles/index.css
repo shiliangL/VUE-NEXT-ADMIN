@@ -1,0 +1,133 @@
+@import '~antd/dist/antd.css';
+
+
+::-webkit-scrollbar {
+    background: rgba(0, 0, 0, 0);
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(37, 36, 36, 0.57);
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.w250 {
+    width: 250px;
+}
+
+.w240 {
+    width: 240px;
+}
+
+.w230 {
+    width: 230px;
+}
+
+.w220 {
+    width: 220px;
+}
+
+.w210 {
+    width: 210px;
+}
+
+.w200 {
+    width: 200px;
+}
+
+.w190 {
+    width: 190px;
+}
+
+.w180 {
+    width: 180px;
+}
+
+.w170 {
+    width: 170px;
+}
+
+.w160 {
+    width: 160px;
+}
+
+.w150 {
+    width: 150px;
+}
+
+.w140 {
+    width: 140px;
+}
+
+.w130 {
+    width: 130px;
+}
+
+.w120 {
+    width: 120px;
+}
+
+.w110 {
+    width: 110px;
+}
+
+.w210 {
+    width: 210px;
+}
+
+.w210 {
+    width: 220px;
+}
+
+.w100 {
+    width: 100px;
+}
+
+.w90 {
+    width: 90px;
+}
+
+.w80 {
+    width: 80px;
+}
+
+.w70 {
+    width: 70px;
+}
+
+.left {
+    padding-bottom: .25rem
+        /* 4/16 */
+    ;
+    float: left;
+}
+
+.right {
+    padding-bottom: .25rem
+        /* 4/16 */
+    ;
+    float: right;
+}
+
+.flex-box {
+  display: flex;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:after {
+    display: block;
+    content: "clear";
+    height: 0;
+    clear: both;
+    overflow: hidden;
+    visibility: hidden;
+}
