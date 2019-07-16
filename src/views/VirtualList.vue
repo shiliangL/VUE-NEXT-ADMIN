@@ -68,14 +68,14 @@ export default {
   },
   data () {
     return {
-      DynamicScroller: true,
+      DynamicScroller: false,
       RecycleScroller: true,
       changeText: '',
       AirportList: []
     }
   },
   mounted () {
-    for (let index = 0; index < 1000; index++) {
+    for (let index = 0; index < 20000; index++) {
       this.AirportList.push({
         index,
         flightId:
