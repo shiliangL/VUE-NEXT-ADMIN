@@ -24,7 +24,6 @@ class AppTopNavBar extends Component {
   render() {
     const { ...props } = this.props;
     const { dataSource, isMobile } = props;
-    console.log(dataSource);
     delete props.dataSource;
     delete props.isMobile;
     const { menuHeight, phoneOpen } = this.state;

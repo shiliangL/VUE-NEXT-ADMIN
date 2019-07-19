@@ -6,8 +6,9 @@ const BgElement = Element.BgElement;
 
 export default class AppBanner extends Component {
   render() {
+    const { isMobile } =  this.props
     return (
-      <BannerAnim prefixCls="AppBanner banner1" autoPlay>
+      <BannerAnim prefixCls="AppBanner banner1" arrow={isMobile}>
         <Element prefixCls="banner-user-elem" key="0" >
           <BgElement key="bg" className="bg" style={{ background: '#364D79'}} />
           <TweenOne className="banner-user-title" animation={{ y: 30, opacity: 0, type: 'from' }}>
