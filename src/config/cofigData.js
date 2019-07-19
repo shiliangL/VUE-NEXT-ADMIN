@@ -3,7 +3,7 @@ export const Nav00DataSource = {
   wrapper: { className: 'header0 home-page-wrapper' },
   page: { className: 'home-page' },
   logo: {
-    logoName:'shiliangL',
+    logoname:'shiliangL',
     className: 'header0-logo',
     children: 'https://os.alipayobjects.com/rmsportal/mlcYmsRilwraoAe.svg',
   },

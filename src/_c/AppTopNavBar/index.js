@@ -24,6 +24,7 @@ class AppTopNavBar extends Component {
   render() {
     const { ...props } = this.props;
     const { dataSource, isMobile } = props;
+    console.log(dataSource);
     delete props.dataSource;
     delete props.isMobile;
     const { menuHeight, phoneOpen } = this.state;
@@ -47,7 +48,7 @@ class AppTopNavBar extends Component {
         <div {...dataSource.page} className={`${dataSource.page.className}${phoneOpen ? ' open' : ''}`}>
           <TweenOne animation={{ x: -30, type: 'from', ease: 'easeOutQuad' }} {...dataSource.logo} >
             {/* <img width="100%" src={dataSource.logo.children} alt="img" /> */}
-            <span>  {dataSource.logo.logoName} </span>
+            <div>  {dataSource.logo.logoname} </div>
           </TweenOne>
           {isMobile && (
             <div {...dataSource.mobileMenu} onClick={() => { this.phoneClick() }}>

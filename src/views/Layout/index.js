@@ -20,7 +20,7 @@ export default class AppLayout extends Component {
           key="AppTopNavBar"
           dataSource={Nav00DataSource}
           isMobile={this.state.isMobile} />
-        <div className="container">
+        <div className="video-container">
           <AppBanner />
         </div>
         AppLayout测试
