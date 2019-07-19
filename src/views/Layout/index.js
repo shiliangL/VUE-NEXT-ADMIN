@@ -1,16 +1,30 @@
 import React, { Component } from 'react'
 import AppTopNavBar from '@/_c/AppTopNavBar';
 import AppBanner from '@/_c/AppBanner';
+import { Nav00DataSource } from '@/config/cofigData';
+import '@/styles/less/antMotionStyle.less';
 
 export default class AppLayout extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isMobile:false,
+    };
+  }
+
   render() {
     return (
       <div className="AppLayout">
-        <AppTopNavBar />
+        <AppTopNavBar
+          id="AppTopNavBar"
+          key="AppTopNavBar"
+          dataSource={Nav00DataSource}
+          isMobile={this.state.isMobile} />
         <div className="container">
           <AppBanner />
         </div>
-        AppLayout
+        AppLayout测试
       </div>
     )
   }
