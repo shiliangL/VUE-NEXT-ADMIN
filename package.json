@@ -135,8 +135,8 @@
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
-    "less": "^3.9.0",
-    "less-loader": "^5.0.0",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
     "sass-loader": "^7.1.0",
     "node-sass": "^4.11.0",
     "webpack-bundle-analyzer": "^3.3.2"

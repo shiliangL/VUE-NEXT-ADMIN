@@ -3,19 +3,18 @@ export const Nav00DataSource = {
   wrapper: { className: 'header0 home-page-wrapper' },
   page: { className: 'home-page' },
   logo: {
+    logoName:'shiliangL',
     className: 'header0-logo',
     children: 'https://os.alipayobjects.com/rmsportal/mlcYmsRilwraoAe.svg',
   },
   Menu: {
     className: 'header0-menu',
     children: [
-      {
-        name: 'item0',
-        a: { children: '导航一', href: '', className: 'jy9lpfqjit-editor_css' },
-      },
-      { name: 'item1', a: { children: '导航二', href: '' } },
-      { name: 'item2', a: { children: '导航三', href: '' } },
-      { name: 'item3', a: { children: '导航四', href: '' } },
+      { name: 'item0', a: { children: '代码', href: '', className: '' } },
+      { name: 'item1', a: { children: '阅读', className:'',href: '' } },
+      { name: 'item2', a: { children: 'JavaScript', className:'',href: '' } },
+      { name: 'item3', a: { children: 'Node', className:'',href: '' } },
+      { name: 'item4', a: { children: 'Flutter', className:'',href: '' } },
     ],
   },
   mobileMenu: { className: 'header0-mobile-menu' },

@@ -40,29 +40,17 @@ class AppTopNavBar extends Component {
       </Item>
     ));
     return (
-      <TweenOne
-        component="header"
-        animation={{ opacity: 0, type: 'from' }}
+      <TweenOne component="header" animation={{ opacity: 0, type: 'from' }}
         {...dataSource.wrapper}
         {...props}
       >
-        <div
-          {...dataSource.page}
-          className={`${dataSource.page.className}${phoneOpen ? ' open' : ''}`}
-        >
-          <TweenOne
-            animation={{ x: -30, type: 'from', ease: 'easeOutQuad' }}
-            {...dataSource.logo}
-          >
-            <img width="100%" src={dataSource.logo.children} alt="img" />
+        <div {...dataSource.page} className={`${dataSource.page.className}${phoneOpen ? ' open' : ''}`}>
+          <TweenOne animation={{ x: -30, type: 'from', ease: 'easeOutQuad' }} {...dataSource.logo} >
+            {/* <img width="100%" src={dataSource.logo.children} alt="img" /> */}
+            <span>  {dataSource.logo.logoName} </span>
           </TweenOne>
           {isMobile && (
-            <div
-              {...dataSource.mobileMenu}
-              onClick={() => {
-                this.phoneClick();
-              }}
-            >
+            <div {...dataSource.mobileMenu} onClick={() => { this.phoneClick() }}>
               <em />
               <em />
               <em />
