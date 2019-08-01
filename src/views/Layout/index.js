@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import AppTopNavBar from '@/_c/AppTopNavBar';
 import AppBanner from '@/_c/AppBanner';
-import { Nav00DataSource } from '@/config/cofigData';
+import Feature7 from '@/views/FutureItem/Feature7';
+import { Nav00DataSource, Content50DataSource } from '@/config/cofigData';
 import { enquireScreen } from 'enquire-js';
 let isMobile;
 enquireScreen((b) => {
@@ -34,6 +35,12 @@ export default class AppLayout extends Component {
         <div className="">
           <AppBanner />
         </div>
+        <Feature7
+          id="Feature7"
+          key="Feature7"
+          dataSource={Content50DataSource}
+          isMobile={this.state.isMobile}
+        />
         AppLayout测试
       </div>
     )
