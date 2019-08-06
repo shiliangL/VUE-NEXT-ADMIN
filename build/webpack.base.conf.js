@@ -3,6 +3,8 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const TransformModulesPlugin = require('webpack-transform-modules-plugin')
+const PostCompilePlugin = require('webpack-post-compile-plugin')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -36,6 +38,11 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      '_c': resolve('src/components'),
+      '_u': resolve('src/utils'),
+      '_mix': resolve('src/mixin'),
+      '_css': resolve('src/styles'),
+      '_page': resolve('src/views'),
     }
   },
   module: {
@@ -49,9 +56,9 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        include: [resolve('src'), resolve('test')]
       },
-            {
+      {
         test: /\.svg$/,
         loader: 'svg-sprite-loader',
         include: [resolve('src/icons')],
@@ -97,5 +104,9 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  }
+  },
+  plugins: [
+    new PostCompilePlugin(),
+    new TransformModulesPlugin()
+  ]
 }

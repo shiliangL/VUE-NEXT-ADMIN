@@ -1,1 +1,1 @@
-# NEXT-ADMIN
+# cube-smart-h5
