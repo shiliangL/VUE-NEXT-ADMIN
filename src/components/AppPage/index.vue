@@ -1,15 +1,15 @@
 <template>
   <div class="app-page" :class="type">
     <header class="header">
-      <h1>{{title}}</h1>
-      <i @click="back" v-if="backAction" class="cubeic-back" />
+      <h1>{{ title }}</h1>
+      <i v-if="backAction" class="cubeic-back" @click="back" />
     </header>
     <div class="wrapper">
       <section v-if="desc" class="desc">
-        <slot name="desc"/>
+        <slot name="desc" />
       </section>
       <main class="content">
-        <slot name="content"/>
+        <slot name="content" />
       </main>
     </div>
   </div>
@@ -38,7 +38,7 @@ export default {
     }
   },
   methods: {
-    back () {
+    back() {
       this.$router.back()
     }
   }

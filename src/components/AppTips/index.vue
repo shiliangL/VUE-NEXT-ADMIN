@@ -5,9 +5,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'AppTips'
-  }
+export default {
+  name: 'AppTips'
+}
 </script>
 
 <style lang="scss" scoped>

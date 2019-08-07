@@ -1,14 +1,14 @@
 <script>
 export default {
   name: 'Redirect',
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.$router.replace({
         path: to.params.redirect
       })
     })
   },
-  render (h) {
+  render(h) {
     return h()
   }
 }

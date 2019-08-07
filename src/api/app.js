@@ -1,8 +1,14 @@
-import request from '_u/axios'
+import request from '@/utils/axios'
 import config from '@/config'
 const prefix = config.prefix
-const baseUrl = process.env.VUE_APP_BASE_API
-console.log(baseUrl, 'api')
+
+export function fetchList(query) {
+  return request({
+    url: '/dev-api/' + 'list',
+    method: 'get',
+    params: query
+  })
+}
 
 export const saveBaseCompany = (data) => {
   return request({

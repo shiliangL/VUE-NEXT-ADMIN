@@ -2,9 +2,9 @@
   <div class="app-page">
     <AppHeader />
     <AppGrid :border="false" :column-num="3">
-      <AppGridItem class="img-item" v-for="(item,index) in tableData" :key="index">
-        <div class="img-item-pic" :style="{backgroundImage: 'url(' + item.url + ')'}"></div>
-        <img :src="item.url" />
+      <AppGridItem v-for="(item,index) in tableData" :key="index" class="img-item">
+        <div class="img-item-pic" :style="{backgroundImage: 'url(' + item.url + ')'}" />
+        <img :src="item.url">
       </AppGridItem>
     </AppGrid>
   </div>
@@ -20,16 +20,16 @@ export default {
     AppGrid: Grid,
     AppGridItem: GridItem
   },
-  data () {
+  data() {
     return {
       tableData: []
     }
   },
-  mounted () {
+  mounted() {
     this.fetchDataList()
   },
   methods: {
-    async fetchDataList () {
+    async fetchDataList() {
       try {
         const { results, error } = await fetchListType({
           type: '福利',

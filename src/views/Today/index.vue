@@ -2,10 +2,10 @@
   <AppPage type="tab-composite-view" title="列表">
     <div slot="content">
       <cube-tab-bar
-        show-slider
-        v-model="selectedLabel"
-        :use-transition="disabled"
         ref="tabNav"
+        v-model="selectedLabel"
+        show-slider
+        :use-transition="disabled"
         :data="tabLabels"
       />
 
@@ -25,13 +25,13 @@
             <cube-scroll :data="followersData" :options="scrollOptions">
               <ul class="list-wrapper">
                 <li class="list-item">关注</li>
-                <li v-for="(item, index) in followersData" class="list-item" :key="index">
+                <li v-for="(item, index) in followersData" :key="index" class="list-item">
                   <div class="top">
-                    <img :src="item.avatar" class="avatar" />
-                    <span class="time">{{resolveTitle(item)}}</span>
+                    <img :src="item.avatar" class="avatar">
+                    <span class="time">{{ resolveTitle(item) }}</span>
                   </div>
-                  <div class="middle is-bold line-height">{{item.question}}</div>
-                  <div>{{resolveQuestionFollowers(item)}}</div>
+                  <div class="middle is-bold line-height">{{ item.question }}</div>
+                  <div>{{ resolveQuestionFollowers(item) }}</div>
                 </li>
               </ul>
             </cube-scroll>
@@ -41,10 +41,10 @@
             <cube-scroll :data="recommendData" :options="scrollOptions">
               <ul class="list-wrapper">
                 <li class="list-item">推荐</li>
-                <li v-for="(item, index) in recommendData" class="list-item" :key="index">
-                  <div class="top is-black is-bold line-height">{{item.question}}</div>
-                  <div class="middle is-grey line-height">{{item.content}}</div>
-                  <div>{{resolveQuestionFollowers(item)}}</div>
+                <li v-for="(item, index) in recommendData" :key="index" class="list-item">
+                  <div class="top is-black is-bold line-height">{{ item.question }}</div>
+                  <div class="middle is-grey line-height">{{ item.content }}</div>
+                  <div>{{ resolveQuestionFollowers(item) }}</div>
                 </li>
               </ul>
             </cube-scroll>
@@ -54,13 +54,13 @@
             <cube-scroll :data="hotData" :options="scrollOptions">
               <ul class="list-wrapper">
                 <li class="list-item">热门</li>
-                <li v-for="(item, index) in hotData" class="list-item" :key="index">
+                <li v-for="(item, index) in hotData" :key="index" class="list-item">
                   <div class="hot-title">
-                    <span class="hot-sequence">{{item.sequence}}</span>
-                    <span></span>
-                    {{item.label}}
+                    <span class="hot-sequence">{{ item.sequence }}</span>
+                    <span />
+                    {{ item.label }}
                   </div>
-                  <div class="hot-content is-bold is-black">{{item.question}}</div>
+                  <div class="hot-content is-bold is-black">{{ item.question }}</div>
                 </li>
               </ul>
             </cube-scroll>
@@ -73,10 +73,13 @@
 
 <script>
 import AppPage from '_c/AppPage'
-import { FOLLOWERS_DATA, RECOMMEND_DATA, HOT_DATA } from '@/mock/today'
+import { FOLLOWERS_DATA, RECOMMEND_DATA, HOT_DATA } from './today'
 
 export default {
-  data () {
+  components: {
+    AppPage
+  },
+  data() {
     return {
       selectedLabel: '关注',
       disabled: true,
@@ -107,33 +110,30 @@ export default {
       hotData: HOT_DATA
     }
   },
-  components: {
-    AppPage
+  computed: {
+    initialIndex() {
+      return (
+        this.tabLabels.findIndex(item => item.label === this.selectedLabel) || 0
+      )
+    }
   },
   methods: {
-    changePage (current) {
+    changePage(current) {
       this.selectedLabel = this.tabLabels[current].label
       console.log(current)
     },
-    scroll (pos) {
+    scroll(pos) {
       const x = Math.abs(pos.x)
       const tabItemWidth = this.$refs.tabNav.$el.clientWidth
       const slideScrollerWidth = this.$refs.slide.slide.scrollerWidth
       const deltaX = (x / slideScrollerWidth) * tabItemWidth
       this.$refs.tabNav.setSliderTransform(deltaX)
     },
-    resolveTitle (item) {
+    resolveTitle(item) {
       return `${item.name}关注了问题 · ${item.postTime} 小时前`
     },
-    resolveQuestionFollowers (item) {
+    resolveQuestionFollowers(item) {
       return `${item.answers} 赞同 · ${item.followers} 评论`
-    }
-  },
-  computed: {
-    initialIndex () {
-      return (
-        this.tabLabels.findIndex(item => item.label === this.selectedLabel) || 0
-      )
     }
   }
 }

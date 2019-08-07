@@ -9,7 +9,7 @@
       @pulling-up="onPullingUp"
     >
       <ul class="list-wrapper">
-        <li v-for="(item, index) in tableData" class="list-item-row border-1px" :key="index">
+        <li v-for="(item, index) in tableData" :key="index" class="list-item-row border-1px">
           <div class="content-box">
             <div class="content-box-title">
               <ul class="meta-list flex-box">
@@ -27,7 +27,7 @@
             <div class="content-box-text">
               <p v-text="item.desc" />
             </div>
-            <div class="content-box-footer"></div>
+            <div class="content-box-footer" />
           </div>
         </li>
       </ul>
@@ -45,7 +45,7 @@ export default {
   components: {
     AppPage
   },
-  data () {
+  data() {
     return {
       options: {
         pullDownRefresh: {
@@ -57,14 +57,14 @@ export default {
       tableData: []
     }
   },
-  created () {
+  created() {
     console.log('创建了')
   },
-  mounted () {
+  mounted() {
     this.fetchDataList()
   },
   methods: {
-    async fetchDataList () {
+    async fetchDataList() {
       try {
         const { results, error } = await fetchListType({
           type: '前端',
@@ -85,7 +85,7 @@ export default {
         console.log(e)
       }
     },
-    onPullingUp () {}
+    onPullingUp() {}
   }
 }
 </script>

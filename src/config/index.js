@@ -1,4 +1,4 @@
 export default {
   // 接口前缀url
-  prefix: '/api/'
+  prefix: '/dev-api/'
 }

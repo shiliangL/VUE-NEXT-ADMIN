@@ -8,10 +8,10 @@ const state = {
 export const homeStore = Vue.observable(state)
 
 export const mutations = {
-  SET_CATEGORY_TITLE (value) {
+  SET_CATEGORY_TITLE(value) {
     homeStore.categoryTitle = value
   },
-  SET_CATEGORY_LIST (value) {
+  SET_CATEGORY_LIST(value) {
     homeStore.categoryList = value
   }
 }

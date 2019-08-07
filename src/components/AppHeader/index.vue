@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <h1 v-text="title" />
-    <i @click="back" v-if="backAction" class="cubeic-back" />
+    <i v-if="backAction" class="cubeic-back" @click="back" />
   </header>
 </template>
 
@@ -19,7 +19,7 @@ export default {
     }
   },
   methods: {
-    back () {
+    back() {
       this.$router.back()
     }
   }

@@ -1,11 +1,11 @@
 <template>
   <div class="layout">
     <cube-scroll
+      v-if="$route.name === 'home'"
       ref="scroll"
       :options="options"
       @pulling-down="onPullingDown"
       @pulling-up="onPullingUp"
-      v-if="$route.name === 'home'"
     >
       <cube-slide ref="slide" :data="siderBanners" @change="changePage">
         <cube-slide-item
@@ -14,7 +14,7 @@
           @click.native="clickHandler(item, index)"
         >
           <a :href="item.url">
-            <img :src="item.image" />
+            <img :src="item.image">
           </a>
         </cube-slide-item>
       </cube-slide>
@@ -64,7 +64,7 @@
 
 <script>
 import { Grid, GridItem } from 'vant'
-import { fetchTodayList } from '@/api/app'
+import { fetchTodayList, fetchList } from '@/api/app'
 import { mutations } from '@/vuex/homeStore'
 
 export default {
@@ -73,7 +73,7 @@ export default {
     AppGrid: Grid,
     AppGridItem: GridItem
   },
-  data () {
+  data() {
     return {
       options: {
         pullDownRefresh: {
@@ -85,23 +85,20 @@ export default {
       siderBanners: [
         {
           url: 'http://www.didichuxing.com/',
-          image:
-            'https://tp-qneimg.smzdm.com/201908/06/5d48dda1464f63031.png'
+          image: 'https://tp-qneimg.smzdm.com/201908/06/5d48dda1464f63031.png'
         },
         {
           url: 'http://www.didichuxing.com/',
-          image:
-            'https://tp-qneimg.smzdm.com/201908/05/5d47d9a241e742559.png'
+          image: 'https://tp-qneimg.smzdm.com/201908/05/5d47d9a241e742559.png'
         },
         {
           url: 'http://www.didichuxing.com/',
-          image:
-            'https://tp-qneimg.smzdm.com/201908/05/5d47da831c4f33064.png'
+          image: 'https://tp-qneimg.smzdm.com/201908/05/5d47da831c4f33064.png'
         }
       ]
     }
   },
-  created () {
+  created() {
     this.navigation = {
       item01: [
         { icon: 'js', text: '极客', to: '/javaScript' },
@@ -129,17 +126,18 @@ export default {
       ]
     }
   },
-  mounted () {
-    this.fetchTodayList()
+  mounted() {
+    // this.fetchTodayList()
+    this.fetchList()
   },
   methods: {
-    clickHandler () {
+    clickHandler() {
       console.log('点击了')
     },
-    changePage (e) {
+    changePage(e) {
       console.log(e)
     },
-    async fetchTodayList () {
+    async fetchTodayList() {
       try {
         const { category, results, error } = await fetchTodayList()
         console.log(category, results, error)
@@ -153,7 +151,19 @@ export default {
         console.log(e)
       }
     },
-    async onPullingDown () {
+    async fetchList() {
+      try {
+        const { category, results, error } = await fetchList()
+        if (!error) {
+          console.log(category, results, error, 'xxx')
+        } else {
+          console.log(error)
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async onPullingDown() {
       const { category, results, error } = await fetchTodayList()
       if (!error) {
         mutations.SET_CATEGORY_LIST(results || [])
@@ -164,7 +174,7 @@ export default {
         console.log(error)
       }
     },
-    async onPullingUp () {
+    async onPullingUp() {
       const result = await this.fetchTodayList()
       console.log(result, 'xx')
     }
@@ -172,20 +182,11 @@ export default {
 }
 </script>
 
-
 <style lang="scss" scoped>
 .icon-item {
   > div {
     text-align: center;
     margin-bottom: 0.375rem /* 6/16 */;
-  }
-}
-.slide-item {
-  a {
-    display: flex;
-    justify-content: center;
-    img {
-    }
   }
 }
 </style>
