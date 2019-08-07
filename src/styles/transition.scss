@@ -1,0 +1,21 @@
+.page-move-enter,
+.page-move-leave-active {
+  transform: translate(100%, 0)
+}
+
+.page-move-enter-active,
+.page-move-leave-active {
+  transition: transform .3s
+}
+
+.forward-enter,
+.back-leave-active {
+  opacity: 0.5;
+  transform: translateX(100%);
+}
+
+.forward-leave-active,
+.back-enter {
+  opacity: 0.5;
+  transform: translateX(-100%);
+}

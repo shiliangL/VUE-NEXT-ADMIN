@@ -1,0 +1,51 @@
+// 系统App 全局样式
+
+@import "./transition.scss";
+
+html,
+body,
+.layout,
+#app {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.layout {
+  z-index: 1;
+  position: relative;
+  overflow-x: hidden;
+
+  .router-view {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+  }
+}
+
+// siderBanner设置图片居中
+.cube-slide-item {
+  >a {
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    max-height: 14.375rem;
+    img {
+      width: 100%;
+      height: 100%;
+      display: inline-block !important;
+      text-align: center;
+    }
+  }
+}
+
+// flex-box
+.flex-box {
+  display: flex;
+}
