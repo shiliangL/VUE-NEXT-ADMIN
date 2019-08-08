@@ -4,7 +4,7 @@ const prefix = config.prefix
 
 export function fetchList(query) {
   return request({
-    url: '/dev-api/' + 'list',
+    url: prefix + 'hot/list',
     method: 'get',
     params: query
   })

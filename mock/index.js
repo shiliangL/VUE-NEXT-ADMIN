@@ -3,9 +3,11 @@ import { param2Obj } from '../src/utils'
 
 import user from './modules/user'
 import hot from './modules/hot'
+import sm from './modules/sm'
 
 const mocks = [
   ...user,
+  ...sm,
   ...hot
 ]
 

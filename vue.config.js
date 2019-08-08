@@ -1,25 +1,7 @@
-// module.exports = {
-//   css: {
-//     loaderOptions: {
-//       stylus: {
-//         'resolve url': true,
-//         'import': [
-//           './src/theme'
-//         ]
-//       }
-//     }
-//   },
-//   pluginOptions: {
-//     'cube-ui': {
-//       postCompile: true,
-//       theme: true
-//     }
-//   }
-// }
-
 
 'use strict'
 const path = require('path')
+const fs = require('fs')
 // const defaultSettings = require('./src/settings.js')
 
 function resolve(dir) {
@@ -48,6 +30,9 @@ module.exports = {
         'import': [
           './src/theme'
         ]
+      },
+      sass: {
+        data: fs.readFileSync('./src/styles/variable.scss', 'utf-8')
       }
     }
   },
@@ -55,6 +40,12 @@ module.exports = {
     'cube-ui': {
       postCompile: true,
       theme: true
+    },
+    'style-resources-loader': {
+      'preProcessor': 'scss',
+      'patterns': [
+        path.resolve(__dirname, './src/styles/variable.scss')
+      ]
     }
   },
 

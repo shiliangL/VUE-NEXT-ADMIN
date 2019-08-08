@@ -84,16 +84,16 @@ export default {
       },
       siderBanners: [
         {
-          url: 'http://www.didichuxing.com/',
-          image: 'https://tp-qneimg.smzdm.com/201908/06/5d48dda1464f63031.png'
+          image: 'https://tp-qneimg.smzdm.com/201908/06/5d48dda1464f63031.png',
+          tag: ''
         },
         {
-          url: 'http://www.didichuxing.com/',
-          image: 'https://tp-qneimg.smzdm.com/201908/05/5d47d9a241e742559.png'
+          image: 'https://tp-qneimg.smzdm.com/201908/05/5d47d9a241e742559.png',
+          tag: ''
         },
         {
-          url: 'http://www.didichuxing.com/',
-          image: 'https://tp-qneimg.smzdm.com/201908/05/5d47da831c4f33064.png'
+          image: 'https://tp-qneimg.smzdm.com/201908/05/5d47da831c4f33064.png',
+          tag: ''
         }
       ]
     }
@@ -114,9 +114,7 @@ export default {
         { icon: 'p6', text: '周报', to: '/today' },
         { icon: 'p7', text: '风险', to: '/today' },
         { icon: 'p8', text: '运动', to: '/today' },
-        { icon: 'p9', text: '硬件', to: '/today' },
-        { icon: 'p10', text: '会员', to: '/today' },
-        { icon: 'Medal', text: '媒体', to: '/today' }
+        { icon: 'p9', text: '商场', to: '/today' }
       ],
       item03: [
         { icon: 'cubeic-good', text: '今日', to: '/today' },
@@ -128,11 +126,11 @@ export default {
   },
   mounted() {
     // this.fetchTodayList()
-    this.fetchList()
+    // this.fetchList()
   },
   methods: {
-    clickHandler() {
-      console.log('点击了')
+    clickHandler(item) {
+      console.log(item, '点击了')
     },
     changePage(e) {
       console.log(e)

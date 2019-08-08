@@ -1,8 +1,7 @@
-
 <template>
-  <div class="app-page">
-    <AppHeader />
+  <AppPage class="page-wrapper">
     <cube-scroll
+      slot="content"
       ref="scroll"
       :data="tableData"
       :options="options"
@@ -10,7 +9,7 @@
       @pulling-up="onPullingUp"
     >
       <ul class="list-wrapper">
-        <li v-for="(item, index) in tableData" :key="index" class="list-item-row border-1px">
+        <li v-for="(item, index) in tableData" :key="index" class="list-item-row border-1px" @click="clickItemRow(item)">
           <div class="content-box">
             <div class="content-box-title">
               <ul class="meta-list flex-box">
@@ -24,26 +23,38 @@
                   <span v-text="item.createdData" />
                 </li>
               </ul>
+              <div class="content-box-text">
+                <p v-text="item.article_title" />
+              </div>
+              <div class="content-box-price" v-text="item.article_price" />
+              <div class="content-box-footer">
+                <span v-text="item.article_mall" /> |
+                <span v-text="item.article_type" /> |
+                <span v-text="item.article_date" />
+              </div>
             </div>
-            <div class="content-box-text">
-              <p v-text="item.desc" />
-            </div>
-            <div class="content-box-footer" />
           </div>
         </li>
       </ul>
     </cube-scroll>
-  </div>
+  </AppPage>
 </template>
 
 <script>
 // import { refreshCurrentRoute } from '@/utils'
-import dayjs from 'dayjs'
-import { fetchListType } from '@/api/app'
+import AppPage from '@/components/AppPage'
+
+import { fetchList } from '@/api/sm'
+
 export default {
+  components: {
+    AppPage
+  },
   data() {
     return {
       options: {
+        click: true,
+        scrollbar: false,
         pullDownRefresh: {
           threshold: 60,
           stop: 40,
@@ -62,16 +73,13 @@ export default {
   methods: {
     async fetchDataList() {
       try {
-        const { results, error } = await fetchListType({
-          type: '瞎推荐',
+        const { data, error } = await fetchList({
+          type: '推荐',
           count: 10,
           page: 1
         })
         if (!error) {
-          for (const item of results || []) {
-            item.createdData = dayjs(item.createdAt).format('YYYY-MM-DD HH:mm')
-          }
-          this.tableData = results || []
+          this.tableData = data || []
           this.$refs.scroll.forceUpdate()
         } else {
           this.$refs.scroll.forceUpdate()
@@ -81,7 +89,18 @@ export default {
         console.log(e)
       }
     },
-    onPullingUp() {}
+    onPullingUp() {},
+    clickItemRow(item) {
+      // this.$router.push({
+      //   name: 'PageInfo',
+      //   params: {
+      //     id: 1
+      //   }
+      // })
+      this.$router.push({
+        path: `/PageInfo/${item.article_id}`
+      })
+    }
   }
 }
 </script>
@@ -92,9 +111,9 @@ export default {
   align-items: center;
   color: #b2bac2;
   overflow: hidden;
-  padding-top: 1.375rem /* 22/16 */;
-  padding-left: 1rem /* 16/16 */;
-  padding-right: 1rem /* 16/16 */;
+  margin: 0 0 0.625rem /* 10/16 */;
+  padding: 0.875rem /* 14/16 */ 0.625rem /* 10/16 */;
+  background-color: #fff;
 
   .content-box-title {
     font-size: 0.75rem /* 12/16 */;
@@ -121,7 +140,20 @@ export default {
     -webkit-box-orient: vertical;
     font-weight: 700;
   }
+  .content-box-price {
+    padding: .625rem /* 10/16 */ 0;
+    color:$theme_color;
+    font-size: .875rem /* 14/16 */;
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+  }
   .content-box-footer {
   }
+}
+
+.page-wrapper {
+  background: #eeeeee;
 }
 </style>

@@ -40,6 +40,11 @@ export default new Router({
           path: 'theGirls',
           name: 'theGirls',
           component: () => import(/* webpackChunkName: "theGirls" */ '../views/TheGirls')
+        },
+        {
+          path: 'PageInfo/:id',
+          name: 'PageInfo',
+          component: () => import(/* webpackChunkName: "pageInfo" */ '../views/PageInfo')
         }
       ]
     },
