@@ -1,10 +1,9 @@
 <template>
   <div class="app-page">
-    <AppHeader />
     <AppGrid :border="false" :column-num="3">
       <AppGridItem v-for="(item,index) in tableData" :key="index" class="img-item">
-        <div class="img-item-pic" :style="{backgroundImage: 'url(' + item.url + ')'}" />
-        <img :src="item.url">
+        <div class="img-item-pic" :style="{backgroundImage: 'url(' + item.img_src + ')'}" />
+        <img :src="item.img_src">
       </AppGridItem>
     </AppGrid>
   </div>
@@ -12,8 +11,7 @@
 
 <script>
 import { Grid, GridItem } from 'vant'
-import { fetchListType } from '@/api/app'
-import dayjs from 'dayjs'
+import { fetchList } from '@/api/sg'
 
 export default {
   components: {
@@ -31,19 +29,15 @@ export default {
   methods: {
     async fetchDataList() {
       try {
-        const { results, error } = await fetchListType({
-          type: '福利',
-          count: 10,
-          page: 1
+        const { error, data } = await fetchList({
+          page: 1,
+          per_page: 10
         })
         if (!error) {
-          for (const item of results || []) {
-            item.createdData = dayjs(item.createdAt).format('YYYY-MM-DD HH:mm')
-          }
-          this.tableData = results || []
-          this.$refs.scroll.forceUpdate()
+          this.tableData = data || []
+          // this.$refs.scroll.forceUpdate()
         } else {
-          this.$refs.scroll.forceUpdate()
+          // this.$refs.scroll.forceUpdate()
           console.log(error)
         }
       } catch (e) {
@@ -64,8 +58,7 @@ export default {
   }
   img {
     max-width: 100px;
-    height: 67px;
-    margin: 0 10px 16px;
+    height: 100px;
     border-radius: 4px;
   }
 }

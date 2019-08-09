@@ -4,7 +4,8 @@ const url = process.env.VUE_APP_BASE_API
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.NODE_ENV !== 'development' ? url : '', // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
+  // send cookies when cross-domain requests
+  // withCredentials: true,
   timeout: 5000 // request timeout
 })
 
