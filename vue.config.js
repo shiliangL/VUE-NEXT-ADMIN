@@ -2,6 +2,8 @@
 'use strict'
 const path = require('path')
 const fs = require('fs')
+const CompressionPlugin = require('compression-webpack-plugin')
+
 // const defaultSettings = require('./src/settings.js')
 
 function resolve(dir) {
@@ -90,6 +92,19 @@ module.exports = {
     }
   },
   chainWebpack(config) {
+
+    if (process.env.NODE_ENV === 'production') {
+      return {
+        plugins: [
+          new CompressionPlugin({
+            test: /\.js$|\.html$|.\css/, // 匹配文件名
+            threshold: 10240, // 对超过10k的数据压缩
+            deleteOriginalAssets: false // 不删除源文件
+          })
+        ]
+      }
+    }
+
     const cdn = {
       // inject tinymce into index.html
       // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
