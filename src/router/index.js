@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import routes from './routers'
+import { constantRoutes } from './routers'
 import store from 'store'
 
 // import config from '@/config'
@@ -11,7 +11,7 @@ Vue.use(Router)
 const createRouter = () => new Router({
   // mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
-  routes
+  routes: constantRoutes
 })
 
 const router = createRouter()
@@ -46,18 +46,18 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(to => {
-  console.log(to);
+  console.log(to)
   // setTitle(to, router.app)
   // window.scrollTo(0, 0)
 })
 
 router.onError(error => {
-  console.log(error);
+  console.log(error)
   // iView.Message.error(`加载页面异常，${error.message}`)
   // iView.LoadingBar.error()
 })
 
-export function resetRouter() {
+router.resetRouter = () => {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }

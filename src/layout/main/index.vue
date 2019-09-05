@@ -1,7 +1,7 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-    <sidebar class="sidebar-container" />
+    <sidebar class="sidebar-container" :style="{'background-color': defaultThemeLayout}" />
     <div :class="{hasTagsView:needTagsView}" class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
@@ -16,13 +16,15 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { AppMain, Navbar, Settings, Sidebar, TagsView } from "./components";
-import ResizeMixin from "./ResizeHandler";
-import AppDrawer from "_c/AppDrawer";
+import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
+import ResizeMixin from './ResizeHandler'
+import AppDrawer from '_c/AppDrawer'
+import { mapActions, mapState } from 'vuex'
+import router from '@/router'
+import { constantRoutes } from '@/router/routers.js'
 
 export default {
-  name: "Layout",
+  name: 'Layout',
   components: {
     AppMain,
     Navbar,
@@ -47,14 +49,31 @@ export default {
         withoutAnimation: this.sidebar.withoutAnimation,
         mobile: this.device === 'mobile'
       }
+    },
+    defaultThemeLayout() {
+      return this.$store.state.settings.themeLayout
     }
   },
+  mounted() {
+    console.log('初始化')
+    this.generateRoutesMap()
+  },
   methods: {
+    ...mapActions('permission', ['generateRoutes']),
+    async generateRoutesMap() {
+      const map = await this.generateRoutes('admin')
+      router.resetRouter()
+      router.addRoutes([...constantRoutes, ...map])
+      console.log(map)
+    },
+    resetRouter() {
+      router.resetRouter()
+    },
     handleClickOutside() {
-      this.$store.dispatch("app/closeSideBar", { withoutAnimation: false });
+      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

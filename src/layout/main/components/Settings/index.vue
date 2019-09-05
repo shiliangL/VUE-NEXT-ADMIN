@@ -7,6 +7,10 @@
         <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
       </div>
       <div class="drawer-item">
+        <span>修改Layout界面颜色</span>
+        <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeLayoutChange" />
+      </div>
+      <div class="drawer-item">
         <span>是否启用标签导航</span>
         <el-switch v-model="tagsView" class="drawer-switch" />
       </div>
@@ -70,6 +74,12 @@ export default {
     themeChange(val) {
       this.$store.dispatch('settings/changeSetting', {
         key: 'theme',
+        value: val
+      })
+    },
+    themeLayoutChange(val) {
+      this.$store.dispatch('settings/changeSetting', {
+        key: 'themeLayout',
         value: val
       })
     }

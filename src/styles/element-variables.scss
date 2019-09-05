@@ -5,6 +5,7 @@
 
 /* theme color */
 $--color-primary: #1890ff;
+$--color-themeLayout: #00152A;
 $--color-success: #13ce66;
 $--color-warning: #FFBA00;
 $--color-danger: #ff4949;
@@ -28,4 +29,5 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
 :export {
   theme: $--color-primary;
+  themeLayout: $--color-themeLayout;
 }

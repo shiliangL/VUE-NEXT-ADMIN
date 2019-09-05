@@ -19,7 +19,7 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
-    host:'192.168.100.20',
+    host: '192.168.100.20',
     port: port,
     open: true,
     overlay: {
@@ -36,7 +36,7 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       }
-    },
+    }
     // after: require('./mock/mock-server.js')
   },
   configureWebpack: {
@@ -55,7 +55,24 @@ module.exports = {
 
   chainWebpack: config => {
     // 修复HMR
-    config.resolve.symlinks(true);
+    config.resolve.symlinks(true)
+
+    // set svg-sprite-loader
+    config.module
+      .rule('svg')
+      .exclude.add(resolve('src/icons'))
+      .end()
+    config.module
+      .rule('icons')
+      .test(/\.svg$/)
+      .include.add(resolve('src/icons'))
+      .end()
+      .use('svg-sprite-loader')
+      .loader('svg-sprite-loader')
+      .options({
+        symbolId: 'icon-[name]'
+      })
+      .end()
   }
 
 }

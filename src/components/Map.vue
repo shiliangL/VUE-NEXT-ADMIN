@@ -6,11 +6,11 @@
 
 <script>
 export default {
- mounted() {
+  mounted() {
     // eslint-disable-next-line no-undef
-    const BMapObject = new BMap.Map("mapContainer");
-    console.log(BMapObject);
- },
+    const BMapObject = new BMap.Map('mapContainer')
+    console.log(BMapObject)
+  }
 }
 </script>
 

@@ -42,35 +42,32 @@
 </template>
 
 <script>
-const backgroundImage =
-  "https://farm5.staticflickr.com/4176/34378167170_be43601df6_k.jpg";
+const backgroundImage = 'https://farm5.staticflickr.com/4176/34378167170_be43601df6_k.jpg'
+
 export default {
-  name: "UserLogin",
+  name: 'UserLogin',
   data() {
     return {
       backgroundImage: backgroundImage,
       user: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       }
-    };
+    }
   },
-
-  created() {},
-
   methods: {
     submitBtn() {
-      this.$refs["form"].validate(valid => {
+      this.$refs['form'].validate(valid => {
         if (valid) {
           this.$message({
-            message: "登录成功",
-            type: "success"
-          });
+            message: '登录成功',
+            type: 'success'
+          })
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

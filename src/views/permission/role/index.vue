@@ -1,6 +1,6 @@
 <template>
   <div>
-dashboard
+权限角色
   </div>
 </template>
 

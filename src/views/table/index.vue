@@ -1,6 +1,6 @@
 <template>
   <div>
-dashboard
+表格组件
   </div>
 </template>
 
