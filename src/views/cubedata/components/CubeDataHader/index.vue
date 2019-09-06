@@ -37,9 +37,11 @@
             </div>
           </div>
 
-          <div class="number-data-time">
-            <div v-text="datatime" />
-            <div v-text="time" />
+          <div class="card-panel number-data-time" @click="handleSetLineChartData('shoppings')">
+            <div class="card-panel-description">
+              <h1 class="card-panel-text" v-text="datatime" />
+              <div class="card-panel-num" v-text="time" />
+            </div>
           </div>
 
           <div class="weather">
@@ -92,12 +94,14 @@ export default {
 <style lang="scss" scoped>
 .CubeDataHader {
   .title-left {
+    padding-top: 0.625rem /* 10/16 */;
     h1 {
       padding: 0;
       margin: 0;
       font-weight: normal;
       display: inline-block;
-      font-size: 1.75rem /* 28/16 */;
+      font-weight: 500;
+      font-size: 2rem /* 32/16 */;
     }
     h3 {
       padding: 0;
@@ -106,12 +110,14 @@ export default {
       font-weight: normal;
       padding-left: 0.625rem /* 10/16 */;
       font-size: 0.875rem /* 14/16 */;
+      font-weight: 500;
     }
   }
 
   .title-right {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 
     .card-panel {
       padding-right: 1rem /* 16/16 */;
@@ -129,24 +135,27 @@ export default {
         .card-panel-text {
           padding: 0;
           margin: 0;
-          font-size: 14px;
-          color: #3390B1;
-          font-weight: 800;
+          font-size: 1.125rem /* 18/16 */;
+          color: #3390b1;
+          font-weight: 500;
         }
 
         .card-panel-num {
           padding: 0;
           margin: 0;
-          font-size: 22px;
-          font-weight: 400;
+          font-size: 1.5rem /* 24/16 */;
+          font-weight: 500;
         }
       }
     }
 
     .weather {
       border-left: 1px solid #ffff;
-      margin-left: .625rem /* 10/16 */;
-      padding-left: .625rem /* 10/16 */;
+      margin-left: 0.625rem /* 10/16 */;
+      padding-left: 0.625rem /* 10/16 */;
+      display: flex;
+      align-items: center;
+      justify-items: center;
 
       .weather-icon {
         width: 30px;

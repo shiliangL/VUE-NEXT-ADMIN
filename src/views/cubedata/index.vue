@@ -1,11 +1,16 @@
 <template>
   <div class="CubeData">
+    <AppTools />
+    <CubeDataBgm v-if="false" />
+    <ul class="circles">
+      <li v-for="n in 10" :key="n"></li>
+    </ul>
     <div class="CubeData-warp">
       <CubeDataHader />
-      <CubeDataCard/>
+      <CubeDataCard />
       <CubeDataMain />
     </div>
-    <!-- <CubeDataBgm /> -->
+
   </div>
 </template>
 
@@ -13,15 +18,17 @@
 import CubeDataHader from './components/CubeDataHader'
 import CubeDataMain from './components/CubeDataMain'
 import CubeDataCard from './components/CubeDataCard'
-// import CubeDataBgm from './components/CubeDataBgm'
+import CubeDataBgm from './components/CubeDataBgm'
+import AppTools from '_c/AppTools'
 
 export default {
   name: 'CubeData',
   components: {
     CubeDataHader,
     CubeDataMain,
-    CubeDataCard
-    // CubeDataBgm
+    CubeDataCard,
+    CubeDataBgm,
+    AppTools
   }
 }
 </script>
@@ -34,14 +41,149 @@ export default {
   bottom: 0;
   left: 0;
   height: 100%;
-  z-index: 99999;
+  z-index: 10;
+  position: absolute;
+
   background-image: linear-gradient(
     135deg,
     rgb(19, 26, 61) 0%,
     rgb(11, 1, 19) 75%
   );
+
   .CubeData-warp {
-    padding: 0.625rem /* 10/16 */ 1.875rem /* 30/16 */;
+    padding: 0.625rem /* 10/16 */ 3.125rem /* 50/16 */;
+    position: relative;
+    z-index: 999;
+    // color: #ffff;
+    // top: 0;
+    // right: 0;
+    // bottom: 0;
+    // left: 0;
+    // height: 100%;
+    // z-index: 99999;
+    // position: absolute;
+  }
+
+  .circles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+
+    li {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      position: absolute;
+      display: block;
+      list-style: none;
+      width: 20px;
+      height: 20px;
+
+      background: #282f4c;
+      // background-image: linear-gradient(
+      //   135deg,
+      //   rgb(19, 26, 61) 0%,
+      //   rgb(11, 1, 19) 75%
+      // );
+
+      animation: animate 25s linear infinite;
+      bottom: -200px;
+
+      @keyframes animate {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+          border-radius: 0;
+        }
+
+        100% {
+          transform: translateY(-1000px) rotate(720deg);
+          opacity: 0;
+          border-radius: 50%;
+        }
+      }
+
+      &:nth-child(1) {
+        left: 15%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 0s;
+      }
+
+      &:nth-child(2) {
+        left: 5%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 2s;
+        animation-duration: 12s;
+      }
+
+      &:nth-child(3) {
+        left: 70%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 4s;
+      }
+
+      &:nth-child(4) {
+        left: 40%;
+        width: 60px;
+        height: 60px;
+        animation-delay: 0s;
+        animation-duration: 18s;
+      }
+
+      &:nth-child(5) {
+        left: 65%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 0s;
+      }
+
+      &:nth-child(6) {
+        left: 75%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 3s;
+      }
+
+      &:nth-child(7) {
+        left: 35%;
+        width: 200px;
+        height: 200px;
+        animation-delay: 7s;
+      }
+
+      &:nth-child(8) {
+        left: 50%;
+        width: 25px;
+        height: 25px;
+        animation-delay: 15s;
+        animation-duration: 45s;
+      }
+
+      &:nth-child(9) {
+        left: 20%;
+        width: 15px;
+        height: 15px;
+        animation-delay: 2s;
+        animation-duration: 35s;
+      }
+
+      &:nth-child(10) {
+        left: 85%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 0s;
+        animation-duration: 11s;
+      }
+    }
   }
 }
 </style>
