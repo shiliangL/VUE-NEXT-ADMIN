@@ -2,8 +2,6 @@
   <div class="task-main-box">
     <DataBoxCard title="任务进度">
 
-      <easy-gantt v-if="false" :sdate="sdate" startTime="2019-09-01" endTime="2019-09-07" :utasks="utasks" ref="easyGantt"></easy-gantt>
-
       <div class="total-task">
 
         <div class="total-task-item" v-for="k in 3" :key="k">
@@ -26,13 +24,11 @@
 
 <script>
 import DataBoxCard from '_c/DataBoxCard'
-import EasyGantt from '_c/EasyGantt'
 import data from './data.json'
 
 export default {
   components: {
-    DataBoxCard,
-    EasyGantt
+    DataBoxCard
   },
   data() {
     return {

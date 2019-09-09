@@ -4,9 +4,6 @@
       <li>
         <svg-icon :icon-class="isFullscreen?'exit-fullscreen':'fullscreen'" @click="click" />
       </li>
-      <li>
-        <i class="el-icon-arrow-right"></i>
-      </li>
     </ul>
   </div>
 </template>
@@ -57,15 +54,14 @@ export default {
 <style lang="scss">
 .AppTools {
   position: absolute;
+  left: 0;
   z-index: 99999;
-  height: 50px;
+  height: 2.5rem /* 40/16 */;
   background: rgba(216, 191, 216, 0.16);
   border-radius: 0;
   margin-bottom: 0;
   border: none;
-  margin-left: -50px;
   transition: margin-left 0.45s;
-
   ul {
     width: 100%;
     height: 100%;
@@ -76,7 +72,7 @@ export default {
       padding: 0;
       margin: 0;
       float: left;
-      width: 50px;
+      width: 2.5rem /* 40/16 */;
       height: 100%;
       display: flex;
       justify-content: center;
@@ -89,8 +85,8 @@ export default {
       }
     }
   }
-  &:hover {
-    margin-left: 0px;
-  }
+  // &:hover {
+  //   margin-left: 0px;
+  // }
 }
 </style>

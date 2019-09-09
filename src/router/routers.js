@@ -1,5 +1,7 @@
 import Main from '@/layout/main'
 import CubeData from '@/views/cubedata'
+import CubeScreen from '@/views/CubeScreen'
+import testComponent from '@/views/testComponent'
 
 /**
  *  标准路由
@@ -13,10 +15,27 @@ export const constantRoutes = [
   },
   {
     path: '/',
-    name: 'cubedata',
-    // redirect: 'cubedata',
+    name: 'testComponent',
     meta: {
-      title: 'cubedata',
+      title: 'testComponent',
+      hideInMenu: true
+    },
+    component: testComponent
+  },
+  {
+    path: '/CubeScreen',
+    name: 'CubeScreen',
+    meta: {
+      title: 'CubeScreen',
+      hideInMenu: true
+    },
+    component: CubeScreen
+  },
+  {
+    path: '/CubeData',
+    name: 'CubeData',
+    meta: {
+      title: 'CubeData',
       hideInMenu: true
     },
     component: CubeData
@@ -24,6 +43,7 @@ export const constantRoutes = [
   // {
   //   path: '/home',
   //   name: 'home',
+  // redirect: 'CubeScreen',
   //   meta: {
   //     title: 'dashboard',
   //     hideInMenu: true

@@ -7,12 +7,15 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import VueParticles from 'vue-particles'
 import VeRing from 'v-charts/lib/ring.common'
+import dataV from '@jiaminghi/data-view'
 
 import localstore from 'store'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import './icons' // icon
+
+Vue.use(dataV)
 
 Vue.use(VueParticles)
 Vue.use(VeRing)

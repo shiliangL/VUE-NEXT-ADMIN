@@ -115,7 +115,7 @@ export function getQueryObject(url) {
 export function byteLength(str) {
   // returns the byte length of an utf8 string
   let s = str.length
-  for (var i = str.length - 1; i >= 0; i--) {
+  for (let i = str.length - 1; i >= 0; i--) {
     const code = str.charCodeAt(i)
     if (code > 0x7f && code <= 0x7ff) s++
     else if (code > 0x7ff && code <= 0xffff) s += 2
@@ -244,7 +244,7 @@ export function getTime(type) {
  * @param {boolean} immediate
  * @return {*}
  */
-export function debounce(func, wait, immediate) {
+export function debounce_c(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
   const later = function() {
@@ -286,14 +286,14 @@ export function debounce(func, wait, immediate) {
  * @param {Object} source
  * @returns {Object}
  */
-export function deepClone(source) {
+export function deepClone2(source) {
   if (!source && typeof source !== 'object') {
     throw new Error('error arguments', 'deepClone')
   }
   const targetObj = source.constructor === Array ? [] : {}
   Object.keys(source).forEach(keys => {
     if (source[keys] && typeof source[keys] === 'object') {
-      targetObj[keys] = deepClone(source[keys])
+      targetObj[keys] = deepClone2(source[keys])
     } else {
       targetObj[keys] = source[keys]
     }
@@ -347,4 +347,78 @@ export function removeClass(ele, cls) {
     const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
     ele.className = ele.className.replace(reg, ' ')
   }
+}
+
+export function randomExtend(minNum, maxNum) {
+  if (arguments.length === 1) {
+    return parseInt(Math.random() * minNum + 1, 10)
+  } else {
+    return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
+  }
+}
+
+export function observerDomResize(dom, callback) {
+  const MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver
+
+  const observer = new MutationObserver(callback)
+
+  observer.observe(dom, { attributes: true, attributeFilter: ['style'], attributeOldValue: true })
+
+  return observer
+}
+
+export function getPointDistance(pointOne, pointTwo) {
+  const minusX = Math.abs(pointOne[0] - pointTwo[0])
+
+  const minusY = Math.abs(pointOne[1] - pointTwo[1])
+
+  return Math.sqrt(minusX * minusX + minusY * minusY)
+}
+
+export function debounce(delay, callback) {
+  let lastTime
+
+  return function() {
+    clearTimeout(lastTime)
+
+    const [that, args] = [this, arguments]
+
+    lastTime = setTimeout(() => {
+      callback.apply(that, args)
+    }, delay)
+  }
+}
+
+const _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault')
+const _typeof2 = _interopRequireDefault(require('@babel/runtime/helpers/typeof'))
+
+export function deepMerge(target, merged) {
+  for (const key in merged) {
+    target[key] = target[key] && (0, _typeof2['default'])(target[key]) === 'object' ? deepMerge(target[key], merged[key]) : target[key] = merged[key]
+  }
+
+  return target
+}
+
+export function deepClone(object) {
+  const recursion = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false
+  if (!object) return object
+  const parse = JSON.parse
+  const stringify = JSON.stringify
+  if (!recursion) return parse(stringify(object))
+  const clonedObj = object instanceof Array ? [] : {}
+
+  if (object && (0, _typeof2['default'])(object) === 'object') {
+    for (const key in object) {
+      if (object.hasOwnProperty(key)) {
+        if (object[key] && (0, _typeof2['default'])(object[key]) === 'object') {
+          clonedObj[key] = deepClone(object[key], true)
+        } else {
+          clonedObj[key] = object[key]
+        }
+      }
+    }
+  }
+
+  return clonedObj
 }

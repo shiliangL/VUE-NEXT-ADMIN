@@ -11,6 +11,7 @@
       <CubeDataMain />
     </div>
 
+    <FadeBg v-if="false" />
   </div>
 </template>
 
@@ -20,6 +21,7 @@ import CubeDataMain from './components/CubeDataMain'
 import CubeDataCard from './components/CubeDataCard'
 import CubeDataBgm from './components/CubeDataBgm'
 import AppTools from '_c/AppTools'
+import FadeBg from '_c/FadeBg'
 
 export default {
   name: 'CubeData',
@@ -28,7 +30,8 @@ export default {
     CubeDataMain,
     CubeDataCard,
     CubeDataBgm,
-    AppTools
+    AppTools,
+    FadeBg
   }
 }
 </script>
