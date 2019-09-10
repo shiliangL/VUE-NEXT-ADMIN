@@ -10,7 +10,15 @@
           <el-col :span="7">
             <div class="CubeDataCard-item">
               <CubeBorderBox4>
-                <div class="cube-data-box">总体进度</div>
+                <div class="cube-data-box">
+                  总体进度
+                  <ve-ring
+                    :extend="extend"
+                    data-type="percent"
+                    :judge-width="true"
+                    :data="ringChartData"
+                  />
+                </div>
               </CubeBorderBox4>
             </div>
           </el-col>
@@ -38,7 +46,7 @@
 
         <div class="main-container-layout-center">
           <dv-border-box-1>
-            <div class="cube-data-box">
+            <div class="cube-data-box-main">
               <ul class="target-title">
                 <li v-for="(item,index) in targetTitleData" :key="index" class="target-title-item">
                   <i class="dotTag" :style="{ background: item.color }" />
@@ -47,12 +55,14 @@
               </ul>
               <div class="target-title-cbuegantt">
                 <CbueGantt v-if="false" :modeView="CbueGanttMode" />
+
                 <CubeRule />
-                <button
+
+                <!-- <button
                   v-for="(item,index) in handlerType"
                   @click="changeViewModel(item)"
                   :key="index"
-                >{{item.text}}</button>
+                >{{item.text}}</button> -->
               </div>
             </div>
           </dv-border-box-1>
@@ -71,10 +81,12 @@ import CbueScrollRank from '_c/CbueScrollRank'
 import CbueGantt from '_c/CbueGantt'
 import CubeRule from '_c/CubeRule'
 import CubeDataHader from './ScreenLayout/ScreenLayouHeader'
+import VeRing from 'v-charts/lib/ring.common'
 
 export default {
   name: 'CubeScreen',
   components: {
+    VeRing,
     AppTools,
     CubeCapsule,
     CbueGantt,
@@ -178,6 +190,28 @@ export default {
           model: 'Month'
         }
       ],
+      extend: {
+        legend: {
+          textStyle: { color: '#fff' }
+        },
+        grid: {
+          textStyle: {
+            color: '#fff'
+          }
+        },
+        series: {
+          radius: ['20%', '24%'],
+          center: ['40%', '22%']
+        }
+      },
+      ringChartData: {
+        columns: ['项目', '进度'],
+        rows: [
+          { 项目: '5G基站推进', 进度: 20 },
+          { 项目: '大楼布线', 进度: 50 },
+          { 项目: 'UPS组电池更新', 进度: 47 }
+        ]
+      },
       CbueGanttMode: ''
     }
   },
