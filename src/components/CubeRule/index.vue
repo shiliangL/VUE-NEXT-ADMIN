@@ -1,38 +1,57 @@
 <template>
   <div class="container">
+    <!-- <CbueBorderBox8 v-if="isCbueBorderBox"> -->
     <div class="ruler_container">
       <div class="tasks-item" v-for="(taskItem,index) in tagsList" :key="index">
         <div class="tasks-item-name">
-          <h1>TEXT</h1>
-          {{ renderwidth }}
+          <div class="titleName">{{ taskItem.name }}</div>
+          <div class="progress">完成 {{ taskItem.progress }} %</div>
+          <div class="complete">计划完成: {{ taskItem.end | completeData }}</div>
         </div>
         <div class="tasks-item-right" ref="CubeRuleBox">
-          <div class="row-task-item-wrap" v-for="(k,i) in taskItem.children" :key="i">
-            <div class="progress-bar" :style="renderTaskStyle(taskItem,k)">
-              <div class="progress" :style="renderStyle(k)">{{ k.name }}</div>
+          <div
+            class="row-task-item-wrap"
+            v-for="(k,i) in taskItem.children"
+            :style="renderTaskStyle(taskItem,k)"
+            :key="i"
+          >
+            <div class="progressText">{{ k.name + k.progress + '%' }}</div>
+            <div class="progress-bar">
+              <div class="progress" :style="renderStyle(k)" />
             </div>
-            <span class="progressText" v-if="k.progress">{{ k.progress + '%' }}</span>
           </div>
 
           <div class="rule-k">
-            <div class="startTime" v-text="taskItem.start" />
-            <div class="endTime" v-text="taskItem.end" />
-            <div v-for="(item, index) in tempInterval" :key="index" class="line">
-              <!-- {{ index }} -->
-              <!-- <div v-for="k in 4" :key="k" class="x-line" /> -->
-            </div>
+            <div class="startTime">{{ taskItem.start | formatTime }}</div>
+            <div class="endTime">{{ taskItem.end | formatTime }}</div>
+            <div v-for="(item, index) in tempInterval" :key="index" class="line" />
           </div>
         </div>
       </div>
     </div>
+    <!-- </CbueBorderBox8> -->
   </div>
 </template>
+
 <script>
 import dayjs from 'dayjs'
+// import CbueBorderBox8 from '_c/CbueBorderBox8'
 
 export default {
   name: 'CubeRule',
-  props: {},
+  components: {
+    // CbueBorderBox8
+  },
+  props: {
+    data: {
+      type: Object,
+      default: () => {}
+    },
+    isCbueBorderBox: {
+      type: Boolean,
+      default: () => false
+    }
+  },
   data() {
     return {
       tagsList: [
@@ -92,7 +111,16 @@ export default {
       tempInterval: []
     }
   },
-  computed: {},
+  filters: {
+    formatTime(value) {
+      if (!value) return ''
+      return dayjs(value).format('MM-DD')
+    },
+    completeData(value) {
+      if (!value) return ''
+      return dayjs(value).format('YYYY年-MM月')
+    }
+  },
   mounted() {
     this.renderDom()
   },
@@ -129,9 +157,14 @@ export default {
       }
     },
     renderStyle(item) {
+      const bg = item.progress
+        ? item.background
+          ? item.background
+          : '#2F73FB'
+        : null
       return {
         width: item.progress + '%',
-        background: item.background ? item.background : '#2F73FB'
+        background: bg
       }
     }
   }
@@ -140,7 +173,7 @@ export default {
 <style lang="less" scoped>
 .container {
   padding: 1.25rem /* 20/16 */;
-
+  color: #fff;
   .tasks-item {
     position: relative;
     border: 1px solid #2e82a0;
@@ -150,13 +183,29 @@ export default {
     align-items: center;
 
     .tasks-item-name {
-      padding: 0.625rem /* 10/16 */;
+      width: 11.25rem /* 180/16 */;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+
+      .titleName {
+        font-weight: 400;
+        font-size: 1.375rem /* 22/16 */;
+      }
+      .progress {
+        padding: 0.25rem /* 4/16 */ 0;
+        font-weight: 400;
+        font-size: 1.125rem /* 18/16 */;
+      }
+      .complete {
+        font-size: 1rem /* 16/16 */;
+      }
     }
     .tasks-item-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
       position: relative;
       flex: 1;
       margin: 0 3.125rem /* 50/16 */;
@@ -172,13 +221,13 @@ export default {
 
         .startTime {
           position: absolute;
-          left: -4.875rem /* 78/16 */;
+          left: -3.125rem /* 50/16 */;
           top: -0.875rem /* 14/16 */;
         }
         .endTime {
           position: absolute;
           top: -0.875rem /* 14/16 */;
-          right: -4.875rem /* 78/16 */;
+          right: -3.125rem /* 50/16 */;
         }
 
         &::before {
@@ -208,12 +257,8 @@ export default {
     }
 
     .row-task-item-wrap {
-      flex: 1;
-      align-items: center;
-      position: relative;
-
+      margin-bottom: 0.625rem /* 10/16 */;
       .progressText {
-        padding-left: 0.625rem /* 10/16 */;
         font-weight: 500;
         text-align: left;
       }
@@ -233,12 +278,6 @@ export default {
       border-radius: 0.25rem /* 4/16 */;
       background: #010b1e;
       position: relative;
-
-      .progressText {
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
     }
     .progress-bar .progress {
       color: #fff;

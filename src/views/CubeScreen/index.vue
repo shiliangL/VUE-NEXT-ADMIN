@@ -11,7 +11,10 @@
             <div class="CubeDataCard-item">
               <CubeBorderBox4>
                 <div class="cube-data-box">
-                  总体进度
+                  <div class="title-data-box">
+                    总体进度
+                    <!-- <CubeDecoration3 /> -->
+                  </div>
                   <ve-ring
                     :extend="extend"
                     data-type="percent"
@@ -26,7 +29,10 @@
             <div class="CubeDataCard-item">
               <CubeBorderBox4>
                 <div class="cube-data-box">
-                  工作量统计
+                  <div class="title-data-box">
+                    工作量统计
+                    <!-- <CubeDecoration3 /> -->
+                  </div>
                   <CubeCapsule :config="CubeCapsuleConfig" />
                 </div>
               </CubeBorderBox4>
@@ -36,7 +42,10 @@
             <div class="CubeDataCard-item">
               <CubeBorderBox4>
                 <div class="cube-data-box">
-                  工作评级
+                  <div class="title-data-box">
+                    工作评级
+                    <!-- <CubeDecoration3 /> -->
+                  </div>
                   <CbueScrollRank :config="CbueScrollRankConfig" />
                 </div>
               </CubeBorderBox4>
@@ -46,6 +55,7 @@
 
         <div class="main-container-layout-center">
           <dv-border-box-1>
+            <div class="title-data-box">任务进度</div>
             <div class="cube-data-box-main">
               <ul class="target-title">
                 <li v-for="(item,index) in targetTitleData" :key="index" class="target-title-item">
@@ -62,7 +72,7 @@
                   v-for="(item,index) in handlerType"
                   @click="changeViewModel(item)"
                   :key="index"
-                >{{item.text}}</button> -->
+                >{{item.text}}</button>-->
               </div>
             </div>
           </dv-border-box-1>
@@ -80,7 +90,9 @@ import CubeCapsule from '_c/CubeCapsule'
 import CbueScrollRank from '_c/CbueScrollRank'
 import CbueGantt from '_c/CbueGantt'
 import CubeRule from '_c/CubeRule'
+
 import CubeDataHader from './ScreenLayout/ScreenLayouHeader'
+
 import VeRing from 'v-charts/lib/ring.common'
 
 export default {
@@ -234,47 +246,12 @@ export default {
     list-style: none;
   }
 
-  button {
-    z-index: 1;
-    position: relative;
-    font-size: inherit;
-    font-family: inherit;
-    color: white;
-    padding: 0.5em 1em;
-    outline: none;
-    border: none;
-    background-color: hsl(236, 32%, 26%);
-  }
-
-  button::before {
-    content: "";
-    z-index: -1;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #fc2f70;
-    transform-origin: center right;
-    transform: scaleX(0);
-    transition: transform 0.25s ease-in-out;
-  }
-
-  button:hover {
-    cursor: pointer;
-  }
-
-  button:hover::before {
-    transform-origin: center left;
-    transform: scaleX(1);
-  }
-
   #AppScreenContainer {
     background-size: cover;
     background-position: center;
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     background-repeat: no-repeat;
-    background-image: url("../../assets/bg_img/bg_02.jpg");
+    background-image: url("../../assets/bg_img/bg_04.png");
     box-shadow: 0 0 3px #100925;
     display: flex;
     flex-direction: column;
@@ -288,18 +265,32 @@ export default {
     .CubeDataCard-item {
       .cube-data-box {
         padding: 0.625rem /* 10/16 */ 1.25rem /* 20/16 */;
-        // min-height: 13.75rem /* 220/16 */;
-        height: 11.25rem /* 180/16 */;
+        height: 15.625rem /* 250/16 */;
+
+        .title-data-box {
+          font-size: 1.25rem /* 20/16 */;
+          font-weight: 400;
+          margin-left: -1.25rem /* 20/16 */;
+          margin-top: -0.625rem /* 10/16 */;
+          .CubeDecoration3 {
+            height: 1.375rem /* 22/16 */;
+          }
+        }
       }
     }
 
     .main-container-layout-center {
       margin-top: 1.375rem /* 22/16 */;
-
       width: 100%;
       height: 100%;
-
+      .title-data-box {
+        font-size: 1.25rem /* 20/16 */;
+        font-weight: 400;
+        margin-left: 1.25rem /* 20/16 */;
+        margin-top: -0.625rem /* 10/16 */;
+      }
       .target-title {
+        margin-top: -2rem /* 32/16 */;
         display: flex;
         justify-content: center;
       }

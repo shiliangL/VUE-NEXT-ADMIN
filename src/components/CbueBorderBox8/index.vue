@@ -1,5 +1,5 @@
 <template>
-  <div class="dv-border-box-8" :ref="ref">
+  <div class="CbueBorderBox8" :ref="ref">
     <svg class="dv-svg-container" :width="width" :height="height">
       <defs>
         <path
@@ -66,14 +66,14 @@ stop-color="#fff"
 </template>
 
 <script>
-import autoResize from '../../../mixin/autoResize'
+import autoResize from '@/minxin/autoResize'
 
 export default {
-  name: 'DvBorderBox8',
+  name: 'CbueBorderBox8',
   mixins: [autoResize],
   data() {
     return {
-      ref: 'border-box-8',
+      ref: 'CbueBorderBox8',
       path: `border-box-8-path-${(new Date()).getTime()}`,
       gradient: `border-box-8-gradient-${(new Date()).getTime()}`,
       mask: `border-box-8-mask-${(new Date()).getTime()}`
@@ -88,3 +88,24 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.CbueBorderBox8 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.CbueBorderBox8 svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+}
+.CbueBorderBox8 .border-box-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+</style>

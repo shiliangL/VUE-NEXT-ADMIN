@@ -1,5 +1,5 @@
 <template>
-  <div class="dv-decoration-10" :ref="ref">
+  <div class="CubeDecoration10" :ref="ref">
     <svg :width="width" :height="height">
       <polyline
         stroke="rgba(0, 194, 255, 0.3)"
@@ -146,14 +146,14 @@
 </template>
 
 <script>
-import autoResize from '../../../mixin/autoResize'
+import autoResize from '@/minxin/autoResize'
 
 export default {
-  name: 'DvDecoration10',
+  name: 'CubeDecoration10',
   mixins: [autoResize],
   data() {
     return {
-      ref: 'decoration-10',
+      ref: 'CubeDecoration10',
 
       animationId1: `d10ani1${(new Date()).getTime()}`,
       animationId2: `d10ani2${(new Date()).getTime()}`,
@@ -166,3 +166,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.CubeDecoration10 {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+</style>
