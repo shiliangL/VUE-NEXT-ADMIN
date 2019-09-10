@@ -2,17 +2,17 @@
   <div class="container">
     <!-- <CbueBorderBox8 v-if="isCbueBorderBox"> -->
     <div class="ruler_container">
-      <div class="tasks-item" v-for="(taskItem,index) in tagsList" :key="index">
+      <div class="tasks-item">
         <div class="tasks-item-name">
-          <div class="titleName">{{ taskItem.name }}</div>
-          <div class="progress">完成 {{ taskItem.progress }} %</div>
-          <div class="complete">计划完成: {{ taskItem.end | completeData }}</div>
+          <div class="titleName">{{ defaultData.name }}</div>
+          <div class="progress">完成 {{ defaultData.progress }} %</div>
+          <div class="complete">计划完成: {{ defaultData.end | completeData }}</div>
         </div>
         <div class="tasks-item-right" ref="CubeRuleBox">
           <div
             class="row-task-item-wrap"
-            v-for="(k,i) in taskItem.children"
-            :style="renderTaskStyle(taskItem,k)"
+            v-for="(k,i) in defaultData.children"
+            :style="renderTaskStyle(defaultData,k)"
             :key="i"
           >
             <div class="progressText">{{ k.name + k.progress + '%' }}</div>
@@ -22,8 +22,8 @@
           </div>
 
           <div class="rule-k">
-            <div class="startTime">{{ taskItem.start | formatTime }}</div>
-            <div class="endTime">{{ taskItem.end | formatTime }}</div>
+            <div class="startTime">{{ defaultData.start | formatTime }}</div>
+            <div class="endTime">{{ defaultData.end | formatTime }}</div>
             <div v-for="(item, index) in tempInterval" :key="index" class="line" />
           </div>
         </div>
@@ -54,59 +54,16 @@ export default {
   },
   data() {
     return {
-      tagsList: [
-        {
-          id: 'Task 1',
-          name: '大楼布线安装',
-          start: '2019-07-1',
-          end: '2019-09-30',
-          progress: 72,
-          dependencies: 'Task 2, Task 3',
-          custom_class: 'bar-milestone',
-          children: [
-            {
-              id: 'Task 1 - 1',
-              name: '硬件设施购买',
-              start: '2019-07-01',
-              end: '2019-08-10',
-              progress: 100,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 1',
-              name: '软件开发商招标',
-              start: '2019-08-11',
-              end: '2019-09-12',
-              progress: 80,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 1',
-              name: '硬件安装',
-              start: '2019-07-1',
-              end: '2019-09-12',
-              progress: 20,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 2',
-              name: '设备调试',
-              start: '2019-09-13',
-              end: '2019-09-30',
-              progress: 0,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            }
-          ]
-        }
-      ],
+      defaultData: {
+        id: '',
+        name: '',
+        start: '',
+        end: '',
+        progress: 0,
+        dependencies: '',
+        custom_class: '',
+        children: []
+      },
       renderwidth: '',
       tempInterval: []
     }
@@ -122,9 +79,12 @@ export default {
     }
   },
   mounted() {
-    this.renderDom()
+    this.renderList()
   },
   methods: {
+    renderList() {
+      this.defaultData = Object.assign(this.defaultData, this.data)
+    },
     renderDom() {
       this.$nextTick().then(() => {
         this.renderwidth = this.$refs['CubeRuleBox'][0].offsetWidth
@@ -157,11 +117,7 @@ export default {
       }
     },
     renderStyle(item) {
-      const bg = item.progress
-        ? item.background
-          ? item.background
-          : '#2F73FB'
-        : null
+      const bg = item.progress ? item.progressColor ? item.progressColor : '#2F73FB' : null
       return {
         width: item.progress + '%',
         background: bg

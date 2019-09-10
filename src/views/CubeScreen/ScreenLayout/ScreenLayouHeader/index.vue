@@ -12,7 +12,7 @@
             <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
               <div class="card-panel-description">
                 <h1 class="card-panel-text">任务总量</h1>
-                <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+                <count-to :start-val="0" :end-val="9" :duration="2600" class="card-panel-num" />
               </div>
             </div>
 
