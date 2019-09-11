@@ -5,13 +5,7 @@
         <div class="CubeDataCard-item">
           <DataBoxCard title="总体进度" class="bg_box" :dheight="220">
             <div class="ring-chart">
-              <ve-ring
-                :extend="extend"
-                height="160px"
-                data-type="percent"
-                :judge-width="true"
-                :data="ringChartData"
-              ></ve-ring>
+
             </div>
           </DataBoxCard>
         </div>
@@ -62,12 +56,10 @@
 
 <script>
 import DataBoxCard from '_c/DataBoxCard'
-import VeRing from 'v-charts/lib/ring.common'
 export default {
   name: 'CubeDataCard',
   components: {
-    DataBoxCard,
-    VeRing
+    DataBoxCard
   },
   data() {
     return {

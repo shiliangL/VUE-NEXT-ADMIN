@@ -15,12 +15,7 @@
                     总体进度
                     <CubeDecoration3 />
                   </div>
-                  <ve-ring
-                    :extend="extend"
-                    data-type="percent"
-                    :judge-width="true"
-                    :data="ringChartData"
-                  />
+
                 </div>
               </CubeBorderBox4>
             </div>
@@ -90,12 +85,9 @@ import CubeDecoration3 from '_c/CubeDecoration3'
 
 import CubeDataHader from './ScreenLayouHeader'
 
-import VeRing from 'v-charts/lib/ring.common'
-
 export default {
   name: 'CubeScreen',
   components: {
-    VeRing,
     AppTools,
     CubeCapsule,
     CubeRule,

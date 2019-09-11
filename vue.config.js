@@ -9,7 +9,7 @@ function resolve(dir) {
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
 // For example, Mac: sudo npm run
-const port = 8088 // dev port
+const port = 8090 // dev port
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -73,6 +73,9 @@ module.exports = {
         symbolId: 'icon-[name]'
       })
       .end()
-  }
-
+  },
+  transpileDependencies: [
+    'vue-echarts',
+    'resize-detector'
+  ]
 }
