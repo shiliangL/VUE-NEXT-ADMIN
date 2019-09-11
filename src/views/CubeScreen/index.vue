@@ -88,7 +88,7 @@ import CbueScrollRank from '_c/CbueScrollRank'
 import CubeRule from '_c/CubeRule'
 import CubeDecoration3 from '_c/CubeDecoration3'
 
-import CubeDataHader from './ScreenLayout/ScreenLayouHeader'
+import CubeDataHader from './ScreenLayouHeader'
 
 import VeRing from 'v-charts/lib/ring.common'
 
@@ -387,10 +387,14 @@ export default {
     flex-direction: column;
   }
   .main-container-layout {
-    height: ~"calc(100vh - 500px)";
+    height: ~"calc(100vh - 100px)";
 
     padding: 1.25rem /* 20/16 */ 2.5rem /* 40/16 */;
     padding-top: 0;
+
+    .main-container-layout-header{
+      padding: .25rem /* 4/16 */ 0;
+    }
 
     .CubeDataCard-item {
       .cube-data-box {

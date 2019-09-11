@@ -3,8 +3,8 @@
     <el-row>
       <el-col :sm="24" :md="12" :lg="10">
         <div class="title-left">
-          <h1>POWER DATA</h1>
-          <h3>智能任务看板</h3>
+          <h1 v-text="config.title" />
+          <h3 v-text="config.subTitle" />
         </div>
       </el-col>
       <el-col :sm="24" :md="12" :lg="14">
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import config from '../config'
 import CountTo from 'vue-count-to'
 import dayjs from 'dayjs'
 import CubeDecoration10 from '_c/CubeDecoration10'
@@ -70,6 +71,7 @@ export default {
   },
   data() {
     return {
+      config,
       cond_txt_dIcon: 'https://cdn.heweather.com/cond_icon/100.png',
       timeInterval: null,
       datatime: dayjs().format('YYYY-MM-DD'),
