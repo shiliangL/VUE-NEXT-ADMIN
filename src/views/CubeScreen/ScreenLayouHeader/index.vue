@@ -8,70 +8,51 @@
         </div>
       </el-col>
       <el-col :sm="24" :md="12" :lg="14">
-        <div class="title-right">
-          <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
-            <div class="card-panel-description">
-              <h1 class="card-panel-text">任务总量</h1>
-              <count-to
-                :start-val="0"
-                :end-val="taskData.totalTask"
-                :duration="2600"
-                class="card-panel-num"
-              />
+          <div class="title-right">
+            <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
+              <div class="card-panel-description">
+                <h1 class="card-panel-text">任务总量</h1>
+                <count-to :start-val="0" :end-val="9" :duration="2600" class="card-panel-num" />
+              </div>
             </div>
-          </div>
 
-          <div class="card-panel" @click="handleSetLineChartData('messages')">
-            <div class="card-panel-description">
-              <h1 class="card-panel-text">已完成</h1>
-              <count-to
-                :start-val="0"
-                :end-val="taskData.completed"
-                :duration="3000"
-                class="card-panel-num"
-              />
+            <div class="card-panel" @click="handleSetLineChartData('messages')">
+              <div class="card-panel-description">
+                <h1 class="card-panel-text">已完成</h1>
+                <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
+              </div>
             </div>
-          </div>
 
-          <div class="card-panel" @click="handleSetLineChartData('purchases')">
-            <div class="card-panel-description">
-              <h1 class="card-panel-text">进行中</h1>
-              <count-to
-                :start-val="0"
-                :end-val="taskData.ongoing"
-                :duration="3200"
-                class="card-panel-num"
-              />
+            <div class="card-panel" @click="handleSetLineChartData('purchases')">
+              <div class="card-panel-description">
+                <h1 class="card-panel-text">进行中</h1>
+                <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+              </div>
             </div>
-          </div>
 
-          <div class="card-panel" @click="handleSetLineChartData('shoppings')">
-            <div class="card-panel-description">
-              <h1 class="card-panel-text">已逾期</h1>
-              <count-to
-                :start-val="0"
-                :end-val="taskData.overdue"
-                :duration="3600"
-                class="card-panel-num"
-              />
+            <div class="card-panel" @click="handleSetLineChartData('shoppings')">
+              <div class="card-panel-description">
+                <h1 class="card-panel-text">已逾期</h1>
+                <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+              </div>
             </div>
-          </div>
 
-          <div class="card-panel number-data-time" @click="handleSetLineChartData('shoppings')">
-            <div class="card-panel-description">
-              <h1 class="card-panel-text" v-text="datatime" />
-              <div class="card-panel-num" v-text="time" />
+            <div class="card-panel number-data-time" @click="handleSetLineChartData('shoppings')">
+              <div class="card-panel-description">
+                <h1 class="card-panel-text" v-text="datatime" />
+                <div class="card-panel-num" v-text="time" />
+              </div>
             </div>
-          </div>
 
-          <div class="weather">
-            <div class="weather-icon">
-              <img :src="cond_txt_dIcon" style="width: 100%; height: 100%;" />
+            <div class="weather">
+              <div class="weather-icon">
+                <img :src="cond_txt_dIcon" style="width: 100%; height: 100%;" />
+              </div>
+              <div class="weather-text">温度</div>
             </div>
-            <div class="weather-text">温度</div>
+            <!-- <dv-decoration-10 style="width:90%;height:5px;" /> -->
           </div>
-          <CubeDecoration10 class="CubeDecoration10" />
-        </div>
+        <CubeDecoration10 />
       </el-col>
     </el-row>
   </div>
@@ -94,13 +75,7 @@ export default {
       cond_txt_dIcon: 'https://cdn.heweather.com/cond_icon/100.png',
       timeInterval: null,
       datatime: dayjs().format('YYYY-MM-DD'),
-      time: dayjs().format('HH:mm:ss'),
-      taskData: {
-        totalTask: 86,
-        completed: 67,
-        ongoing: 56,
-        overdue: 5
-      }
+      time: dayjs().format('HH:mm:ss')
     }
   },
   mounted() {
@@ -150,17 +125,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    position: relative;
 
-    .CubeDecoration10 {
-      position: absolute;
-      height: .625rem /* 10/16 */;
-      width: 35.625rem /* 570/16 */;
-      right: 0;
-      bottom: -0.875rem /* 14/16 */;
-    }
     .card-panel {
-      padding-right: 2rem;
+      padding-right: 1rem /* 16/16 */;
       cursor: pointer;
       font-size: 12px;
       position: relative;
@@ -176,7 +143,7 @@ export default {
           padding: 0;
           margin: 0;
           font-size: 1.125rem /* 18/16 */;
-          color: #5ab1ef;
+          color: #126ffb;
           font-weight: 500;
         }
 
