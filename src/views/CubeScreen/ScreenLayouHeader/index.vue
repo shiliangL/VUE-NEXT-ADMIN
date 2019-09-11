@@ -8,51 +8,70 @@
         </div>
       </el-col>
       <el-col :sm="24" :md="12" :lg="14">
-          <div class="title-right">
-            <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
-              <div class="card-panel-description">
-                <h1 class="card-panel-text">任务总量</h1>
-                <count-to :start-val="0" :end-val="taskData.total" :duration="2600" class="card-panel-num" />
-              </div>
+        <div class="title-right">
+          <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
+            <div class="card-panel-description">
+              <h1 class="card-panel-text">任务总量</h1>
+              <count-to
+                :start-val="0"
+                :end-val="taskData.total"
+                :duration="2600"
+                class="card-panel-num"
+              />
             </div>
-
-            <div class="card-panel" @click="handleSetLineChartData('messages')">
-              <div class="card-panel-description">
-                <h1 class="card-panel-text">已完成</h1>
-                <count-to :start-val="0" :end-val="taskData.complete" :duration="3000" class="card-panel-num" />
-              </div>
-            </div>
-
-            <div class="card-panel" @click="handleSetLineChartData('purchases')">
-              <div class="card-panel-description">
-                <h1 class="card-panel-text">进行中</h1>
-                <count-to :start-val="0" :end-val="taskData.going" :duration="3200" class="card-panel-num" />
-              </div>
-            </div>
-
-            <div class="card-panel" @click="handleSetLineChartData('shoppings')">
-              <div class="card-panel-description">
-                <h1 class="card-panel-text">已逾期</h1>
-                <count-to :start-val="0" :end-val="taskData.overTime" :duration="3600" class="card-panel-num" />
-              </div>
-            </div>
-
-            <div class="card-panel number-data-time" @click="handleSetLineChartData('shoppings')">
-              <div class="card-panel-description">
-                <h1 class="card-panel-text" v-text="datatime" />
-                <div class="card-panel-num" v-text="time" />
-              </div>
-            </div>
-
-            <div class="weather">
-              <div class="weather-icon">
-                <img :src="cond_txt_dIcon" style="width: 100%; height: 100%;" />
-              </div>
-              <div class="weather-text">温度</div>
-            </div>
-            <!-- <dv-decoration-10 style="width:90%;height:5px;" /> -->
           </div>
-        <CubeDecoration10 />
+
+          <div class="card-panel" @click="handleSetLineChartData('messages')">
+            <div class="card-panel-description">
+              <h1 class="card-panel-text">已完成</h1>
+              <count-to
+                :start-val="0"
+                :end-val="taskData.complete"
+                :duration="3000"
+                class="card-panel-num"
+              />
+            </div>
+          </div>
+
+          <div class="card-panel" @click="handleSetLineChartData('purchases')">
+            <div class="card-panel-description">
+              <h1 class="card-panel-text">进行中</h1>
+              <count-to
+                :start-val="0"
+                :end-val="taskData.going"
+                :duration="3200"
+                class="card-panel-num"
+              />
+            </div>
+          </div>
+
+          <div class="card-panel" @click="handleSetLineChartData('shoppings')">
+            <div class="card-panel-description">
+              <h1 class="card-panel-text">已逾期</h1>
+              <count-to
+                :start-val="0"
+                :end-val="taskData.overTime"
+                :duration="3600"
+                class="card-panel-num"
+              />
+            </div>
+          </div>
+
+          <div class="card-panel number-data-time" @click="handleSetLineChartData('shoppings')">
+            <div class="card-panel-description">
+              <h1 class="card-panel-text" v-text="datatime" />
+              <div class="card-panel-num" v-text="time" />
+            </div>
+          </div>
+
+          <div class="weather">
+            <div class="weather-icon">
+              <img :src="cond_txt_dIcon" style="width: 100%; height: 100%;" />
+            </div>
+            <div class="weather-text">温度</div>
+          </div>
+          <CubeDecoration10 class="cubeDecoration10" />
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -131,6 +150,15 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    position: relative;
+
+    .cubeDecoration10 {
+      position: absolute;
+      height: 0.625rem /* 10/16 */;
+      right: 0;
+      bottom: -1.125rem /* 18/16 */;
+      width: 30.125rem /* 482/16 */;
+    }
 
     .card-panel {
       padding-right: 1rem /* 16/16 */;
