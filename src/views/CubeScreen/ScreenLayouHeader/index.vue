@@ -12,28 +12,28 @@
             <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
               <div class="card-panel-description">
                 <h1 class="card-panel-text">任务总量</h1>
-                <count-to :start-val="0" :end-val="9" :duration="2600" class="card-panel-num" />
+                <count-to :start-val="0" :end-val="taskData.total" :duration="2600" class="card-panel-num" />
               </div>
             </div>
 
             <div class="card-panel" @click="handleSetLineChartData('messages')">
               <div class="card-panel-description">
                 <h1 class="card-panel-text">已完成</h1>
-                <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
+                <count-to :start-val="0" :end-val="taskData.complete" :duration="3000" class="card-panel-num" />
               </div>
             </div>
 
             <div class="card-panel" @click="handleSetLineChartData('purchases')">
               <div class="card-panel-description">
                 <h1 class="card-panel-text">进行中</h1>
-                <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+                <count-to :start-val="0" :end-val="taskData.going" :duration="3200" class="card-panel-num" />
               </div>
             </div>
 
             <div class="card-panel" @click="handleSetLineChartData('shoppings')">
               <div class="card-panel-description">
                 <h1 class="card-panel-text">已逾期</h1>
-                <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+                <count-to :start-val="0" :end-val="taskData.overTime" :duration="3600" class="card-panel-num" />
               </div>
             </div>
 
@@ -75,7 +75,13 @@ export default {
       cond_txt_dIcon: 'https://cdn.heweather.com/cond_icon/100.png',
       timeInterval: null,
       datatime: dayjs().format('YYYY-MM-DD'),
-      time: dayjs().format('HH:mm:ss')
+      time: dayjs().format('HH:mm:ss'),
+      taskData: {
+        total: 89,
+        complete: 55,
+        going: 89,
+        overTime: 5
+      }
     }
   },
   mounted() {

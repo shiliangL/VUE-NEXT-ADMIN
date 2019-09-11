@@ -1,7 +1,7 @@
 import Main from '@/layout/main'
 import CubeData from '@/views/cubedata'
 import CubeScreen from '@/views/CubeScreen'
-import testComponent from '@/views/testComponent'
+// import testComponent from '@/views/testComponent'
 
 /**
  *  标准路由
@@ -13,17 +13,17 @@ export const constantRoutes = [
     hidden: true,
     component: () => import('@/layout/login/index.vue')
   },
+  // {
+  //   path: '/',
+  //   name: 'testComponent',
+  //   meta: {
+  //     title: 'testComponent',
+  //     hideInMenu: true
+  //   },
+  //   component: testComponent
+  // },
   {
     path: '/',
-    name: 'testComponent',
-    meta: {
-      title: 'testComponent',
-      hideInMenu: true
-    },
-    component: testComponent
-  },
-  {
-    path: '/CubeScreen',
     name: 'CubeScreen',
     meta: {
       title: 'CubeScreen',
