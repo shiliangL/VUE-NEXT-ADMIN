@@ -1,6 +1,7 @@
 <template>
   <section class="CubeScreen">
     <AppScreenContainer>
+      <CubeDataBgm v-if="true" />
       <section class="main-container-layout">
         <AppTools />
         <div class="main-container-layout-header">
@@ -52,7 +53,6 @@
             </div>
           </el-col>
         </el-row>
-
         <div class="main-container-layout-center">
           <dv-border-box-1>
             <div class="title-data-box">任务进度</div>
@@ -82,13 +82,14 @@
 <script>
 import AppScreenContainer from '_c/AppScreenContainer'
 import AppTools from '_c/AppTools'
+import CubeDataBgm from '_c/CubeDataBgm'
 import CubeBorderBox4 from '_c/CubeBorderBox4'
 import CubeCapsule from '_c/CubeCapsule'
 import CbueScrollRank from '_c/CbueScrollRank'
 import CubeRule from '_c/CubeRule'
 import CubeDecoration3 from '_c/CubeDecoration3'
 
-import CubeDataHader from './ScreenLayout/ScreenLayouHeader'
+import CubeDataHader from './ScreenLayouHeader'
 
 import VeRing from 'v-charts/lib/ring.common'
 
@@ -103,7 +104,8 @@ export default {
     CubeDataHader,
     CubeBorderBox4,
     CubeDecoration3,
-    AppScreenContainer
+    AppScreenContainer,
+    CubeDataBgm
   },
   data() {
     return {
@@ -381,16 +383,22 @@ export default {
     background-position: center;
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     background-repeat: no-repeat;
-    background-image: url("../../assets/bg_img/bg_04.png");
+    background-image: url("../../assets/bg_img/bg_05.png");
     box-shadow: 0 0 3px #100925;
     display: flex;
     flex-direction: column;
   }
   .main-container-layout {
-    height: ~"calc(100vh - 500px)";
-
+    height: ~"calc(100vh - 420px)";
+    position: relative;
+    z-index: 20;
     padding: 1.25rem /* 20/16 */ 2.5rem /* 40/16 */;
     padding-top: 0;
+
+    .main-container-layout-header{
+      padding: .25rem /* 4/16 */ 0;
+      margin-bottom: 1.375rem /* 22/16 */;
+    }
 
     .CubeDataCard-item {
       .cube-data-box {

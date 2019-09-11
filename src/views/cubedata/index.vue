@@ -1,7 +1,6 @@
 <template>
   <div class="CubeData">
     <AppTools />
-    <CubeDataBgm v-if="false" />
     <ul class="circles">
       <li v-for="n in 10" :key="n"></li>
     </ul>
@@ -19,7 +18,6 @@
 import CubeDataHader from './components/CubeDataHader'
 import CubeDataMain from './components/CubeDataMain'
 import CubeDataCard from './components/CubeDataCard'
-import CubeDataBgm from './components/CubeDataBgm'
 import AppTools from '_c/AppTools'
 import FadeBg from '_c/FadeBg'
 
@@ -29,7 +27,6 @@ export default {
     CubeDataHader,
     CubeDataMain,
     CubeDataCard,
-    CubeDataBgm,
     AppTools,
     FadeBg
   }
