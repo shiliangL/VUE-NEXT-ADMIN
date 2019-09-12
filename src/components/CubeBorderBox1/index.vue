@@ -1,5 +1,5 @@
 <template>
-  <div class="dv-border-box-1">
+  <div class="CubeBorderBox1">
     <svg
       width="150px"
       height="150px"
@@ -53,7 +53,7 @@
 
 <script>
 export default {
-  name: 'DvBorderBox1',
+  name: 'CubeBorderBox1',
   data() {
     return {
       border: ['left-top', 'right-top', 'left-bottom', 'right-bottom']
@@ -61,3 +61,34 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.CubeBorderBox1 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.CubeBorderBox1 .border {
+  position: absolute;
+  display: block;
+}
+.CubeBorderBox1 .right-top {
+  right: 0px;
+  transform: rotateY(180deg);
+}
+.CubeBorderBox1 .left-bottom {
+  bottom: 0px;
+  transform: rotateX(180deg);
+}
+.CubeBorderBox1 .right-bottom {
+  right: 0px;
+  bottom: 0px;
+  transform: rotateX(180deg) rotateY(180deg);
+}
+.CubeBorderBox1 .border-box-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+</style>

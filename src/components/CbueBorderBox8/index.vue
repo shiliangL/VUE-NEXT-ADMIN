@@ -7,22 +7,9 @@
           :d="`M2.5, 2.5 L${width - 2.5}, 2.5 L${width - 2.5}, ${height - 2.5} L2.5, ${height - 2.5} L2.5, 2.5`"
           fill="transparent"
         />
-        <radialGradient
-          :id="gradient"
-          cx="50%"
-cy="50%"
-r="50%"
-        >
-          <stop
-            offset="0%"
-stop-color="#fff"
-            stop-opacity="1"
-          />
-          <stop
-            offset="100%"
-stop-color="#fff"
-            stop-opacity="0"
-          />
+        <radialGradient :id="gradient" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff" stop-opacity="1" />
+          <stop offset="100%" stop-color="#fff" stop-opacity="0" />
         </radialGradient>
 
         <mask :id="mask">
@@ -37,18 +24,9 @@ stop-color="#fff"
         </mask>
       </defs>
 
-      <use
-        stroke="#235fa7"
-        stroke-width="1"
-        :xlink:href="`#${path}`"
-      />
+      <use stroke="#235fa7" stroke-width="1" :xlink:href="`#${path}`" />
 
-      <use
-        stroke="#4fd2dd"
-        stroke-width="3"
-        :xlink:href="`#${path}`"
-        :mask="`url(#${mask})`"
-      >
+      <use stroke="#4fd2dd" stroke-width="3" :xlink:href="`#${path}`" :mask="`url(#${mask})`">
         <animate
           attributeName="stroke-dasharray"
           :from="`0, ${length}`"
@@ -66,27 +44,27 @@ stop-color="#fff"
 </template>
 
 <script>
-import autoResize from '@/minxin/autoResize'
+import autoResize from "@/minxin/autoResize";
 
 export default {
-  name: 'CbueBorderBox8',
+  name: "CbueBorderBox8",
   mixins: [autoResize],
   data() {
     return {
-      ref: 'CbueBorderBox8',
-      path: `border-box-8-path-${(new Date()).getTime()}`,
-      gradient: `border-box-8-gradient-${(new Date()).getTime()}`,
-      mask: `border-box-8-mask-${(new Date()).getTime()}`
-    }
+      ref: "CbueBorderBox8",
+      path: `border-box-8-path-${new Date().getTime()}`,
+      gradient: `border-box-8-gradient-${new Date().getTime()}`,
+      mask: `border-box-8-mask-${new Date().getTime()}`
+    };
   },
   computed: {
     length() {
-      const { width, height } = this
+      const { width, height } = this;
 
-      return (width + height - 5) * 2
+      return (width + height - 5) * 2;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -107,5 +85,4 @@ export default {
   width: 100%;
   height: 100%;
 }
-
 </style>

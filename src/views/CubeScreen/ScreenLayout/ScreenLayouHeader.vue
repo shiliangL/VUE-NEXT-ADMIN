@@ -3,8 +3,8 @@
     <el-row>
       <el-col :sm="24" :md="12" :lg="10">
         <div class="title-left">
-          <h1>POWER DATA</h1>
-          <h3>智能任务看板</h3>
+          <h1 v-text="config.title" />
+          <h3 v-text="config.subTitle" />
         </div>
       </el-col>
       <el-col :sm="24" :md="12" :lg="14">
@@ -12,32 +12,52 @@
           <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
             <div class="card-panel-description">
               <h1 class="card-panel-text">任务总量</h1>
-              <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+              <count-to
+                :start-val="0"
+                :end-val="taskData.total"
+                :duration="2600"
+                class="card-panel-num"
+              />
             </div>
           </div>
 
           <div class="card-panel" @click="handleSetLineChartData('messages')">
             <div class="card-panel-description">
               <h1 class="card-panel-text">已完成</h1>
-              <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
+              <count-to
+                :start-val="0"
+                :end-val="taskData.complete"
+                :duration="3000"
+                class="card-panel-num"
+              />
             </div>
           </div>
 
           <div class="card-panel" @click="handleSetLineChartData('purchases')">
             <div class="card-panel-description">
               <h1 class="card-panel-text">进行中</h1>
-              <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+              <count-to
+                :start-val="0"
+                :end-val="taskData.going"
+                :duration="3200"
+                class="card-panel-num"
+              />
             </div>
           </div>
 
           <div class="card-panel" @click="handleSetLineChartData('shoppings')">
             <div class="card-panel-description">
               <h1 class="card-panel-text">已逾期</h1>
-              <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+              <count-to
+                :start-val="0"
+                :end-val="taskData.overTime"
+                :duration="3600"
+                class="card-panel-num"
+              />
             </div>
           </div>
 
-          <div class="card-panel number-data-time" @click="handleSetLineChartData('shoppings')">
+          <div class="card-panel" @click="handleSetLineChartData('shoppings')">
             <div class="card-panel-description">
               <h1 class="card-panel-text" v-text="datatime" />
               <div class="card-panel-num" v-text="time" />
@@ -50,6 +70,7 @@
             </div>
             <div class="weather-text">温度</div>
           </div>
+          <CubeDecoration10 class="cubeDecoration10" />
         </div>
       </el-col>
     </el-row>
@@ -57,19 +78,30 @@
 </template>
 
 <script>
+import config from '../config'
 import CountTo from 'vue-count-to'
 import dayjs from 'dayjs'
+import CubeDecoration10 from '_c/CubeDecoration10'
 
 export default {
+  name: 'ScreenLayouHeader',
   components: {
-    CountTo
+    CountTo,
+    CubeDecoration10
   },
   data() {
     return {
+      config,
       cond_txt_dIcon: 'https://cdn.heweather.com/cond_icon/100.png',
       timeInterval: null,
       datatime: dayjs().format('YYYY-MM-DD'),
-      time: dayjs().format('HH:mm:ss')
+      time: dayjs().format('HH:mm:ss'),
+      taskData: {
+        total: 89,
+        complete: 55,
+        going: 89,
+        overTime: 5
+      }
     }
   },
   mounted() {
@@ -94,14 +126,13 @@ export default {
 <style lang="scss" scoped>
 .CubeDataHader {
   .title-left {
-    padding-top: 0.625rem /* 10/16 */;
     h1 {
       padding: 0;
       margin: 0;
       font-weight: normal;
       display: inline-block;
       font-weight: 500;
-      font-size: 2rem /* 32/16 */;
+      font-size: 2.625rem /* 42/16 */;
     }
     h3 {
       padding: 0;
@@ -109,7 +140,7 @@ export default {
       display: inline-block;
       font-weight: normal;
       padding-left: 0.625rem /* 10/16 */;
-      font-size: 0.875rem /* 14/16 */;
+      font-size: 1.125rem /* 18/16 */;
       font-weight: 500;
     }
   }
@@ -118,11 +149,19 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    position: relative;
+
+    .cubeDecoration10 {
+      position: absolute;
+      height: 0.625rem /* 10/16 */;
+      right: 0;
+      bottom: -1.125rem /* 18/16 */;
+      width: 30.125rem /* 482/16 */;
+    }
 
     .card-panel {
       padding-right: 1rem /* 16/16 */;
       cursor: pointer;
-      font-size: 12px;
       position: relative;
       overflow: hidden;
       box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
@@ -135,8 +174,8 @@ export default {
         .card-panel-text {
           padding: 0;
           margin: 0;
-          font-size: 1.125rem /* 18/16 */;
-          color: #3390b1;
+          font-size: 1.25rem /* 20/16 */;
+          color: #126ffb;
           font-weight: 500;
         }
 

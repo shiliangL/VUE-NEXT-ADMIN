@@ -1,8 +1,8 @@
 <template>
   <div class="AppTools">
     <ul>
-      <li>
-        <svg-icon :icon-class="isFullscreen?'exit-fullscreen':'fullscreen'" @click="click" />
+      <li @click="click">
+        <svg-icon :icon-class="isFullscreen?'exit-fullscreen':'fullscreen'" />
       </li>
     </ul>
   </div>

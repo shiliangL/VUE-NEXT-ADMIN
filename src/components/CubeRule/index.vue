@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <!-- <CbueBorderBox8 v-if="isCbueBorderBox"> -->
     <div class="ruler_container">
       <div class="tasks-item">
         <div class="tasks-item-name">
@@ -29,19 +28,14 @@
         </div>
       </div>
     </div>
-    <!-- </CbueBorderBox8> -->
   </div>
 </template>
 
 <script>
 import dayjs from 'dayjs'
-// import CbueBorderBox8 from '_c/CbueBorderBox8'
 
 export default {
   name: 'CubeRule',
-  components: {
-    // CbueBorderBox8
-  },
   props: {
     data: {
       type: Object,
@@ -88,7 +82,7 @@ export default {
     renderDom() {
       this.$nextTick().then(() => {
         this.renderwidth = this.$refs['CubeRuleBox'][0].offsetWidth
-        console.log(this.renderwidth)
+        // console.log(this.renderwidth)
       })
     },
     renderTaskStyle(item, key) {
@@ -97,19 +91,19 @@ export default {
       // 总时间
       const tempInterval = Math.abs(totalStart.diff(totalEnd, 'day')) + 1
       this.tempInterval = tempInterval
-      console.log(tempInterval, '总时间/天')
+      // console.log(tempInterval, '总时间/天')
 
       const keyTotalStart = dayjs(key.start)
       const keyTotalEnd = dayjs(key.end)
       const keyTempInterval =
         Math.abs(keyTotalStart.diff(keyTotalEnd, 'day')) + 1
 
-      console.log(keyTempInterval, '任务时间/天')
+      // console.log(keyTempInterval, '任务时间/天')
       const t1 = (keyTempInterval / tempInterval) * 100
 
-      console.log(t1, '占总时间%')
+      // console.log(t1, '占总时间%')
       const p1 = Math.abs(totalStart.diff(keyTotalStart, 'day'))
-      console.log(p1, '偏移')
+      // console.log(p1, '偏移')
 
       return {
         width: t1 + '%',
@@ -132,7 +126,7 @@ export default {
   color: #fff;
   .tasks-item {
     position: relative;
-    border: 1px solid #2e82a0;
+    border: 1px solid #0b54c4;
     padding: 1.25rem /* 20/16 */;
     border-radius: 0.625rem /* 10/16 */;
     display: flex;

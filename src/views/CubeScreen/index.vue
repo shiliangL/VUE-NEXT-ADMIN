@@ -3,6 +3,7 @@
     <AppScreenContainer>
       <CubeDataBgm v-if="true" />
       <section class="main-container-layout">
+        <CubeProgressbar reverse linestroke="#0E5FDD" class="CubeProgressbar" />
         <AppTools />
         <div class="main-container-layout-header">
           <CubeDataHader />
@@ -16,12 +17,7 @@
                     总体进度
                     <CubeDecoration3 />
                   </div>
-                  <ve-ring
-                    :extend="extend"
-                    data-type="percent"
-                    :judge-width="true"
-                    :data="ringChartData"
-                  />
+                  <TotalTaskChart style="margin-top: -20px;" />
                 </div>
               </CubeBorderBox4>
             </div>
@@ -54,7 +50,7 @@
           </el-col>
         </el-row>
         <div class="main-container-layout-center">
-          <dv-border-box-1>
+          <CubeBorderBox1>
             <div class="title-data-box">任务进度</div>
             <div class="cube-data-box-main">
               <ul class="target-title">
@@ -65,14 +61,19 @@
               </ul>
 
               <div class="target-title-cubegantt">
-                <el-carousel :interval="5000" class="side-carousel-box" direction="vertical" :autoplay="false">
+                <el-carousel
+                  :interval="5000"
+                  class="side-carousel-box"
+                  direction="vertical"
+                  :autoplay="true"
+                >
                   <el-carousel-item v-for="item in cubeRuleData" :key="item.id">
                     <CubeRule :data="item" />
                   </el-carousel-item>
                 </el-carousel>
               </div>
             </div>
-          </dv-border-box-1>
+          </CubeBorderBox1>
         </div>
       </section>
     </AppScreenContainer>
@@ -88,22 +89,25 @@ import CubeCapsule from '_c/CubeCapsule'
 import CbueScrollRank from '_c/CbueScrollRank'
 import CubeRule from '_c/CubeRule'
 import CubeDecoration3 from '_c/CubeDecoration3'
+import CubeProgressbar from '_c/CubeProgressbar'
+import CubeBorderBox1 from '_c/CubeBorderBox1'
 
-import CubeDataHader from './ScreenLayouHeader'
-
-import VeRing from 'v-charts/lib/ring.common'
+import CubeDataHader from './ScreenLayout/ScreenLayouHeader'
+import TotalTaskChart from './ScreenLayout/TotalTaskChart'
 
 export default {
   name: 'CubeScreen',
   components: {
-    VeRing,
     AppTools,
     CubeCapsule,
     CubeRule,
     CbueScrollRank,
     CubeDataHader,
+    TotalTaskChart,
     CubeBorderBox4,
     CubeDecoration3,
+    CubeProgressbar,
+    CubeBorderBox1,
     AppScreenContainer,
     CubeDataBgm
   },
@@ -359,6 +363,9 @@ export default {
       ]
     }
   },
+  mounted() {
+    console.log(this.$Progress, '组件')
+  },
   methods: {
     changeViewModel(item) {
       this.CbueGanttMode = item.model
@@ -389,15 +396,17 @@ export default {
     flex-direction: column;
   }
   .main-container-layout {
-    height: ~"calc(100vh - 420px)";
+    // height: ~"calc(100vh - 300px)";
     position: relative;
     z-index: 20;
     padding: 1.25rem /* 20/16 */ 2.5rem /* 40/16 */;
     padding-top: 0;
-
-    .main-container-layout-header{
-      padding: .25rem /* 4/16 */ 0;
-      margin-bottom: 1.375rem /* 22/16 */;
+    .CubeProgressbar {
+      height: 0.25rem /* 4/16 */;
+    }
+    .main-container-layout-header {
+      padding: 0.25rem /* 4/16 */ 0;
+      margin-bottom: 1.125rem /* 18/16 */;
     }
 
     .CubeDataCard-item {
@@ -426,6 +435,8 @@ export default {
       .target-title-cubegantt {
         width: 100%;
         height: 100%;
+        overflow: hidden;
+
         .side-carousel-box {
           width: 100%;
           height: 100%;

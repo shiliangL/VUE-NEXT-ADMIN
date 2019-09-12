@@ -52,7 +52,10 @@ module.exports = {
       }
     }
   },
-
+  transpileDependencies: [
+    'vue-echarts',
+    'resize-detector'
+  ],
   chainWebpack: config => {
     // 修复HMR
     config.resolve.symlinks(true)
@@ -74,5 +77,4 @@ module.exports = {
       })
       .end()
   }
-
 }
