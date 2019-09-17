@@ -49,6 +49,12 @@
             </div>
           </el-col>
         </el-row>
+
+        <div class="main-container-layout-swiper">
+          项目任务选择
+          <CubeSwiper />
+        </div>
+
         <div class="main-container-layout-center">
           <CubeBorderBox1>
             <div class="title-data-box">任务进度</div>
@@ -94,6 +100,7 @@ import CubeBorderBox1 from '_c/CubeBorderBox1'
 
 import CubeDataHader from './ScreenLayout/ScreenLayouHeader'
 import TotalTaskChart from './ScreenLayout/TotalTaskChart'
+import CubeSwiper from './ScreenLayout/CubeSwiper'
 
 export default {
   name: 'CubeScreen',
@@ -109,7 +116,8 @@ export default {
     CubeProgressbar,
     CubeBorderBox1,
     AppScreenContainer,
-    CubeDataBgm
+    CubeDataBgm,
+    CubeSwiper
   },
   data() {
     return {
@@ -183,29 +191,6 @@ export default {
         { color: '#FF2300', titleText: '逾期完成' },
         { color: '#2F73FB', titleText: '进行中' }
       ],
-      extend: {
-        legend: {
-          textStyle: { color: '#fff' }
-        },
-        grid: {
-          textStyle: {
-            color: '#fff'
-          }
-        },
-        series: {
-          radius: ['30%', '40%'],
-          center: ['40%', '30%']
-        }
-      },
-      ringChartData: {
-        columns: ['项目', '进度'],
-        rows: [
-          { 项目: '5G基站推进', 进度: 20 },
-          { 项目: '大楼布线', 进度: 50 },
-          { 项目: 'UPS组电池更新', 进度: 47 }
-        ]
-      },
-      CbueGanttMode: '',
       cubeRuleData: [
         {
           id: 'shiliangsladske',
@@ -407,6 +392,10 @@ export default {
     .main-container-layout-header {
       padding: 0.25rem /* 4/16 */ 0;
       margin-bottom: 1.125rem /* 18/16 */;
+    }
+
+    .main-container-layout-swiper {
+      margin: 0 1.25rem /* 20/16 */;
     }
 
     .CubeDataCard-item {
