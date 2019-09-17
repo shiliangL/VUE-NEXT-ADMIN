@@ -8,6 +8,7 @@
         <div class="main-container-layout-header">
           <CubeDataHader />
         </div>
+
         <el-row :gutter="20">
           <el-col :span="7">
             <div class="CubeDataCard-item">

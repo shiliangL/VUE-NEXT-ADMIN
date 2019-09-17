@@ -14,7 +14,9 @@ export { default as borderBox8 } from './components/borderBox8/index'
 export { default as borderBox9 } from './components/borderBox9/index'
 export { default as capsuleChart } from './components/capsuleChart/index'
 export { default as charts } from './components/charts/index'
-export { default as conicalColumnChart } from './components/conicalColumnChart/index'
+export {
+  default as conicalColumnChart
+} from './components/conicalColumnChart/index'
 export { default as decoration1 } from './components/decoration1/index'
 export { default as decoration10 } from './components/decoration10/index'
 export { default as decoration2 } from './components/decoration2/index'
@@ -27,11 +29,15 @@ export { default as decoration8 } from './components/decoration8/index'
 export { default as decoration9 } from './components/decoration9/index'
 export { default as digitalFlop } from './components/digitalFlop/index'
 export { default as flylineChart } from './components/flylineChart/index'
-export { default as fullScreenContainer } from './components/fullScreenContainer/index'
+export {
+  default as fullScreenContainer
+} from './components/fullScreenContainer/index'
 export { default as loading } from './components/loading/index'
 export { default as percentPond } from './components/percentPond/index'
 export { default as scrollBoard } from './components/scrollBoard/index'
-export { default as scrollRankingBoard } from './components/scrollRankingBoard/index'
+export {
+  default as scrollRankingBoard
+} from './components/scrollRankingBoard/index'
 export { default as waterLevelPond } from './components/waterLevelPond/index'
 /**
  * IMPORT COMPONENTS
