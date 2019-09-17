@@ -35,8 +35,7 @@ export default {
 .TestComponent {
   width: 100%;
   height: 100%;
-background-image: linear-gradient(135deg, rgb(42, 49, 80) 0%, rgb(18, 26, 61) 75%);
-
+  background-image: linear-gradient(135deg, rgb(42, 49, 80) 0%, rgb(18, 26, 61) 75%);
   padding: 5.625rem /* 90/16 */;
 
   .box{

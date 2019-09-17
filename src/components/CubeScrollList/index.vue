@@ -2,9 +2,7 @@
   <div class="CubeScrollList">
     <CubeProgressbar reverse style="height:.625rem"  />
     <ul class="scroll-content" :style="{ top }">
-      <transition-group name="slide-fade">
         <li class="fadeInUp" v-for="(item,index) in renderList" :key="index">{{item.name}}</li>
-      </transition-group>
     </ul>
   </div>
 </template>
