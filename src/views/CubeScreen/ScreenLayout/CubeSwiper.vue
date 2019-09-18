@@ -6,7 +6,7 @@
           <div class="project-progress">
             <el-progress :color="colors" :width="80" type="circle" :percentage="32" />
           </div>
-          <div class="project-desc">
+          <div class="project-desc" @click="selectThis">
             <p class="name-pro">中山公园建设项目</p>
             <p class="project-text">负责人:李达康</p>
             <p class="project-text">完成日期 2019年09月12日</p>
@@ -54,6 +54,11 @@ export default {
   components: {
     swiper,
     swiperSlide
+  },
+  methods: {
+    selectThis(e) {
+      console.log(e, 'xxx')
+    }
   }
 }
 </script>
@@ -84,6 +89,7 @@ export default {
         padding: 0;
         margin: 0;
       }
+      cursor: pointer;
       display: flex;
       flex: 1;
       flex-direction: column;
