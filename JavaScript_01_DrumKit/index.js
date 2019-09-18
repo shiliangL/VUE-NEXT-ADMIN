@@ -1,4 +1,20 @@
 
+// 函数防抖
+function debounce(fn, delay, scope) {
+  let timer = null
+  let count = 1
+  return function() {
+    const context = scope || this
+    const args = arguments
+    clearTimeout(timer)
+    console.log(Date.now(), ', 触发第', count++, '次滚动事件！')
+    timer = setTimeout(function() {
+      fn.apply(context, args)
+      console.log(Date.now(), ', 可见只有当高频事件停止，最后一次事件触发的超时调用才能在delay时间后执行!')
+    }, delay)
+  }
+}
+
 const JavaScript01 = {
   data: [
     { name: 'A', text: 'clap', key: 65, src: './sounds/clap.wav' },
@@ -38,10 +54,9 @@ const JavaScript01 = {
 
     keys.innerHTML = list
     audios.innerHTML = audiolist
-
     const keysList = Array.from(document.querySelectorAll('.key'))
     keysList.forEach(item => item.addEventListener('transitionend', this.removeTransition))
-    window.addEventListener('keydown', this.play)
+    window.addEventListener('keydown', debounce(this.play, 100))
   },
   init: function() {
     this.renderHtml()
