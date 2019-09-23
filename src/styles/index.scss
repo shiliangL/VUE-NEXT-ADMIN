@@ -98,3 +98,245 @@ div:focus {
     height: 0;
   }
 }
+
+
+
+.dot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 50;
+}
+
+.dot:hover {
+  z-index: 100;
+}
+
+/* 内环  */
+.dot>.before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 10px;
+  top: 40px;
+  border: 2px solid #4dbbda;
+  border-radius: 100%;
+  background-color: #4dbbda;
+  z-index: 2;
+  animation: color1 1s ease-out;
+  animation-iteration-count: infinite;
+}
+
+/* 产生动画（向外扩散变大）的圆圈  */
+.dot>.after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 30px;
+  left: -1px;
+  border: 3px solid #4dbbda;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  z-index: 1;
+  opacity: 0;
+  animation: color2 1s ease-out;
+  animation-iteration-count: infinite;
+}
+
+// 动画效果
+@keyframes color1 {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.5;
+    border-color: #1da5ce;
+  }
+
+  25% {
+    transform: scale(0.5);
+    opacity: 0.5;
+    border-color: #0b93d6;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 0.5;
+    border-color: #13b5e5;
+  }
+
+  75% {
+    transform: scale(1);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes color2 {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  25% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  49% {
+    -webkit-transform: scale(0.5);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(0.5);
+    opacity: 0.5;
+    border-color: #4b9ec7;
+  }
+
+  75% {
+    transform: scale(0.8);
+    opacity: 0.5;
+    border-color: #4cb5d6;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+    border-color: #9cddeb;
+  }
+}
+
+.dot>div {
+  z-index: 3;
+  top: 0;
+  left: 0;
+}
+
+
+.garbageTipBox {
+  position: relative;
+  color: #ffffff;
+  border: 1px solid #1fd3fa;
+  display: inline-block;
+  padding: 10px;
+  height: 100%;
+  min-width: 20rem;
+  z-index: 99999;
+
+  .tipBoxInner {
+    padding: 10px;
+    display: inline-block;
+    background: #0a8191;
+    width: 100%;
+    height: 100%;
+
+    .title {
+      font-weight: 800;
+    }
+
+    .main {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .num {
+      font-weight: 600
+    }
+  }
+
+  .line-b,
+  .line-t {
+    position: absolute;
+    width: 30%;
+    height: 40%;
+  }
+
+  .line-t {
+    left: 0;
+    top: 0;
+    border-left: 2px solid #1fd3fa;
+    border-top: 2px solid #1fd3fa;
+  }
+
+  .line-b {
+    bottom: 0;
+    right: 0;
+    border-right: 2px solid #1fd3fa;
+    border-bottom: 2px solid #1fd3fa;
+  }
+}
+
+
+.radar {
+  background: radial-gradient(center, rgba(0, 0, 0, 0.3) 50%, #195c8b 75%),
+    repeating-radial-gradient(rgba(32, 255, 77, 0) 5.8%,
+      rgba(32, 255, 77, 0) 18%,
+      #03c3f4 18.6%,
+      rgba(32, 255, 77, 0) 18.9%),
+    linear-gradient(90deg,
+      rgba(32, 255, 77, 0) 49.5%,
+      #03c3f4 50%,
+      #03c3f4 50%,
+      rgba(32, 255, 77, 0) 50.2%),
+    linear-gradient(0deg,
+      rgba(32, 255, 77, 0) 49.5%,
+      #03c3f4 50%,
+      #03c3f4 50%,
+      rgba(32, 255, 77, 0) 50.2%);
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid #03c3f4;
+  overflow: hidden;
+}
+
+.radar:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.radar:after {
+  content: " ";
+  display: block;
+  background-image: linear-gradient(44deg,
+      rgba(0, 255, 51, 0) 50%,
+      #03c3f4 100%);
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: radar-beam 8s infinite;
+  animation-timing-function: linear;
+  transform-origin: bottom right;
+  border-radius: 100% 0 0 0;
+}
+
+@keyframes radar-beam {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -43,6 +43,7 @@ module.exports = {
     resolve: {
       alias: {
         '@': resolve('src'),
+        '_a': resolve('src/api'),
         '_c': resolve('src/components'),
         '_u': resolve('src/utils'),
         '_mix': resolve('src/mixin'),
@@ -50,6 +51,9 @@ module.exports = {
         '_layout': resolve('src/layout'),
         '_page': resolve('src/views')
       }
+    },
+    externals: {
+      'BMap': 'BMap'
     }
   },
 

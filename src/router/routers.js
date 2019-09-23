@@ -1,7 +1,9 @@
 import Main from '@/layout/main'
 import CubeData from '@/views/cubedata'
 import CubeScreen from '@/views/CubeScreen'
+import Appmap from '@/views/appmap'
 import testComponent from '@/views/testComponent'
+import MapCube from '@/views/MapCube'
 
 /**
  *  标准路由
@@ -14,13 +16,31 @@ export const constantRoutes = [
     component: () => import('@/layout/login/index.vue')
   },
   {
-    path: '/',
+    path: '/appmap',
+    name: 'appmap',
+    meta: {
+      title: 'appmap',
+      hideInMenu: true
+    },
+    component: Appmap
+  },
+  {
+    path: '/test',
     name: 'testComponent',
     meta: {
       title: 'testComponent',
       hideInMenu: true
     },
     component: testComponent
+  },
+  {
+    path: '/',
+    name: 'MapCube',
+    meta: {
+      title: 'MapCube',
+      hideInMenu: true
+    },
+    component: MapCube
   },
   {
     path: '/CubeScreen',

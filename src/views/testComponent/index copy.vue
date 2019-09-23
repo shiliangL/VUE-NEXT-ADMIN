@@ -1,28 +1,39 @@
 <template>
   <div class="chart">
-    <div class="TipBox">
-      <div class="tipBoxInner">
-        <div class="title">南山区 - 南山能源生态园</div>
-        <div class="main">
-          <div class="main-item">
-            <div>南山区垃圾量</div>
-            <div>2105吨</div>
-          </div>
-          <div class="main-item">
-            <div>运送垃圾量</div>
-            <div>215吨</div>
-          </div>
-        </div>
-      </div>
-      <div class="line-t"></div>
-      <div class="line-b"></div>
+    <v-chart ref="pie" v-if="false" :options="options" />
+    <AppInfiniteList />
+    <div class="flex-box">
+      <el-input v-model="inputText" placeholder="请输入内容"></el-input>
+      <el-button type="primary" @click="chartResize">刷新</el-button>
     </div>
   </div>
 </template>
 
+<style>
+.echarts {
+  width: 100%;
+  height: 100%;
+}
+.flex-box {
+  display: flex;
+  align-items: center;
+}
+</style>
+
 <script>
+import ECharts from 'vue-echarts'
+import 'echarts-liquidfill'
+import 'echarts/lib/chart/pie'
+import 'echarts/lib/component/title'
+import 'echarts/lib/component/legend'
+
+import AppInfiniteList from '_c/AppInfiniteList'
+
 export default {
-  components: {},
+  components: {
+    'v-chart': ECharts,
+    AppInfiniteList
+  },
   data() {
     return {
       inputText: '',
@@ -165,7 +176,36 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    let dataIndex = -1
+    const pie = this.$refs.pie
+    const dataLen = pie.options.series[0].data.length
+
+    setInterval(() => {
+      // 取消选中
+      pie.dispatchAction({
+        type: 'downplay',
+        seriesIndex: 0,
+        dataIndex
+      })
+
+      dataIndex = (dataIndex + 1) % dataLen
+
+      // 选中
+      pie.dispatchAction({
+        type: 'highlight',
+        seriesIndex: 0,
+        dataIndex
+      })
+
+      // // 显示 tooltip
+      pie.dispatchAction({
+        type: 'showTip',
+        seriesIndex: 0,
+        dataIndex
+      })
+    }, 2000)
+  },
   methods: {
     setTitel() {
       const { inputText } = this
@@ -181,50 +221,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .chart {
-  width: 100%;
-  height: 100%;
+  width: 30%;
+  height: 80%;
   background: #113549;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.TipBox {
-  position: relative;
-  color: #ffffff;
-  border: 1px solid #1fd3fa;
-  display: inline-block;
-  padding: 10px;
-  height: 100%;
-  width: 96%;
-
-  .tipBoxInner {
-    padding: 10px;
-    display: inline-block;
-    background: #0a8191;
-    .main {
-      display: flex;
-    }
-  }
-  .line-b,
-  .line-t {
-    position: absolute;
-    width: 30%;
-    height: 40%;
-  }
-  .line-t {
-    left: 0;
-    top: 0;
-    border-left: 2px solid #1fd3fa;
-    border-top: 2px solid #1fd3fa;
-  }
-  .line-b {
-    bottom: 0;
-    right: 0;
-    border-right: 2px solid #1fd3fa;
-    border-bottom: 2px solid #1fd3fa;
-  }
-}
 </style>
