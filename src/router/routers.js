@@ -1,9 +1,5 @@
 import Main from '@/layout/main'
-import CubeData from '@/views/cubedata'
-import CubeScreen from '@/views/CubeScreen'
-import Appmap from '@/views/appmap'
-import testComponent from '@/views/testComponent'
-import MapCube from '@/views/MapCube'
+import Layout from '@/views/layout'
 
 /**
  *  标准路由
@@ -16,71 +12,52 @@ export const constantRoutes = [
     component: () => import('@/layout/login/index.vue')
   },
   {
-    path: '/appmap',
-    name: 'appmap',
-    meta: {
-      title: 'appmap',
-      hideInMenu: true
-    },
-    component: Appmap
-  },
-  {
-    path: '/test',
-    name: 'testComponent',
-    meta: {
-      title: 'testComponent',
-      hideInMenu: true
-    },
-    component: testComponent
-  },
-  {
     path: '/',
-    name: 'MapCube',
+    name: 'layout',
     meta: {
-      title: 'MapCube',
+      title: 'layout',
       hideInMenu: true
     },
-    component: MapCube
-  },
-  {
-    path: '/CubeScreen',
-    name: 'CubeScreen',
-    meta: {
-      title: 'CubeScreen',
-      hideInMenu: true
-    },
-    component: CubeScreen
-  },
-  {
-    path: '/CubeData',
-    name: 'CubeData',
-    meta: {
-      title: 'CubeData',
-      hideInMenu: true
-    },
-    component: CubeData
+    component: Layout,
+    children: [
+      {
+        path: '/appmap',
+        name: 'appmap',
+        meta: {
+          title: '地图',
+          hideInMenu: true
+        },
+        component: () => import('@/views/appmap')
+      },
+      {
+        path: '/test',
+        name: 'testComponent',
+        meta: {
+          title: '组件测试',
+          hideInMenu: true
+        },
+        component: () => import('@/views/testComponent')
+      },
+      {
+        path: '/CubeScreen',
+        name: 'CubeScreen',
+        meta: {
+          title: '大屏数据',
+          hideInMenu: true
+        },
+        component: () => import('@/views/CubeScreen')
+      },
+      {
+        path: '/cubeCircleChart',
+        name: 'CubeCircleChart',
+        meta: {
+          title: '圆环图表',
+          hideInMenu: true
+        },
+        component: () => import('@/views/cubeCircleChart')
+      }
+    ]
   }
-  // {
-  //   path: '/home',
-  //   name: 'home',
-  // redirect: 'CubeScreen',
-  //   meta: {
-  //     title: 'dashboard',
-  //     hideInMenu: true
-  //   },
-  //   component: Main,
-  //   children: [
-  //     {
-  //       path: 'dashboard',
-  //       name: 'dashboard',
-  //       meta: {
-  //         icon: '',
-  //         title: 'dashboard'
-  //       },
-  //       component: () => import('@/views/dashboard/index.vue')
-  //     }
-  //   ]
-  // }
 ]
 
 /**

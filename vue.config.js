@@ -44,6 +44,7 @@ module.exports = {
       alias: {
         '@': resolve('src'),
         '_a': resolve('src/api'),
+        '_mock': resolve('src/mock'),
         '_c': resolve('src/components'),
         '_u': resolve('src/utils'),
         '_mix': resolve('src/mixin'),

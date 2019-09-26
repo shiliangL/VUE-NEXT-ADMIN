@@ -1,25 +1,63 @@
 <template>
   <div id="MapCube">
-    <VueOverlay
-      :visible.sync="overlayVisible"
-      v-if="overlayVisible"
-      ref="VueOverlay"
-      pane="labelPane"
-      :map="map"
-      :point="point"
-    >
-      <div class="garbageTipBox">
-        <div class="tipBoxInner">
-          <div class="title" @click="clickBeijing">标题</div>
-          <div class="main-item-warp">
-            <div class="main-item" v-if="clickBeijingShow">
-              <div>详情描述问题 1 {{ text }}</div>
-              <div class="num">详情描述问题 2</div>
+    <VueOverlay :visible.sync="overlayVisible" v-if="overlayVisible" :map="map" :point="point">
+      <div class="com-dialog-wrap">
+        <span class="dot" />
+        <span class="slashLine" />
+        <div class="contentWrap">
+          <span class="bottomLine" />
+          <span class="leftTopLine" />
+          <span class="rightMiddleLine" />
+          <span class="rightBottomLine" />
+          <div class="content">
+            <div class="dialog_carInfo">
+              <div class="left">
+                <div class="topSection">
+                  <span class="carNo">粤BV8730</span>
+                  <span class="carType">多功能扫路车</span>
+                </div>
+                <div class="wrap">
+                  <div class="fl">
+                    <p class="category">驾驶员</p>
+                    <p class="text">null</p>
+                  </div>
+                  <div class="fl">
+                    <p class="category">联系方式</p>
+                    <p class="text">null</p>
+                  </div>
+                </div>
+                <div class="wrap">
+                  <p class="category">企业</p>
+                  <p classs="text">深圳市洁亚环保产业有限公司</p>
+                </div>
+                <div class="wrap">
+                  <p class="category">标段</p>
+                  <p class="text">大鹏区葵涌一体化标洁亚</p>
+                </div>
+                <div class="workTraceBox">
+                  <h4>作业路线</h4>
+                  <ul class="lists">
+                    <li class="item">
+                      1、&nbsp;null&nbsp;（null-null）&nbsp;
+                      <span class="status normal">未知</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="actBox">
+                  <span class="trace">轨迹回放</span>
+                  <span class="followUP">车辆跟踪</span>
+                  <span class="direct">指挥调度</span>
+                </div>
+              </div>
+              <div class="right">
+                <img
+                  src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1569167636158&amp;di=2d39606a32882e0a86e11409e20afe17&amp;imgtype=0&amp;src=http%3A%2F%2Fphoto.16pic.com%2F00%2F61%2F86%2F16pic_6186109_b.jpg"
+                  alt
+                />
+              </div>
             </div>
           </div>
         </div>
-        <div class="line-t"></div>
-        <div class="line-b"></div>
       </div>
     </VueOverlay>
   </div>
@@ -82,7 +120,7 @@ export default {
         enableMapClick: false
       })) // 创建Map实例
       // eslint-disable-next-line no-undef
-      const point = new BMap.Point(116.410, 39.915)
+      const point = new BMap.Point(116.41, 39.915)
       // eslint-disable-next-line no-undef
       const point2 = new BMap.Point(116.404, 39.915)
       // eslint-disable-next-line no-undef
@@ -248,8 +286,8 @@ export default {
 
 <style lang="scss">
 #MapCube {
-  width: 40%;
-  height: 40%;
+  width: 100%;
+  height: 100%;
   min-height: 37.5rem /* 600/16 */;
 
   .garbageTipBox {

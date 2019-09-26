@@ -4,10 +4,11 @@
 
 <script>
 import mapStyle from '_u/mapStyle.js'
-import { getAreaMapData } from '@/api/Map'
+// import { getAreaMapData } from '@/api/Map'
 import { trachClean2Overlay } from '@/api/overview'
-// import { trachClean2, trachClean2Overlay } from '@/api/overview'
 import { FechGetGarbageAmount } from '@/api/garbage'
+// import { data } from '@/mock/areaMap'
+import eventData from '@/mock/eventData'
 
 export default {
   data() {
@@ -20,6 +21,7 @@ export default {
   mounted() {
     this.$nextTick().then(() => {
       this.initMap()
+      this.draweventMarker(eventData.data)
       // this.getMapData()
       // this.trachClean2Overlay()
     })
@@ -32,22 +34,30 @@ export default {
         enableMapClick: false
       })) // 创建Map实例
       // eslint-disable-next-line no-undef
-      map.centerAndZoom(new BMap.Point(114.12744, 22.64469), 12) // 初始化地图,设置中心点坐标和地图级别
+      map.centerAndZoom(new BMap.Point(114.12744, 22.64469), 14) // 初始化地图,设置中心点坐标和地图级别
       map.setMapStyleV2(mapStyle)
-      map.disableScrollWheelZoom() // close
-      // map.enableScrollWheelZoom() // open
-
+      // eslint-disable-next-line no-undef
+      // map.setMapType('BMAP_PERSPECTIVE_MAP')
+      // map.disableScrollWheelZoom() // close
+      map.enableScrollWheelZoom() // open
       // 初始化地图,设置中心点坐标和地图级别
       // eslint-disable-next-line no-undef
-      map.centerAndZoom(new BMap.Point(114.12744, 22.64469), 12)
       this.getBoundary(map)
+      console.log(map.getZoom())
+
+      // 画深圳
+      // this.drawArea(data)
     },
     getBoundary(map) {
       // eslint-disable-next-line no-undef
       const bdary = new BMap.Boundary()
       bdary.get('广东省深圳市', function(rs) {
         // 行政区域的点有多少个
-        const count = rs.boundaries ? rs.boundaries.length ? rs.boundaries.length : [] : []
+        const count = rs.boundaries
+          ? rs.boundaries.length
+            ? rs.boundaries.length
+            : []
+          : []
         let pointArray = []
         for (let i = 0; i < count; i++) {
           // eslint-disable-next-line no-undef
@@ -64,32 +74,6 @@ export default {
         map.setViewport(pointArray) // 调整视野
       })
     },
-    getMapData() {
-      getAreaMapData().then(res => {
-        const result = res.data
-        if (result.success) {
-          this.areaList = [{ name: '深圳市', sysId: '' }]
-          this.areaLineList = []
-          let num = 0
-          result.data.map((v1, i1) => {
-            this.areaList.push({
-              name: v1.name,
-              sysId: v1.sysId
-            })
-            v1.points.map((v2, i2) => {
-              this.areaLineList[num] = []
-              v2.map((v3, i3) => {
-                // eslint-disable-next-line no-undef
-                this.areaLineList[num].push(new BMap.Point(v3.lng, v3.lat))
-              })
-              num++
-            })
-          })
-          this.selectAreaName = '深圳市'
-          this.drawArea(this.areaLineList)
-        }
-      })
-    },
     drawArea(list) {
       // 文字偏移量
       // const offsetXY = [
@@ -104,7 +88,7 @@ export default {
       //   [50, 80], // 大鹏新区
       //   [0, 140] // 坪山区
       // ]
-      const obj = this.areaObjList
+      const obj = {}
       // 绘制所有的行政区
       list.map((v, i) => {
         // eslint-disable-next-line no-undef
@@ -115,11 +99,11 @@ export default {
           strokeWeight: 1,
           strokeOpacity: 1
         }) // 建立多边形覆盖物
+        obj[i].disableMassClear()
         this.map.addOverlay(obj[i])
         // 设置每个区域的点击事件
         obj[i].addEventListener('click', e => {
-          // 如果没有选中某个菜单 则不做处理
-          console.log(e)
+          console.log('区域')
         })
       })
     },
@@ -185,11 +169,11 @@ export default {
       refusePlant.map((v, i) => {
         // eslint-disable-next-line no-undef
         const siteIcon = new BMap.Icon(imgUrl1, new BMap.Size(40, 40), {
-        // eslint-disable-next-line no-undef
+          // eslint-disable-next-line no-undef
           imageSize: new BMap.Size(40, 40)
         })
         // eslint-disable-next-line no-undef
-        const marker2 = new BMap.Marker(new BMap.Point(v.lng, v.lat), {
+        const eventMarker = new BMap.Marker(new BMap.Point(v.lng, v.lat), {
           icon: siteIcon
         })
         // eslint-disable-next-line no-undef
@@ -204,9 +188,9 @@ export default {
         })
         // eslint-disable-next-line no-undef
         label.setOffset(new BMap.Size(40, 10))
-        marker2.setLabel(label)
-        this.map.addOverlay(marker2)
-        marker2.onclick = function() {
+        eventMarker.setLabel(label)
+        this.map.addOverlay(eventMarker)
+        eventMarker.onclick = function() {
           console.log(v, 'xx')
           let label = null
           var opts = {
@@ -218,10 +202,7 @@ export default {
           this.map.removeOverlay(label)
           const html = `<div class="radar"> DEV_TEST </div>`
           // eslint-disable-next-line no-undef
-          label = new BMap.Label(
-            html,
-            opts
-          )
+          label = new BMap.Label(html, opts)
           if (this.radar) return
           this.map.addOverlay(label)
           this.radar = 1
@@ -229,6 +210,57 @@ export default {
             this.radar = 0
             this.map.removeOverlay(label)
           }, 2000)
+        }
+      })
+    },
+    draweventMarker(refusePlant) {
+      const iconTypeObj = {
+        1: require('@/assets/overview/e_start_03.png'), // red
+        2: require('@/assets/overview/e_start_04.png'), // yellow
+        3: require('@/assets/overview/e_start_01.png') // green
+      }
+      refusePlant.map((v, i) => {
+        const eventIcon = iconTypeObj[v.iconType]
+          ? iconTypeObj[v.iconType]
+          : iconTypeObj[3]
+        // eslint-disable-next-line no-undef
+        const siteIcon = new BMap.Icon(eventIcon, new BMap.Size(40, 40), {
+          // eslint-disable-next-line no-undef
+          imageSize: new BMap.Size(40, 40)
+        })
+        // eslint-disable-next-line no-undef
+        const eventMarker = new BMap.Marker(new BMap.Point(v.lng, v.lat), {
+          icon: siteIcon
+        })
+        this.map.addOverlay(eventMarker)
+
+        var html = [
+          "<div class='infoBoxContent'><div class='title'><strong>中海雅园" +
+            v.name +
+            '</strong></div>',
+          "<div class='list'><ul><li><div class='left'> 图片 </div><div class='left'><a target='_blank' href='http://map.baidu.com'>中海雅园南北通透四居室</a><p>4室2厅，205.00平米，3层</p></div><div class='rmb'>760万</div></li>",
+          "<li><div class='left'> 图片 </div><div class='left'><a target='_blank' href='http://map.baidu.com'>中海雅园四居室还带保姆间</a><p>2室1厅，112.00平米，16层</p></div><div class='rmb'>300万</div></li>",
+          "<li><div class='left'> 图片 </div><div class='left'><a target='_blank' href='http://map.baidu.com'>《有钥匙 随时看》花园水系</a><p>3室2厅，241.00平米，16层</p></div><div class='rmb'>400万</div></li>",
+          "<li><div class='left'> 图片 </div><div class='left'><a target='_blank' href='http://map.baidu.com'>富力城D区正规楼王大三居</a><p>3室3厅，241.00平米，17层</p></div><div class='rmb'>600万</div></li>",
+          '</ul></div>',
+          '</div>'
+        ]
+
+        // eslint-disable-next-line no-undef
+        const infoBox = new BMapLib.InfoBox(this.map, html.join(''), {
+          boxStyle: {
+            width: '270px',
+            height: '300px'
+          },
+          closeIconMargin: '1px 1px 0 0',
+          enableAutoPan: true,
+          closeIconUrl: '关闭',
+          // eslint-disable-next-line no-undef
+          align: INFOBOX_AT_TOP
+        })
+
+        eventMarker.onclick = () => {
+          infoBox.open(eventMarker)
         }
       })
     }
@@ -309,5 +341,67 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+</style>
+
+<style>
+.infoBoxContent {
+  font-size: 12px;
+  background: #fff;
+}
+.infoBoxContent .title {
+  height: 42px;
+  width: 272px;
+}
+.infoBoxContent .title strong {
+  font-size: 14px;
+  line-height: 42px;
+  padding: 0 10px 0 5px;
+}
+.infoBoxContent .title .price {
+  color: #ffff00;
+}
+.infoBoxContent .list {
+  width: 268px;
+  border: solid 1px #4fa5fc;
+  border-top: none;
+  background: #fff;
+  height: 260px;
+}
+.infoBoxContent .list ul {
+  margin: 0;
+  padding: 5px;
+  list-style: none;
+}
+.infoBoxContent .list ul li {
+  float: left;
+  width: 255px;
+  border-bottom: solid 1px #4fa5fc;
+  padding: 2px 0;
+}
+.infoBoxContent .list ul .last {
+  border: none;
+}
+.infoBoxContent .list ul img {
+  width: 53px;
+  height: 42px;
+  margin-right: 5px;
+}
+.infoBoxContent .list ul p {
+  padding: 0;
+  margin: 0;
+}
+.infoBoxContent .left {
+  float: left;
+}
+.infoBoxContent .rmb {
+  float: right;
+  color: #eb6100;
+  font-size: 14px;
+  font-weight: bold;
+}
+.infoBoxContent a {
+  color: #0041d9;
+  text-decoration: none;
 }
 </style>
