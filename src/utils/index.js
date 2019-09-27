@@ -422,3 +422,53 @@ export function deepClone(object) {
 
   return clonedObj
 }
+
+// 格式化金钱
+export const ThousandNum = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+// const money = ThousandNum(20190214)
+// money => "20,190,214"
+
+// 生成随机ID
+export const RandomId = len => Math.random().toString(36).substr(3, len)
+// const id = RandomId(10);
+// id => "jg7zpgiqva"
+
+// 生成随机HEX色值
+export const RandomColor = () => '#' + Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, '0')
+// const color = RandomColor()
+// color => "#f03665"
+
+// 补零
+export const FillZero = (num, len) => num.toString().padStart(len, '0')
+// const num = FillZero(169, 5);
+// num => "00169"
+
+// 精确小数
+export const RoundNum = (num, decimal) => Math.round(num * 10 ** decimal) / 10 ** decimal
+// const num = RoundNum(1.69, 1);
+// num => 1.7
+
+// RoundNum(1.45, 1)
+
+// 判断奇偶
+export const OddEven = num => num & 1 ? 'odd' : 'even'
+// const num = OddEven(2)
+// num => "even"
+
+// 生成范围随机数
+export const RandomNum = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
+// const num = RandomNum(1, 10);
+
+// 判断数据类型
+// 可判断类型：undefined、null、string、number、boolean、array、object、symbol、date、regexp、function、asyncfunction、arguments、set、map、weakset、weakmap
+export function DataType(tgt, type) {
+  const dataType = Object.prototype.toString.call(tgt).replace(/\[object /g, '').replace(/\]/g, '').toLowerCase()
+  return type ? dataType === type : dataType
+}
+
+// DataType('young') // "string"
+// DataType(20190214) // "number"
+// DataType(true) // "boolean"
+// DataType([], 'array') // true
+// DataType({}, 'array') // false
+

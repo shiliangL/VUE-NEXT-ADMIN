@@ -55,6 +55,24 @@ export const constantRoutes = [
           hideInMenu: true
         },
         component: () => import('@/views/cubeCircleChart')
+      },
+      {
+        path: '/AppGlass',
+        name: 'AppGlass',
+        meta: {
+          title: '镜面玻璃',
+          hideInMenu: true
+        },
+        component: () => import('@/views/appGlass')
+      },
+      {
+        path: '/aapComponents',
+        name: 'aapComponents',
+        meta: {
+          title: '组件库',
+          hideInMenu: true
+        },
+        component: () => import('@/views/aapComponents')
       }
     ]
   }

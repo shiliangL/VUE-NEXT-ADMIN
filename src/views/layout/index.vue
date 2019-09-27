@@ -1,9 +1,9 @@
 <template>
   <div class="Layout">
     <AppSiderMenu />
-    <div class="Layout-top">
+    <!-- <div class="Layout-top">
       Layout - header
-    </div>
+    </div> -->
     <div class="Layout-main">
       <router-view />
     </div>
