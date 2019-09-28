@@ -13,12 +13,25 @@ import 'echarts/lib/component/legend'
 
 export default {
   name: 'TotalTaskChart',
+  props: {
+    titleText: {
+      type: String,
+      default: () => '72%'
+    },
+    legendData: {
+      type: Array,
+      default: () => []
+    },
+    color: {
+      type: Array,
+      default: () => []
+    }
+  },
   components: {
     'v-chart': ECharts
   },
   data() {
     return {
-      inputText: '',
       options: {
         title: {
           top: '43%',
@@ -30,9 +43,10 @@ export default {
             fontWeight: 600,
             fontSize: 32
           },
-          subtext: '(占所有数据的比例)',
+          subtext: '总进度',
           subtextStyle: {
             color: '#fff',
+            fontWeight: 400,
             fontSize: 14
           }
         },
@@ -143,39 +157,45 @@ export default {
     }
   },
   mounted() {
-    let dataIndex = -1
-    const pie = this.$refs.pie
-    const dataLen = pie.options.series[0].data.length
+    this.$nextTick().then(_ => {
+      this.chartInitSetting()
+      let dataIndex = -1
+      const pie = this.$refs.pie
+      const dataLen = pie.options.series[0].data.length
 
-    setInterval(() => {
-      // 取消选中
-      pie.dispatchAction({
-        type: 'downplay',
-        seriesIndex: 0,
-        dataIndex
-      })
+      setInterval(() => {
+        // 取消选中
+        pie.dispatchAction({
+          type: 'downplay',
+          seriesIndex: 0,
+          dataIndex
+        })
 
-      dataIndex = (dataIndex + 1) % dataLen
+        dataIndex = (dataIndex + 1) % dataLen
 
-      // 选中
-      pie.dispatchAction({
-        type: 'highlight',
-        seriesIndex: 0,
-        dataIndex
-      })
+        // 选中
+        pie.dispatchAction({
+          type: 'highlight',
+          seriesIndex: 0,
+          dataIndex
+        })
 
-      // // 显示 tooltip
-      pie.dispatchAction({
-        type: 'showTip',
-        seriesIndex: 0,
-        dataIndex
-      })
-    }, 2000)
+        // // 显示 tooltip
+        pie.dispatchAction({
+          type: 'showTip',
+          seriesIndex: 0,
+          dataIndex
+        })
+      }, 2000)
+    })
   },
   methods: {
-    setTitel() {
-      const { inputText } = this
-      this.options.title.text = inputText
+    chartInitSetting() {
+      // this.options
+      const { color } = this
+      if (color.length) {
+        this.options.series[1].color = color
+      }
     },
     chartResize() {
       this.$nextTick(() => {

@@ -74,6 +74,10 @@ export default {
   },
   mounted() {
     this.renderList()
+    const keyTotalStart = dayjs('2019-08-23')
+    const keyTotalEnd = dayjs('2019-09-23')
+    const keyTempInterval = Math.abs(keyTotalStart.diff(keyTotalEnd, 'day'))
+    console.log(keyTempInterval, 'shiliangL')
   },
   methods: {
     renderList() {
@@ -127,6 +131,7 @@ export default {
   .tasks-item {
     position: relative;
     border: 1px solid #0b54c4;
+    background: rgba(62, 177, 214, 0.1);
     padding: 1.25rem /* 20/16 */;
     border-radius: 0.625rem /* 10/16 */;
     display: flex;

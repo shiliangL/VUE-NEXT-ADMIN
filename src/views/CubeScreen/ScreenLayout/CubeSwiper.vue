@@ -1,12 +1,12 @@
 <template>
   <div class="CubeSwiper">
     <swiper :options="swiperOption">
-      <swiper-slide v-for="slide in swiperSlides" :key="slide">
-        <div class="swiper-cube-card">
+      <swiper-slide v-for="(slide,index) in swiperSlides" :key="slide">
+        <div class="swiper-cube-card" :class="curIndexActive==index?'activeCard' : ''">
           <div class="project-progress">
             <el-progress :color="colors" :width="80" type="circle" :percentage="32" />
           </div>
-          <div class="project-desc" @click="selectThis">
+          <div class="project-desc" @click="clickItem(slide,index)">
             <p class="name-pro">中山公园建设项目</p>
             <p class="project-text">负责人:李达康</p>
             <p class="project-text">完成日期 2019年09月12日</p>
@@ -26,8 +26,15 @@ import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
   name: 'CubeSwiper',
+  props: {
+    siderList: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
+      curIndexActive: 0,
       swiperSlides: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       swiperOption: {
         slidesPerView: 5,
@@ -44,7 +51,7 @@ export default {
         }
       },
       colors: [
-        { color: '#f56c6c', percentage: 20 },
+        { color: '#F41197', percentage: 20 },
         { color: '#e6a23c', percentage: 40 },
         { color: '#5cb87a', percentage: 60 },
         { color: '#1989fa', percentage: 80 }
@@ -56,6 +63,11 @@ export default {
     swiperSlide
   },
   methods: {
+    clickItem(item, index) {
+      if (this.curIndexActive === index) return
+      this.curIndexActive = index
+      this.$emit('cubeSwiperChange', item, index)
+    },
     selectThis(e) {
       console.log(e, 'xxx')
     }
@@ -75,6 +87,7 @@ export default {
     height: 100%;
     display: flex;
     border: 1px solid #0b54c4;
+    transition: all 0.025s cubic-bezier(0.4, 0, 0.2, 1);
 
     .project-progress {
       width: 5rem /* 80/16 */;
@@ -95,14 +108,14 @@ export default {
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
-      padding-left: .625rem /* 10/16 */;
+      padding-left: 0.625rem /* 10/16 */;
       .name-pro {
         font-size: 1.25rem /* 20/16 */;
-        padding-bottom: .5rem /* 8/16 */;
+        padding-bottom: 0.5rem /* 8/16 */;
       }
       .project-text {
         font-size: 0.875rem /* 14/16 */;
-        padding: .125rem /* 2/16 */;
+        padding: 0.125rem /* 2/16 */;
       }
     }
 
@@ -112,6 +125,14 @@ export default {
       font-weight: 600;
     }
   }
+
+  // 激活
+  .activeCard {
+    // background: rgba(62, 177, 214, 0.3);
+    // background: rgba(44, 38, 80, 0.94);
+    background: linear-gradient(to left ,rgba(62, 177, 214, 0.4),rgba(44, 38, 80, 0.94))
+  }
+
   .swiper-container {
     .arrow {
       cursor: pointer;
@@ -119,5 +140,6 @@ export default {
       border: 1px solid #3ebde2;
     }
   }
+
 }
 </style>

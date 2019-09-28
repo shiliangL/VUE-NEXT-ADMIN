@@ -17,7 +17,7 @@
                     总体进度
                     <CubeDecoration3 />
                   </div>
-                  <TotalTaskChart style="margin-top: -20px;" />
+                  <TotalTaskChart :color="colorList" style="margin-top: -20px;" />
                 </div>
               </CubeBorderBox4>
             </div>
@@ -51,29 +51,41 @@
         </el-row>
 
         <div class="main-container-layout-swiper">
-          项目任务选择
-          <CubeSwiper />
+          <CubeSwiper @cubeSwiperChange="cubeSwiperChange" />
         </div>
 
         <div class="main-container-layout-center">
           <CubeBorderBox1>
-            <div class="title-data-box">任务进度</div>
             <div class="cube-data-box-main">
-              <ul class="target-title">
-                <li v-for="(item,index) in targetTitleData" :key="index" class="target-title-item">
-                  <i class="dotTag" :style="{ background: item.color }" />
-                  <span class="text" v-text="item.titleText" />
-                </li>
-              </ul>
+              <div class="title-data-box-header">
+                <div class="title-data-box">
+                  项目任务进度 -
+                  <span class="tagTips">{{ autoplay? '自动轮播' : '轮播暂停' }}</span>
+                </div>
+                <ul class="target-title">
+                  <li
+                    v-for="(item,index) in targetTitleData"
+                    :key="index"
+                    class="target-title-item"
+                  >
+                    <i class="dotTag" :style="{ background: item.color }" />
+                    <span class="text" v-text="item.titleText" />
+                  </li>
+                </ul>
+              </div>
 
               <div class="target-title-cubegantt">
                 <el-carousel
                   :interval="5000"
                   class="side-carousel-box"
                   direction="vertical"
-                  :autoplay="true"
+                  :autoplay="autoplay"
                 >
-                  <el-carousel-item v-for="item in cubeRuleData" :key="item.id">
+                  <el-carousel-item
+                    v-for="item in cubeRuleData"
+                    :key="item.id"
+                    @click.native="clickSetAutoPlay"
+                  >
                     <CubeRule :data="item" />
                   </el-carousel-item>
                 </el-carousel>
@@ -121,6 +133,8 @@ export default {
   },
   data() {
     return {
+      autoplay: true,
+      colorList: ['#357DE5', '#E86FC9', '#F7096F', '#34E076', '#FAB52F'],
       CubeCapsuleConfig: {
         data: [
           {
@@ -354,6 +368,26 @@ export default {
   methods: {
     changeViewModel(item) {
       this.CbueGanttMode = item.model
+    },
+    clickSetAutoPlay() {
+      const { autoplay } = this
+      this.autoplay = !autoplay
+      console.log('xx')
+    },
+    cubeSwiperChange(item) {
+      console.log(item)
+    }
+  },
+  watch: {
+    autoplay: {
+      handler(value) {
+        if (!value) {
+          // 如果是暂停则 2分钟后自动轮播
+          setTimeout(() => {
+            this.autoplay = true
+          }, 120000)
+        }
+      }
     }
   }
 }
@@ -375,7 +409,7 @@ export default {
     background-position: center;
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     background-repeat: no-repeat;
-    background-image: url("../../assets/bg_img/bg_05.png");
+    background-image: url("../../assets/bg_img/bg_06.png");
     box-shadow: 0 0 3px #100925;
     display: flex;
     flex-direction: column;
@@ -395,13 +429,14 @@ export default {
     }
 
     .main-container-layout-swiper {
-      margin: 0 1.25rem /* 20/16 */;
+      margin: 1.25rem /* 20/16 */ 1.25rem /* 20/16 */;
     }
 
     .CubeDataCard-item {
       .cube-data-box {
         padding: 0.625rem /* 10/16 */ 1.25rem /* 20/16 */;
         height: 15.625rem /* 250/16 */;
+        overflow: hidden;
 
         .title-data-box {
           font-size: 1.25rem /* 20/16 */;
@@ -416,16 +451,27 @@ export default {
       }
     }
 
+    .tagTips {
+      font-size: 1rem /* 16/16 */;
+    }
     .main-container-layout-center {
       margin-top: 1.375rem /* 22/16 */;
       width: 100%;
       height: 100%;
 
+      .title-data-box-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 1rem /* 16/16 */;
+        align-items: center;
+      }
+
       .target-title-cubegantt {
         width: 100%;
         height: 100%;
         overflow: hidden;
-
+        position: relative;
+        margin-top: -1.75rem;
         .side-carousel-box {
           width: 100%;
           height: 100%;
@@ -436,10 +482,8 @@ export default {
         font-size: 1.25rem /* 20/16 */;
         font-weight: 400;
         margin-left: 1.25rem /* 20/16 */;
-        margin-top: -0.625rem /* 10/16 */;
       }
       .target-title {
-        margin-top: -2rem /* 32/16 */;
         display: flex;
         justify-content: center;
       }

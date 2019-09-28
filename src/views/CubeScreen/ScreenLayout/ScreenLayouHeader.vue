@@ -131,7 +131,7 @@ export default {
       margin: 0;
       font-weight: normal;
       display: inline-block;
-      font-weight: 500;
+      font-weight: 400;
       font-size: 2.625rem /* 42/16 */;
     }
     h3 {
@@ -140,8 +140,8 @@ export default {
       display: inline-block;
       font-weight: normal;
       padding-left: 0.625rem /* 10/16 */;
-      font-size: 1.125rem /* 18/16 */;
-      font-weight: 500;
+      font-size: 1.45rem;
+      font-weight: 400;
     }
   }
 
