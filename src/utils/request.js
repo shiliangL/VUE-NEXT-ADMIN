@@ -5,7 +5,7 @@ import { Message } from 'element-ui'
 const service = axios.create({
   baseURL: process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_API : '',
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 8000 // request timeout
+  timeout: 18000 // request timeout
 })
 
 axios.defaults.headers['Content-Type']

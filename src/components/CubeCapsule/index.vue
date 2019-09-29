@@ -88,12 +88,13 @@ export default {
     }
   },
   watch: {
-    config() {
-      const { stopAnimation, calcData } = this
-
-      stopAnimation()
-
-      calcData()
+    config: {
+      handler(value) {
+        const { stopAnimation, calcData } = this
+        stopAnimation()
+        calcData()
+      },
+      deep: true
     }
   },
   methods: {

@@ -85,6 +85,12 @@ import CubeDecoration10 from '_c/CubeDecoration10'
 
 export default {
   name: 'ScreenLayouHeader',
+  props: {
+    taskList: {
+      type: Object,
+      required: true
+    }
+  },
   components: {
     CountTo,
     CubeDecoration10
@@ -97,10 +103,10 @@ export default {
       datatime: dayjs().format('YYYY-MM-DD'),
       time: dayjs().format('HH:mm:ss'),
       taskData: {
-        total: 26,
-        complete: 7,
-        going: 6,
-        overTime: 0
+        'total': 0,
+        'complete': 0,
+        'going': 0,
+        'overTime': 0
       }
     }
   },
@@ -115,6 +121,14 @@ export default {
     },
     refreshTime() {
       this.time = dayjs().format('HH:mm:ss')
+    }
+  },
+  watch: {
+    taskList: {
+      handler(value) {
+        if (!value) return
+        this.taskData = Object.assign(this.taskData, value)
+      }
     }
   },
   beforeDestroy() {

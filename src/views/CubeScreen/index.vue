@@ -1,12 +1,12 @@
 <template>
   <section class="CubeScreen">
     <AppScreenContainer>
-      <CubeDataBgm v-if="true" />
+      <CubeDataBgm v-if="isCubeDataBgm" />
       <section class="main-container-layout">
         <CubeProgressbar reverse linestroke="#0E5FDD" class="CubeProgressbar" />
         <AppTools />
         <div class="main-container-layout-header">
-          <CubeDataHader />
+          <CubeDataHader :taskList="taskList" />
         </div>
         <el-row :gutter="20">
           <el-col :span="7">
@@ -21,7 +21,6 @@
                     ref="TotalTaskChart"
                     :chartData="chartDataToal"
                     :TotalProgress="circleData.TotalProgress"
-                    :color="colorList"
                     style="margin-top: -20px;margin-left: -20px;"
                   />
                 </div>
@@ -60,7 +59,11 @@
         </el-row>
 
         <div class="main-container-layout-swiper">
-          <CubeSwiper :cubeSwiperList="circleData.ProjectList" @cubeSwiperChange="cubeSwiperChange" />
+          <CubeSwiper
+            :autoplay.sync="autoplay"
+            :cubeSwiperList="circleData.ProjectList"
+            @cubeSwiperChange="cubeSwiperChange"
+          />
         </div>
 
         <div class="main-container-layout-center">
@@ -69,7 +72,7 @@
               <div class="title-data-box-header">
                 <div class="title-data-box">
                   项目任务进度
-                  <!-- <span class="tagTips"> - {{ autoplay? '自动轮播' : '轮播暂停' }}</span> -->
+                  <span class="tagTips"> - {{ autoplay? '自动轮播' : '轮播暂停' }}</span>
                 </div>
                 <ul class="target-title">
                   <li
@@ -96,7 +99,7 @@
                     :key="item.id"
                     @click.native="clickSetAutoPlay"
                   >
-                    <CubeRule :dataList="cubeRuleDataList"  />
+                    <CubeRule :dataList="cubeRuleDataList" />
                   </el-carousel-item>
                 </el-carousel>
               </div>
@@ -123,8 +126,9 @@ import CubeBorderBox1 from '_c/CubeBorderBox1'
 import CubeDataHader from './ScreenLayout/ScreenLayouHeader'
 import TotalTaskChart from './ScreenLayout/TotalTaskChart'
 import CubeSwiper from './ScreenLayout/CubeSwiper'
-import { getUserList, getCircleData } from '@/api'
+import { getUserList, getCircleData, getTaskInfoNum } from '@/api'
 import dayjs from 'dayjs'
+import config from './config'
 
 export default {
   name: 'CubeScreen',
@@ -145,60 +149,17 @@ export default {
   },
   data() {
     return {
+      timer: null,
       currentIndex: 0,
       autoplay: true,
-      colorList: ['#357DE5', '#E86FC9', '#F7096F', '#34E076', '#FAB52F'],
+      isCubeDataBgm: process.env.NODE_ENV !== 'development',
       CubeCapsuleConfig: {
-        data: [
-          // { name: '肖主任', value: 5, start: 5, img: '' },
-          { name: '陈德良', value: 6, start: 6, img: 'userImage/陈德良.png' },
-          { name: '陈传清', value: 6, start: 6, img: 'userImage/陈传清.png' },
-          { name: '黄铱平', value: 6, start: 6, img: 'userImage/黄铱平.png' },
-          { name: '王恩平', value: 5, start: 5, img: 'userImage/王恩平.png' },
-          { name: '张远辉', value: 3, start: 3, img: 'userImage/张远辉.png' }
-        ],
+        data: [],
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
         unit: ''
       },
       CbueScrollRankConfig: {
-        data: [
-          // {
-          //   name: '陈德良xxxx',
-          //   value: 5,
-          //   start: 5,
-          //   img: 'http://ftjf.szhcqh.cn/userImage/陈德良.png'
-          // },
-          {
-            name: '陈德良',
-            value: 5,
-            start: 5,
-            img: 'http://ftjf.szhcqh.cn/userImage/陈德良.png'
-          },
-          {
-            name: '陈传清',
-            value: 5,
-            start: 5,
-            img: 'http://ftjf.szhcqh.cn/userImage/陈传清.png'
-          },
-          {
-            name: '黄铱平',
-            value: 5,
-            start: 5,
-            img: 'http://ftjf.szhcqh.cn/userImage/黄铱平.png'
-          },
-          {
-            name: '王恩平',
-            value: 5,
-            start: 5,
-            img: 'http://ftjf.szhcqh.cn/userImage/王恩平.png'
-          },
-          {
-            name: '张远辉',
-            value: 5,
-            start: 5,
-            img: 'http://ftjf.szhcqh.cn/userImage/张远辉.png'
-          }
-        ],
+        data: [],
         waitTime: 4000,
         carousel: 'single',
         unit: ''
@@ -216,14 +177,23 @@ export default {
       circleData: {
         TotalProgress: 0,
         ProjectList: []
+      },
+      taskList: {
+        total: 0,
+        complete: 0,
+        going: 0,
+        overTime: 0
       }
     }
   },
   mounted() {
     // console.log(dayjs('2019-08-26T00:00:00').format('YY-MM-DD'))
-
-    this.fetchDataList()
-    this.fetchUserList()
+    if (!this.timer) {
+      this.fetchPage()
+      this.timer = setInterval(() => {
+        this.fetchPage()
+      }, config.refreshTime)
+    }
   },
   computed: {
     cubeRuleDataList() {
@@ -231,6 +201,11 @@ export default {
     }
   },
   methods: {
+    fetchPage() {
+      this.fetchDataList()
+      this.fetchUserList()
+      this.getTaskInfoNum()
+    },
     fetchDataList() {
       getCircleData().then(res => {
         if (res.status === 200) {
@@ -254,10 +229,10 @@ export default {
 
           this.chartDataToal.data = chartDataToal
           this.chartDataToal.TotalProgress = result.TotalProgress
-
           this.circleData = result
           this.$refs['TotalTaskChart'].chartResize()
-          console.log(this.circleData, '处理任务数据')
+          // console.log(this.circleData, '处理任务数据')
+          // this.circleData.ProjectList = config.mock
         }
       })
     },
@@ -265,14 +240,27 @@ export default {
       getUserList().then(res => {
         if (res.status === 200) {
           const result = res.data || []
-          this.CbueScrollRankConfig.data = result.map(item => {
-            return {
-              name: item.UserName,
-              value: item.StartCount,
-              start: item.StartCount,
-              img: `http://ftjf.szhcqh.cn/${item.ImagePath}`
-            }
-          })
+
+          const list =
+            result.map(item => {
+              return {
+                name: item.UserName,
+                value: item.StartCount,
+                start: item.StartCount,
+                img: `http://ftjf.szhcqh.cn/${item.ImagePath}`
+              }
+            }) || []
+
+          this.CbueScrollRankConfig.data = list
+          this.CubeCapsuleConfig.data = list
+        }
+      })
+    },
+    getTaskInfoNum() {
+      getTaskInfoNum().then(res => {
+        if (res.status === 200) {
+          const result = res.data || {}
+          this.taskList = result
         }
       })
     },
@@ -282,9 +270,8 @@ export default {
     clickSetAutoPlay() {
       const { autoplay } = this
       this.autoplay = !autoplay
-      console.log('xx')
     },
-    cubeSwiperChange(item, index) {
+    cubeSwiperChange(index) {
       this.currentIndex = index
     }
   },
@@ -299,6 +286,10 @@ export default {
         }
       }
     }
+  },
+  beforeDestroy() {
+    console.log('销毁之前')
+    clearInterval(this.timer)
   }
 }
 </script>
@@ -346,7 +337,7 @@ export default {
       .cube-data-box {
         padding: 0.625rem /* 10/16 */ 1.25rem /* 20/16 */;
         height: 15.625rem /* 250/16 */;
-        overflow: hidden;
+        overflow-y: auto;
 
         .title-data-box {
           font-size: 1.25rem /* 20/16 */;

@@ -1,7 +1,7 @@
 <template>
   <div class="CubeSwiper">
-    <swiper :options="swiperOption">
-      <swiper-slide v-for="(slide,index) in cubeSwiperList" :key="index">
+    <swiper :options="swiperOption" ref="CubeSwiper">
+      <swiper-slide v-for="(slide,index) in cubeSwiperList" :key="index" @click.native="clickItem(slide,index)">
         <div class="swiper-cube-card" :class="curIndexActive==index?'activeCard' : ''">
           <div class="project-progress">
             <el-progress
@@ -11,18 +11,19 @@
               :percentage="slide.Progress*1"
             />
           </div>
-          <div class="project-desc" @click="clickItem(slide,index)">
+          <div class="project-desc">
             <p class="name-pro">{{ slide.Name }}</p>
             <p class="project-text">负责人: {{ slide.Leader }}</p>
             <p class="project-text">完成日期 {{ slide.End }}</p>
           </div>
         </div>
       </swiper-slide>
-
-      <!-- <div class="swiper-pagination" style="display: none;" slot="pagination"></div>
-      <div class="swiper-button-prev" slot="button-prev"></div>
-      <div class="swiper-button-next" slot="button-next"></div> -->
+      <!-- <swiper-slide v-for="(item,index) in 8" :key="index">Slide {{index}}</swiper-slide> -->
+      <div class="swiper-pagination" style="display: none;" slot="pagination"></div>
+      <div class="swiper-button-prev" style="display: none;" slot="button-prev"></div>
+      <div class="swiper-button-next" style="display: none;" slot="button-next"></div>
     </swiper>
+
   </div>
 </template>
 
@@ -32,6 +33,10 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
   name: 'CubeSwiper',
   props: {
+    autoplay: {
+      type: Boolean,
+      default: () => true
+    },
     cubeSwiperList: {
       type: Array,
       default: () => []
@@ -39,6 +44,7 @@ export default {
   },
   data() {
     return {
+      timer: null,
       curIndexActive: 0,
       swiperOption: {
         slidesPerView: 5,
@@ -60,19 +66,51 @@ export default {
     swiper,
     swiperSlide
   },
+  mounted() {
+    if (this.autoplay) {
+      this.playToNextProject()
+    }
+  },
   methods: {
+    playToNextProject() {
+      const { cubeSwiperList } = this
+      if (!cubeSwiperList.length) return
+      // console.log(cubeSwiperList.length, '共')
+      if (this.timer) clearInterval(this.timer)
+      this.timer = setInterval(() => {
+        this.curIndexActive++
+        if (this.curIndexActive >= cubeSwiperList.length) this.curIndexActive = 0
+        this.$emit('cubeSwiperChange', this.curIndexActive)
+      }, 5000)
+    },
     clickItem(item, index) {
       console.log(index, 'xx')
-      if (this.curIndexActive === index) return
+      // if (this.curIndexActive === index) return
       this.curIndexActive = index
-      this.$emit('cubeSwiperChange', item, index)
-    },
-    selectThis(e) {
-      console.log(e, 'xxx')
-      this.timer = setTimeout(() => {
-        this.curIndexActive++
-      }, 5000)
+      this.playToNextProject()
+      this.$emit('cubeSwiperChange', this.curIndexActive, item)
+      this.$emit('update:autoplay', true)
     }
+  },
+  watch: {
+    cubeSwiperList: {
+      handler(list) {
+        if (this.autoplay) this.playToNextProject()
+      }
+    },
+    autoplay: {
+      handler(value) {
+        if (!value) {
+          if (this.timer) clearInterval(this.timer)
+        } else {
+          this.playToNextProject()
+        }
+      }
+    }
+  },
+  beforeDestroy() {
+    console.log('销毁之前')
+    clearInterval(this.timer)
   }
 }
 </script>

@@ -15,3 +15,11 @@ export function getCircleData(params) {
     params
   })
 }
+
+export function getTaskInfoNum(params) {
+  return request({
+    url: 'api/Task/TaskInfo',
+    method: 'get',
+    params
+  })
+}
