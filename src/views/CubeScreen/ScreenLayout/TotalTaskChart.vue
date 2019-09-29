@@ -141,7 +141,7 @@ export default {
 
       pie.showLoading({
         text: '',
-        color: '#c23531',
+        color: '#116FFB',
         textColor: 'rgba(255, 255, 255, 0.5)',
         maskColor: '#003',
         zlevel: 0

@@ -162,6 +162,12 @@ export default {
       },
       CbueScrollRankConfig: {
         data: [
+          // {
+          //   name: '陈德良xxxx',
+          //   value: 5,
+          //   start: 5,
+          //   img: 'http://ftjf.szhcqh.cn/userImage/陈德良.png'
+          // },
           {
             name: '陈德良',
             value: 5,

@@ -19,9 +19,9 @@
         </div>
       </swiper-slide>
 
-      <div class="swiper-pagination" style="display: none;" slot="pagination"></div>
+      <!-- <div class="swiper-pagination" style="display: none;" slot="pagination"></div>
       <div class="swiper-button-prev" slot="button-prev"></div>
-      <div class="swiper-button-next" slot="button-next"></div>
+      <div class="swiper-button-next" slot="button-next"></div> -->
     </swiper>
   </div>
 </template>
@@ -53,13 +53,7 @@ export default {
           nextEl: '.swiper-button-prev',
           prevEl: '.swiper-button-next'
         }
-      },
-      colors: [
-        { color: '#F41197', percentage: 20 },
-        { color: '#e6a23c', percentage: 40 },
-        { color: '#5cb87a', percentage: 60 },
-        { color: '#1989fa', percentage: 80 }
-      ]
+      }
     }
   },
   components: {
@@ -68,12 +62,16 @@ export default {
   },
   methods: {
     clickItem(item, index) {
+      console.log(index, 'xx')
       if (this.curIndexActive === index) return
       this.curIndexActive = index
       this.$emit('cubeSwiperChange', item, index)
     },
     selectThis(e) {
       console.log(e, 'xxx')
+      this.timer = setTimeout(() => {
+        this.curIndexActive++
+      }, 5000)
     }
   }
 }

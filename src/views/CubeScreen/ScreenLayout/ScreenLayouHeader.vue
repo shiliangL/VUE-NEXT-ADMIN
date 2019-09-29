@@ -70,7 +70,7 @@
             </div>
             <!-- <div class="weather-text">温度</div> -->
           </div>
-          <CubeDecoration10 class="cubeDecoration10" />
+          <CubeDecoration10 v-if="false" class="cubeDecoration10" />
         </div>
       </el-col>
     </el-row>

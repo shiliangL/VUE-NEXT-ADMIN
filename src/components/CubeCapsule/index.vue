@@ -9,17 +9,14 @@
       <div class="ranking-info">
         <!-- <div class="rank">No.{{ item.ranking }}</div> -->
         <div class="info-name">{{ item.name }}</div>
-        <div class="ranking-value">{{ item.value + mergedConfig.unit }}</div>
+        <!-- <div class="ranking-value">{{ item.value + mergedConfig.unit }}</div> -->
       </div>
-
       <div class="ranking-column">
-        <div
-          class="inside-column"
-          :style="`width: ${item.percent}%;`"
-        >
+        <div class="inside-column" :style="`width: ${item.percent}%;`">
           <div class="shine" />
         </div>
       </div>
+      <div class="ranking-value">{{ item.value + mergedConfig.unit }}</div>
     </div>
   </div>
 </template>
@@ -130,7 +127,10 @@ export default {
     mergeConfig() {
       const { config, defaultConfig } = this
 
-      this.mergedConfig = deepMerge(deepClone(defaultConfig, true), config || {})
+      this.mergedConfig = deepMerge(
+        deepClone(defaultConfig, true),
+        config || {}
+      )
     },
     calcRowsData() {
       // eslint-disable-next-line prefer-const
@@ -146,7 +146,11 @@ export default {
 
       const max = Math.max(...value) || 0
 
-      data = data.map((row, i) => ({ ...row, ranking: i + 1, percent: row.value / max * 100 }))
+      data = data.map((row, i) => ({
+        ...row,
+        ranking: i + 1,
+        percent: (row.value / max) * 100
+      }))
 
       const rowLength = data.length
 
@@ -172,7 +176,13 @@ export default {
     },
     async animation(start = false) {
       // eslint-disable-next-line prefer-const
-      let { avgHeight, animationIndex, mergedConfig, rowsData, animation } = this
+      let {
+        avgHeight,
+        animationIndex,
+        mergedConfig,
+        rowsData,
+        animation
+      } = this
 
       const { waitTime, carousel, rowNum } = mergedConfig
 
@@ -224,19 +234,35 @@ export default {
   height: 100%;
   color: #fff;
   overflow: hidden;
+  font-size: 0.875rem /* 14/16 */;
 }
 .CbueScrollRank .row-item {
   transition: all 0.3s;
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   justify-content: center;
   overflow: hidden;
 }
+
 .CbueScrollRank .ranking-info {
+  text-align: center;
   display: flex;
-  width: 100%;
-  font-size: 13px;
+  width: 4rem /* 64/16 */;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+.CbueScrollRank .ranking-value {
+  margin-left: .625rem /* 10/16 */;
+  text-align: center;
+  display: flex;
+  width: 1.875rem /* 30/16 */;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .CbueScrollRank .ranking-info .rank {
   width: 40px;
   color: #1370fb;
@@ -245,6 +271,7 @@ export default {
   flex: 1;
 }
 .CbueScrollRank .ranking-column {
+  flex: 1;
   border-bottom: 2px solid rgba(19, 112, 251, 0.5);
   margin-top: 5px;
 }
