@@ -1,15 +1,20 @@
 <template>
   <div class="CubeSwiper">
     <swiper :options="swiperOption">
-      <swiper-slide v-for="(slide,index) in swiperSlides" :key="slide">
+      <swiper-slide v-for="(slide,index) in cubeSwiperList" :key="index">
         <div class="swiper-cube-card" :class="curIndexActive==index?'activeCard' : ''">
           <div class="project-progress">
-            <el-progress :color="colors" :width="80" type="circle" :percentage="32" />
+            <el-progress
+              :color="slide.Color"
+              :width="80"
+              type="circle"
+              :percentage="slide.Progress*1"
+            />
           </div>
           <div class="project-desc" @click="clickItem(slide,index)">
-            <p class="name-pro">中山公园建设项目</p>
-            <p class="project-text">负责人:李达康</p>
-            <p class="project-text">完成日期 2019年09月12日</p>
+            <p class="name-pro">{{ slide.Name }}</p>
+            <p class="project-text">负责人: {{ slide.Leader }}</p>
+            <p class="project-text">完成日期 {{ slide.End }}</p>
           </div>
         </div>
       </swiper-slide>
@@ -27,7 +32,7 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
   name: 'CubeSwiper',
   props: {
-    siderList: {
+    cubeSwiperList: {
       type: Array,
       default: () => []
     }
@@ -35,7 +40,6 @@ export default {
   data() {
     return {
       curIndexActive: 0,
-      swiperSlides: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       swiperOption: {
         slidesPerView: 5,
         spaceBetween: 10,
@@ -82,12 +86,13 @@ export default {
   // height: 100%;
   .swiper-cube-card {
     // margin-left: 2.75rem /* 44/16 */;
+    cursor: pointer;
     min-height: 7.5rem /* 120/16 */;
     width: 98%;
     height: 100%;
     display: flex;
     border: 1px solid #0b54c4;
-    transition: all 0.025s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.01s cubic-bezier(0.4, 0, 0.2, 1);
 
     .project-progress {
       width: 5rem /* 80/16 */;
@@ -130,7 +135,11 @@ export default {
   .activeCard {
     // background: rgba(62, 177, 214, 0.3);
     // background: rgba(44, 38, 80, 0.94);
-    background: linear-gradient(to left ,rgba(62, 177, 214, 0.4),rgba(44, 38, 80, 0.94))
+    background: linear-gradient(
+      to left,
+      rgba(62, 177, 214, 0.4),
+      rgba(44, 38, 80, 0.94)
+    );
   }
 
   .swiper-container {
@@ -140,6 +149,11 @@ export default {
       border: 1px solid #3ebde2;
     }
   }
-
 }
+</style>
+
+<style>
+ .el-progress__text {
+    font-size: 1.125rem /* 18/16 */!important;
+  }
 </style>

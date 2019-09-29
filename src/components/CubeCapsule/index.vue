@@ -1,35 +1,37 @@
 <template>
-  <div class="CubeCapsule">
-    <template v-if="mergedConfig">
-      <div class="label-column">
-        <div v-for="item in mergedConfig.data" :key="item.name">{{ item.name }}</div>
-        <div>&nbsp;</div>
+  <div class="CbueScrollRank" :ref="ref">
+    <div
+      class="row-item"
+      v-for="(item, i) in rows"
+      :key="item.toString() + item.scroll"
+      :style="`height: ${heights[i]}px;`"
+    >
+      <div class="ranking-info">
+        <!-- <div class="rank">No.{{ item.ranking }}</div> -->
+        <div class="info-name">{{ item.name }}</div>
+        <div class="ranking-value">{{ item.value + mergedConfig.unit }}</div>
       </div>
 
-      <div class="capsule-container">
+      <div class="ranking-column">
         <div
-          class="capsule-item"
-          v-for="(capsule, index) in capsuleLength"
-          :key="index"
+          class="inside-column"
+          :style="`width: ${item.percent}%;`"
         >
-          <div :style="`width: ${capsule * 100}%; background-color: ${mergedConfig.colors[index % mergedConfig.colors.length]};`"></div>
-        </div>
-
-        <div class="unit-label">
-          <div v-for="(label, index) in labelData" :key="label + index">{{ label }}</div>
+          <div class="shine" />
         </div>
       </div>
-
-      <div class="unit-text" v-if="mergedConfig.unit">{{ mergedConfig.unit }}</div>
-    </template>
+    </div>
   </div>
 </template>
 
 <script>
+import autoResize from '@/minxin/autoResize'
+
 import { deepMerge, deepClone } from '@/utils'
 
 export default {
   name: 'CubeCapsule',
+  mixins: [autoResize],
   props: {
     config: {
       type: Object,
@@ -38,133 +40,240 @@ export default {
   },
   data() {
     return {
+      ref: 'scroll-ranking-board',
+
       defaultConfig: {
         /**
-         * @description Capsule chart data
+         * @description Board data
          * @type {Array<Object>}
          * @default data = []
-         * @example data = [{ name: 'foo1', value: 100 }, { name: 'foo2', value: 100 }]
          */
         data: [],
         /**
-         * @description Colors (hex|rgb|rgba|color keywords)
-         * @type {Array<String>}
-         * @default color = ['#37a2da', '#32c5e9', '#67e0e3', '#9fe6b8', '#ffdb5c', '#ff9f7f', '#fb7293']
-         * @example color = ['#000', 'rgb(0, 0, 0)', 'rgba(0, 0, 0, 1)', 'red']
+         * @description Row num
+         * @type {Number}
+         * @default rowNum = 5
          */
-        colors: ['#37a2da', '#32c5e9', '#67e0e3', '#9fe6b8', '#ffdb5c', '#ff9f7f', '#fb7293'],
+        rowNum: 5,
         /**
-         * @description Chart unit
+         * @description Scroll wait time
+         * @type {Number}
+         * @default waitTime = 2000
+         */
+        waitTime: 2000,
+        /**
+         * @description Carousel type
+         * @type {String}
+         * @default carousel = 'single'
+         * @example carousel = 'single' | 'page'
+         */
+        carousel: 'single',
+        /**
+         * @description Value unit
          * @type {String}
          * @default unit = ''
+         * @example unit = 'ton'
          */
         unit: ''
       },
 
       mergedConfig: null,
 
-      capsuleLength: [],
-      labelData: []
+      rowsData: [],
+
+      rows: [],
+
+      heights: [],
+
+      animationIndex: 0,
+
+      animationHandler: ''
     }
   },
   watch: {
     config() {
-      const { calcData } = this
+      const { stopAnimation, calcData } = this
+
+      stopAnimation()
 
       calcData()
     }
   },
   methods: {
+    afterAutoResizeMixinInit() {
+      const { calcData } = this
+
+      calcData()
+    },
+    onResize() {
+      const { mergedConfig, calcHeights } = this
+
+      if (!mergedConfig) return
+
+      calcHeights(true)
+    },
     calcData() {
-      const { mergeConfig, calcCapsuleLengthAndLabelData } = this
+      const { mergeConfig, calcRowsData } = this
 
       mergeConfig()
 
-      calcCapsuleLengthAndLabelData()
+      calcRowsData()
+
+      const { calcHeights } = this
+
+      calcHeights()
+
+      const { animation } = this
+
+      animation(true)
     },
     mergeConfig() {
       const { config, defaultConfig } = this
 
       this.mergedConfig = deepMerge(deepClone(defaultConfig, true), config || {})
     },
-    calcCapsuleLengthAndLabelData() {
-      const { data } = this.mergedConfig
+    calcRowsData() {
+      // eslint-disable-next-line prefer-const
+      let { data, rowNum } = this.mergedConfig
 
-      if (!data.length) return
+      data.sort(({ value: a }, { value: b }) => {
+        if (a > b) return -1
+        if (a < b) return 1
+        if (a === b) return 0
+      })
 
-      const capsuleValue = data.map(({ value }) => value)
+      const value = data.map(({ value }) => value)
 
-      const maxValue = Math.max(...capsuleValue)
+      const max = Math.max(...value) || 0
 
-      this.capsuleLength = capsuleValue.map(v => maxValue ? v / maxValue : 0)
+      data = data.map((row, i) => ({ ...row, ranking: i + 1, percent: row.value / max * 100 }))
 
-      const oneFifth = maxValue / 5
+      const rowLength = data.length
 
-      this.labelData = new Array(6).fill(0).map((v, i) => Math.ceil(i * oneFifth))
+      if (rowLength > rowNum && rowLength < 2 * rowNum) {
+        data = [...data, ...data]
+      }
+
+      data = data.map((d, i) => ({ ...d, scroll: i }))
+
+      this.rowsData = data
+      this.rows = data
+    },
+    calcHeights(onresize = false) {
+      const { height, mergedConfig } = this
+
+      const { rowNum, data } = mergedConfig
+
+      const avgHeight = height / rowNum
+
+      this.avgHeight = avgHeight
+
+      if (!onresize) this.heights = new Array(data.length).fill(avgHeight)
+    },
+    async animation(start = false) {
+      // eslint-disable-next-line prefer-const
+      let { avgHeight, animationIndex, mergedConfig, rowsData, animation } = this
+
+      const { waitTime, carousel, rowNum } = mergedConfig
+
+      const rowLength = rowsData.length
+
+      if (rowNum >= rowLength) return
+
+      if (start) await new Promise(resolve => setTimeout(resolve, waitTime))
+
+      const animationNum = carousel === 'single' ? 1 : rowNum
+
+      const rows = rowsData.slice(animationIndex)
+      rows.push(...rowsData.slice(0, animationIndex))
+
+      this.rows = rows
+      this.heights = new Array(rowLength).fill(avgHeight)
+
+      await new Promise(resolve => setTimeout(resolve, 300))
+
+      this.heights.splice(0, animationNum, ...new Array(animationNum).fill(0))
+
+      animationIndex += animationNum
+
+      const back = animationIndex - rowLength
+      if (back >= 0) animationIndex = back
+
+      this.animationIndex = animationIndex
+      this.animationHandler = setTimeout(animation, waitTime - 300)
+    },
+    stopAnimation() {
+      const { animationHandler } = this
+
+      if (!animationHandler) return
+
+      clearTimeout(animationHandler)
     }
   },
-  mounted() {
-    const { calcData } = this
+  destroyed() {
+    const { stopAnimation } = this
 
-    calcData()
+    stopAnimation()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.CubeCapsule {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  box-sizing: border-box;
-  padding: 10px;
+.CbueScrollRank {
+  width: 100%;
+  height: 100%;
   color: #fff;
+  overflow: hidden;
 }
-.CubeCapsule .label-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-sizing: border-box;
-  padding-right: 10px;
-  text-align: right;
-  font-size: 12px;
-}
-.CubeCapsule .label-column div {
-  height: 20px;
-  line-height: 20px;
-}
-.CubeCapsule .capsule-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.CubeCapsule .capsule-item {
-  box-shadow: 0 0 3px #999;
-  height: 10px;
-  margin: 5px 0px;
-  border-radius: 5px;
-}
-.CubeCapsule .capsule-item div {
-  height: 8px;
-  margin-top: 1px;
-  border-radius: 5px;
+.CbueScrollRank .row-item {
   transition: all 0.3s;
-}
-.CubeCapsule .unit-label {
-  height: 20px;
-  font-size: 12px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
-.CubeCapsule .unit-text {
-  text-align: right;
+.CbueScrollRank .ranking-info {
   display: flex;
-  align-items: flex-end;
-  font-size: 12px;
-  line-height: 20px;
-  margin-left: 10px;
+  width: 100%;
+  font-size: 13px;
+}
+.CbueScrollRank .ranking-info .rank {
+  width: 40px;
+  color: #1370fb;
+}
+.CbueScrollRank .ranking-info .info-name {
+  flex: 1;
+}
+.CbueScrollRank .ranking-column {
+  border-bottom: 2px solid rgba(19, 112, 251, 0.5);
+  margin-top: 5px;
+}
+.CbueScrollRank .ranking-column .inside-column {
+  position: relative;
+  height: 6px;
+  background-color: #1370fb;
+  margin-bottom: 2px;
+  border-radius: 1px;
+  overflow: hidden;
+}
+.CbueScrollRank .ranking-column .shine {
+  position: absolute;
+  left: 0%;
+  top: 2px;
+  height: 2px;
+  width: 50px;
+  transform: translateX(-100%);
+  background: radial-gradient(#28f8ff 5%, transparent 80%);
+  animation: shine 3s ease-in-out infinite alternate;
+}
+@keyframes shine {
+  80% {
+    left: 0%;
+    transform: translateX(-100%);
+  }
+  100% {
+    left: 100%;
+    transform: translateX(0%);
+  }
 }
 </style>

@@ -29,12 +29,21 @@ module.exports = {
     proxy: {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
-      [process.env.VUE_APP_BASE_API]: {
-        target: `http://localhost:${port}/mock`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
+      // [process.env.VUE_APP_BASE_API]: {
+      //   target: `http://localhost:${port}/mock`,
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_BASE_API]: ''
+      //   }
+      // }
+      '/api': {
+        // 数字化放行接口总汇合；后期会合并到一起；
+        target: 'http://ftjf.szhcqh.cn/',
+        changeOrigin: true
+        // ws: true,
+        // pathRewrite: {
+        //   '^/smartLine': ''
+        // }
       }
     }
     // after: require('./mock/mock-server.js')

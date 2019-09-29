@@ -18,7 +18,11 @@ export default {
     }
   },
   mounted() {
-    this.init()
+    // this.$nextTick().then(_ => {
+    //   setTimeout(() => {
+    //     this.init()
+    //   }, 2000)
+    // })
   },
   beforeDestroy() {
     this.destroy()
@@ -40,6 +44,7 @@ export default {
     init() {
       if (screenfull.enabled) {
         screenfull.on('change', this.change)
+        this.click()
       }
     },
     destroy() {

@@ -7,16 +7,19 @@
       :style="`height: ${heights[i]}px;`"
     >
       <div class="ranking-info">
-        <div class="rank">No.{{ item.ranking }}</div>
-        <div class="info-name">{{ item.name }}</div>
-        <div class="ranking-value">{{ item.value + mergedConfig.unit }}</div>
+        <!-- <div class="rank">No.{{ item.ranking }}</div> -->
+        <!-- <div class="rank info-name">{{ item.name }}</div> -->
+        <div class="info-img"> <img :src="item.img" alt="">  </div>
+        <div class="rank">{{ item.name }}</div>
+        <div class="rank-start">
+          <el-rate v-model="item.start" disabled :max="5" text-color="#ff9900" />
+        </div>
+
+        <!-- <div class="ranking-value">{{ item.value + mergedConfig.unit }}</div> -->
       </div>
 
-      <div class="ranking-column">
-        <div
-          class="inside-column"
-          :style="`width: ${item.percent}%;`"
-        >
+      <div class="ranking-column" v-if="false">
+        <div class="inside-column" :style="`width: ${item.percent}%;`">
           <div class="shine" />
         </div>
       </div>
@@ -41,7 +44,6 @@ export default {
   data() {
     return {
       ref: 'scroll-ranking-board',
-
       defaultConfig: {
         /**
          * @description Board data
@@ -54,7 +56,7 @@ export default {
          * @type {Number}
          * @default rowNum = 5
          */
-        rowNum: 5,
+        rowNum: 4,
         /**
          * @description Scroll wait time
          * @type {Number}
@@ -130,7 +132,10 @@ export default {
     mergeConfig() {
       const { config, defaultConfig } = this
 
-      this.mergedConfig = deepMerge(deepClone(defaultConfig, true), config || {})
+      this.mergedConfig = deepMerge(
+        deepClone(defaultConfig, true),
+        config || {}
+      )
     },
     calcRowsData() {
       // eslint-disable-next-line prefer-const
@@ -146,7 +151,11 @@ export default {
 
       const max = Math.max(...value) || 0
 
-      data = data.map((row, i) => ({ ...row, ranking: i + 1, percent: row.value / max * 100 }))
+      data = data.map((row, i) => ({
+        ...row,
+        ranking: i + 1,
+        percent: (row.value / max) * 100
+      }))
 
       const rowLength = data.length
 
@@ -172,7 +181,13 @@ export default {
     },
     async animation(start = false) {
       // eslint-disable-next-line prefer-const
-      let { avgHeight, animationIndex, mergedConfig, rowsData, animation } = this
+      let {
+        avgHeight,
+        animationIndex,
+        mergedConfig,
+        rowsData,
+        animation
+      } = this
 
       const { waitTime, carousel, rowNum } = mergedConfig
 
@@ -224,6 +239,7 @@ export default {
   height: 100%;
   color: #fff;
   overflow: hidden;
+  font-size: 0.875rem /* 14/16 */;
 }
 .CbueScrollRank .row-item {
   transition: all 0.3s;
@@ -234,16 +250,33 @@ export default {
 }
 .CbueScrollRank .ranking-info {
   display: flex;
+  align-items: center;
   width: 100%;
-  font-size: 13px;
 }
 .CbueScrollRank .ranking-info .rank {
-  width: 40px;
-  color: #1370fb;
+  color: #ffffff;
+  margin-right: 0 .25rem /* 4/16 */;
 }
 .CbueScrollRank .ranking-info .info-name {
   flex: 1;
 }
+.CbueScrollRank .ranking-info .info-img {
+  width: 2.5rem /* 40/16 */;
+  height: 2.5rem /* 40/16 */;
+  background: #126ffb;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.625rem /* 10/16 */;
+  overflow: hidden;
+
+  img{
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .CbueScrollRank .ranking-column {
   border-bottom: 2px solid rgba(19, 112, 251, 0.5);
   margin-top: 5px;

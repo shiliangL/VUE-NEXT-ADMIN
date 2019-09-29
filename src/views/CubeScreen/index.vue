@@ -17,7 +17,13 @@
                     总体进度
                     <CubeDecoration3 />
                   </div>
-                  <TotalTaskChart :color="colorList" style="margin-top: -20px;" />
+                  <TotalTaskChart
+                    ref="TotalTaskChart"
+                    :chartData="chartDataToal"
+                    :TotalProgress="circleData.TotalProgress"
+                    :color="colorList"
+                    style="margin-top: -20px;margin-left: -20px;"
+                  />
                 </div>
               </CubeBorderBox4>
             </div>
@@ -30,7 +36,7 @@
                     工作量统计
                     <CubeDecoration3 />
                   </div>
-                  <CubeCapsule :config="CubeCapsuleConfig" />
+                  <CubeCapsule style="height: 90%;" :config="CubeCapsuleConfig" />
                 </div>
               </CubeBorderBox4>
             </div>
@@ -43,7 +49,10 @@
                     工作评级
                     <CubeDecoration3 />
                   </div>
-                  <CbueScrollRank :config="CbueScrollRankConfig" />
+                  <CbueScrollRank
+                    style="height: 90%;margin-left: 10px;"
+                    :config="CbueScrollRankConfig"
+                  />
                 </div>
               </CubeBorderBox4>
             </div>
@@ -51,7 +60,7 @@
         </el-row>
 
         <div class="main-container-layout-swiper">
-          <CubeSwiper @cubeSwiperChange="cubeSwiperChange" />
+          <CubeSwiper :cubeSwiperList="circleData.ProjectList" @cubeSwiperChange="cubeSwiperChange" />
         </div>
 
         <div class="main-container-layout-center">
@@ -59,8 +68,8 @@
             <div class="cube-data-box-main">
               <div class="title-data-box-header">
                 <div class="title-data-box">
-                  项目任务进度 -
-                  <span class="tagTips">{{ autoplay? '自动轮播' : '轮播暂停' }}</span>
+                  项目任务进度
+                  <!-- <span class="tagTips"> - {{ autoplay? '自动轮播' : '轮播暂停' }}</span> -->
                 </div>
                 <ul class="target-title">
                   <li
@@ -77,16 +86,17 @@
               <div class="target-title-cubegantt">
                 <el-carousel
                   :interval="5000"
+                  indicator-position="none"
                   class="side-carousel-box"
                   direction="vertical"
                   :autoplay="autoplay"
                 >
                   <el-carousel-item
-                    v-for="item in cubeRuleData"
+                    v-for="item in 1"
                     :key="item.id"
                     @click.native="clickSetAutoPlay"
                   >
-                    <CubeRule :data="item" />
+                    <CubeRule :dataList="cubeRuleDataList"  />
                   </el-carousel-item>
                 </el-carousel>
               </div>
@@ -113,6 +123,8 @@ import CubeBorderBox1 from '_c/CubeBorderBox1'
 import CubeDataHader from './ScreenLayout/ScreenLayouHeader'
 import TotalTaskChart from './ScreenLayout/TotalTaskChart'
 import CubeSwiper from './ScreenLayout/CubeSwiper'
+import { getUserList, getCircleData } from '@/api'
+import dayjs from 'dayjs'
 
 export default {
   name: 'CubeScreen',
@@ -133,30 +145,17 @@ export default {
   },
   data() {
     return {
+      currentIndex: 0,
       autoplay: true,
       colorList: ['#357DE5', '#E86FC9', '#F7096F', '#34E076', '#FAB52F'],
       CubeCapsuleConfig: {
         data: [
-          {
-            name: '背景',
-            value: 167
-          },
-          {
-            name: '周口',
-            value: 123
-          },
-          {
-            name: '漯河',
-            value: 98
-          },
-          {
-            name: '郑州',
-            value: 75
-          },
-          {
-            name: '西峡',
-            value: 66
-          }
+          // { name: '肖主任', value: 5, start: 5, img: '' },
+          { name: '陈德良', value: 6, start: 6, img: 'userImage/陈德良.png' },
+          { name: '陈传清', value: 6, start: 6, img: 'userImage/陈传清.png' },
+          { name: '黄铱平', value: 6, start: 6, img: 'userImage/黄铱平.png' },
+          { name: '王恩平', value: 5, start: 5, img: 'userImage/王恩平.png' },
+          { name: '张远辉', value: 3, start: 3, img: 'userImage/张远辉.png' }
         ],
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
         unit: ''
@@ -164,208 +163,113 @@ export default {
       CbueScrollRankConfig: {
         data: [
           {
-            name: '北京',
-            value: 55
+            name: '陈德良',
+            value: 5,
+            start: 5,
+            img: 'http://ftjf.szhcqh.cn/userImage/陈德良.png'
           },
           {
-            name: '上海',
-            value: 55
+            name: '陈传清',
+            value: 5,
+            start: 5,
+            img: 'http://ftjf.szhcqh.cn/userImage/陈传清.png'
           },
           {
-            name: '广州',
-            value: 55
+            name: '黄铱平',
+            value: 5,
+            start: 5,
+            img: 'http://ftjf.szhcqh.cn/userImage/黄铱平.png'
           },
           {
-            name: '深圳',
-            value: 88
+            name: '王恩平',
+            value: 5,
+            start: 5,
+            img: 'http://ftjf.szhcqh.cn/userImage/王恩平.png'
           },
           {
-            name: '珠海',
-            value: 120
-          },
-          {
-            name: '南京',
-            value: 78
-          },
-          {
-            name: '宁波',
-            value: 66
-          },
-          {
-            name: '浙江',
-            value: 80
+            name: '张远辉',
+            value: 5,
+            start: 5,
+            img: 'http://ftjf.szhcqh.cn/userImage/张远辉.png'
           }
         ],
         waitTime: 4000,
         carousel: 'single',
-        unit: '星'
+        unit: ''
       },
       targetTitleData: [
+        { color: '#50C5C5', titleText: '提前完成' },
         { color: '#27EC83', titleText: '按时完成' },
         { color: '#FF2300', titleText: '逾期完成' },
         { color: '#2F73FB', titleText: '进行中' }
       ],
-      cubeRuleData: [
-        {
-          id: 'shiliangsladske',
-          name: '大楼布线安装',
-          start: '2019-07-1',
-          end: '2019-09-30',
-          progress: 72,
-          dependencies: 'Task 2, Task 3',
-          custom_class: 'bar-milestone',
-          children: [
-            {
-              id: 'Task 1 - 1',
-              name: '硬件设施购买',
-              start: '2019-07-01',
-              end: '2019-08-10',
-              progress: 100,
-              progressColor: '#27EC83',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 1',
-              name: '软件开发商招标',
-              start: '2019-08-11',
-              end: '2019-09-12',
-              progress: 80,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 1',
-              name: '硬件安装',
-              start: '2019-07-1',
-              end: '2019-09-12',
-              progress: 20,
-              progressColor: '#FF2300',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 2',
-              name: '设备调试',
-              start: '2019-09-13',
-              end: '2019-09-30',
-              progress: 0,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            }
-          ]
-        },
-        {
-          id: 'shiliangslad',
-          name: '5G基站推进',
-          start: '2019-07-1',
-          end: '2019-09-30',
-          progress: 72,
-          dependencies: 'Task 2, Task 3',
-          custom_class: 'bar-milestone',
-          children: [
-            {
-              id: 'Task 1 - 1',
-              name: '硬件设施购买',
-              start: '2019-07-01',
-              end: '2019-08-10',
-              progress: 100,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 1',
-              name: '软件开发商招标',
-              start: '2019-08-11',
-              end: '2019-09-12',
-              progress: 80,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 1',
-              name: '硬件安装',
-              start: '2019-07-1',
-              end: '2019-09-12',
-              progress: 20,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 2',
-              name: '设备调试',
-              start: '2019-09-13',
-              end: '2019-09-30',
-              progress: 0,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            }
-          ]
-        },
-        {
-          id: 'shiliangsl',
-          name: 'USP电池组更新',
-          start: '2019-07-1',
-          end: '2019-09-30',
-          progress: 72,
-          dependencies: 'Task 2, Task 3',
-          custom_class: 'bar-milestone',
-          children: [
-            {
-              id: 'Task 1 - 1',
-              name: '硬件设施购买',
-              start: '2019-07-01',
-              end: '2019-08-10',
-              progress: 100,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 1',
-              name: '软件开发商招标',
-              start: '2019-08-11',
-              end: '2019-09-12',
-              progress: 80,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 1',
-              name: '硬件安装',
-              start: '2019-07-1',
-              end: '2019-09-12',
-              progress: 20,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            },
-            {
-              id: 'Task 1 - 2',
-              name: '设备调试',
-              start: '2019-09-13',
-              end: '2019-09-30',
-              progress: 0,
-              progressColor: 'blue',
-              dependencies: 'Task 2, Task 3',
-              custom_class: 'bar-milestone' // optional
-            }
-          ]
-        }
-      ]
+      chartDataToal: {
+        data: [],
+        TotalProgress: 0
+      },
+      circleData: {
+        TotalProgress: 0,
+        ProjectList: []
+      }
     }
   },
   mounted() {
-    console.log(this.$Progress, '组件')
+    // console.log(dayjs('2019-08-26T00:00:00').format('YY-MM-DD'))
+
+    this.fetchDataList()
+    this.fetchUserList()
+  },
+  computed: {
+    cubeRuleDataList() {
+      return this.circleData.ProjectList[this.currentIndex]
+    }
   },
   methods: {
+    fetchDataList() {
+      getCircleData().then(res => {
+        if (res.status === 200) {
+          const result = res.data
+          result.TotalProgress = (result.TotalProgress * 1).toFixed(2) || 0
+          const chartDataToal = []
+          for (const item of result.ProjectList) {
+            chartDataToal.push({
+              color: item.Color || '#3577E5',
+              value: (item.Progress * 1).toFixed(0) || 0,
+              name: item.Name
+            })
+            item.Progress = (item.Progress * 1).toFixed(0) || '0%'
+            item.Start = dayjs(item.Start).format('YYYY-MM-DD')
+            item.End = dayjs(item.End).format('YYYY-MM-DD')
+            for (const k of item.List) {
+              k.Start = dayjs(k.Start).format('YYYY-MM-DD')
+              k.End = dayjs(k.End).format('YYYY-MM-DD')
+            }
+          }
+
+          this.chartDataToal.data = chartDataToal
+          this.chartDataToal.TotalProgress = result.TotalProgress
+
+          this.circleData = result
+          this.$refs['TotalTaskChart'].chartResize()
+          console.log(this.circleData, '处理任务数据')
+        }
+      })
+    },
+    fetchUserList() {
+      getUserList().then(res => {
+        if (res.status === 200) {
+          const result = res.data || []
+          this.CbueScrollRankConfig.data = result.map(item => {
+            return {
+              name: item.UserName,
+              value: item.StartCount,
+              start: item.StartCount,
+              img: `http://ftjf.szhcqh.cn/${item.ImagePath}`
+            }
+          })
+        }
+      })
+    },
     changeViewModel(item) {
       this.CbueGanttMode = item.model
     },
@@ -374,8 +278,8 @@ export default {
       this.autoplay = !autoplay
       console.log('xx')
     },
-    cubeSwiperChange(item) {
-      console.log(item)
+    cubeSwiperChange(item, index) {
+      this.currentIndex = index
     }
   },
   watch: {
@@ -483,10 +387,12 @@ export default {
         font-weight: 400;
         margin-left: 1.25rem /* 20/16 */;
       }
+
       .target-title {
         display: flex;
         justify-content: center;
       }
+
       .target-title-item {
         display: flex;
         align-items: center;
@@ -505,5 +411,11 @@ export default {
       }
     }
   }
+}
+</style>
+
+<style>
+.el-carousel__container {
+  height: 37.5rem /* 600/16 */ !important;
 }
 </style>

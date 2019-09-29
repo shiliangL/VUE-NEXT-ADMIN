@@ -1,28 +1,28 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="dataList">
     <div class="ruler_container">
       <div class="tasks-item">
         <div class="tasks-item-name">
-          <div class="titleName">{{ defaultData.name }}</div>
-          <div class="progress">完成 {{ defaultData.progress }} %</div>
-          <div class="complete">计划完成: {{ defaultData.end | completeData }}</div>
+          <div class="titleName">{{ dataList.Name }}</div>
+          <div class="progress">完成 {{ dataList.Progress }} %</div>
+          <div class="complete">计划完成: {{ dataList.End | completeData }}</div>
         </div>
         <div class="tasks-item-right" ref="CubeRuleBox">
           <div
             class="row-task-item-wrap"
-            v-for="(k,i) in defaultData.children"
-            :style="renderTaskStyle(defaultData,k)"
+            v-for="(k,i) in dataList.List"
+            :style="renderTaskStyle(dataList,k)"
             :key="i"
           >
-            <div class="progressText">{{ k.name + k.progress + '%' }}</div>
+            <div class="progressText">{{ k.Name }}  {{ `（${k.Start} 至 ${k.End}）` }}   {{ (k.Progress*1).toFixed(0) + '%' }}</div>
             <div class="progress-bar">
               <div class="progress" :style="renderStyle(k)" />
             </div>
           </div>
 
           <div class="rule-k">
-            <div class="startTime">{{ defaultData.start | formatTime }}</div>
-            <div class="endTime">{{ defaultData.end | formatTime }}</div>
+            <div class="startTime">{{ dataList.Start | formatTime }}</div>
+            <div class="endTime">{{ dataList.End | formatTime }}</div>
             <div v-for="(item, index) in tempInterval" :key="index" class="line" />
           </div>
         </div>
@@ -37,7 +37,7 @@ import dayjs from 'dayjs'
 export default {
   name: 'CubeRule',
   props: {
-    data: {
+    dataList: {
       type: Object,
       default: () => {}
     },
@@ -48,15 +48,15 @@ export default {
   },
   data() {
     return {
-      defaultData: {
-        id: '',
-        name: '',
-        start: '',
-        end: '',
-        progress: 0,
-        dependencies: '',
-        custom_class: '',
-        children: []
+      dataListX: {
+        'Id': '',
+        'Name': '',
+        'Leader': '',
+        'Start': '',
+        'End': '',
+        'Progress': 1,
+        'Status': 'done',
+        'List': []
       },
       renderwidth: '',
       tempInterval: []
@@ -73,15 +73,17 @@ export default {
     }
   },
   mounted() {
-    this.renderList()
-    const keyTotalStart = dayjs('2019-08-23')
-    const keyTotalEnd = dayjs('2019-09-23')
-    const keyTempInterval = Math.abs(keyTotalStart.diff(keyTotalEnd, 'day'))
-    console.log(keyTempInterval, 'shiliangL')
+    // this.renderList()
+    // const keyTotalStart = dayjs('2019-08-23')
+    // const keyTotalEnd = dayjs('2019-09-23')
+    // const keyTempInterval = Math.abs(keyTotalStart.diff(keyTotalEnd, 'day'))
+    // console.log(keyTempInterval, 'shiliangL')
   },
   methods: {
     renderList() {
-      this.defaultData = Object.assign(this.defaultData, this.data)
+      this.dataList = Object.assign(this.dataList, this.dataList)
+      console.log(this.dataList, 'sb')
+      // debugger
     },
     renderDom() {
       this.$nextTick().then(() => {
@@ -90,18 +92,17 @@ export default {
       })
     },
     renderTaskStyle(item, key) {
-      const totalStart = dayjs(item.start)
-      const totalEnd = dayjs(item.end)
+      const totalStart = dayjs(item.Start)
+      const totalEnd = dayjs(item.End)
       // 总时间
       const tempInterval = Math.abs(totalStart.diff(totalEnd, 'day')) + 1
       this.tempInterval = tempInterval
       // console.log(tempInterval, '总时间/天')
 
-      const keyTotalStart = dayjs(key.start)
-      const keyTotalEnd = dayjs(key.end)
+      const keyTotalStart = dayjs(key.Start)
+      const keyTotalEnd = dayjs(key.End)
       const keyTempInterval =
         Math.abs(keyTotalStart.diff(keyTotalEnd, 'day')) + 1
-
       // console.log(keyTempInterval, '任务时间/天')
       const t1 = (keyTempInterval / tempInterval) * 100
 
@@ -115,12 +116,23 @@ export default {
       }
     },
     renderStyle(item) {
-      const bg = item.progress ? item.progressColor ? item.progressColor : '#2F73FB' : null
+      let bg = item.Progress ? item.progressColor ? item.progressColor : '#2F73FB' : null
+      if (item.Progress >= 100) {
+        bg = '#50C5C5'
+      }
       return {
-        width: item.progress + '%',
+        width: item.Progress + '%',
         background: bg
       }
     }
+    // watch: {
+    //   dataList: {
+    //     handler(value) {
+    //       console.log(value, 'xxx')
+    //       if (value) this.dataList = Object.assign(this.dataList, value)
+    //     }
+    //   }
+    // }
   }
 }
 </script>
@@ -212,10 +224,14 @@ export default {
     }
 
     .row-task-item-wrap {
+      position: relative;
       margin-bottom: 0.625rem /* 10/16 */;
       .progressText {
+        // widows: 25rem /* 400/16 */;
+        // position: absolute;
         font-weight: 500;
         text-align: left;
+        z-index: 999999999999;
       }
 
       .progress {

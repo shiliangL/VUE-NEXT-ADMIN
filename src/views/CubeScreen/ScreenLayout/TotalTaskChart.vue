@@ -1,6 +1,6 @@
 <template>
   <div class="chart">
-    <v-chart ref="pie" :options="options" />
+    <v-chart ref="chartData" :options="options" />
   </div>
 </template>
 
@@ -14,17 +14,21 @@ import 'echarts/lib/component/legend'
 export default {
   name: 'TotalTaskChart',
   props: {
-    titleText: {
-      type: String,
-      default: () => '72%'
-    },
-    legendData: {
-      type: Array,
-      default: () => []
-    },
-    color: {
-      type: Array,
-      default: () => []
+    /**
+     * chartData:{
+     *  data:[{ color: '#3577E5', value: 1, name: '标题' } ],
+     *  TotalProgress Number
+     * }
+     */
+    chartData: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {
+          data: [],
+          TotalProgress: 0
+        }
+      }
     }
   },
   components: {
@@ -32,11 +36,12 @@ export default {
   },
   data() {
     return {
+      colorList: [],
       options: {
         title: {
           top: '43%',
           left: 'center',
-          text: '72%',
+          text: 0,
           textStyle: {
             color: '#fff',
             fontStyle: 'normal',
@@ -59,15 +64,10 @@ export default {
           left: 'right',
           top: '30%',
           textStyle: {
-            color: '#fff'
-            // fontSize: 14
+            color: '#fff',
+            fontSize: 14
           },
-          data: [
-            '硬件设施购买',
-            '软件开发商招标',
-            '硬件安装',
-            '设备调试'
-          ]
+          data: []
         },
         series: [
           {
@@ -95,22 +95,15 @@ export default {
               normal: {
                 formatter: '',
                 textStyle: {
-                  fontSize: 12
+                  fontSize: 14
                 }
               }
             }
           },
           {
             type: 'pie',
-            radius: ['42%', '50%'],
-            color: [
-              '#c487ee',
-              '#deb140',
-              '#49dff0',
-              '#034079',
-              '#6f81da',
-              '#00ffb4'
-            ],
+            radius: ['60%', '74%'],
+            color: [],
             // hoverAnimation: false, // //设置饼图默认的展开样式
             label: {
               show: false,
@@ -132,24 +125,7 @@ export default {
                 shadowColor: 'rgba(0, 0, 0, 0.5)'
               }
             },
-            data: [
-              {
-                value: 0.2,
-                name: '硬件设施购买'
-              },
-              {
-                value: 0.3,
-                name: '软件开发商招标'
-              },
-              {
-                value: 0.4,
-                name: '硬件安装'
-              },
-              {
-                value: 0.3,
-                name: '设备调试'
-              }
-            ]
+            data: []
           }
         ],
         animationDuration: 2000
@@ -160,8 +136,16 @@ export default {
     this.$nextTick().then(_ => {
       this.chartInitSetting()
       let dataIndex = -1
-      const pie = this.$refs.pie
+      const pie = this.$refs.chartData
       const dataLen = pie.options.series[0].data.length
+
+      pie.showLoading({
+        text: '',
+        color: '#c23531',
+        textColor: 'rgba(255, 255, 255, 0.5)',
+        maskColor: '#003',
+        zlevel: 0
+      })
 
       setInterval(() => {
         // 取消选中
@@ -189,19 +173,43 @@ export default {
       }, 2000)
     })
   },
+  computed: {
+    colorListX() {
+      const list = this.chartData.data.map(item => item.color) || []
+      console.log(list, '图表颜色')
+      return list
+    }
+  },
   methods: {
     chartInitSetting() {
       // this.options
-      const { color } = this
-      if (color.length) {
-        this.options.series[1].color = color
-      }
+      // console.log(this.TotalProgress)
+      // const { color } = this
+      // if (color.length) {
+      //   this.options.series[1].color = color
+      // }
     },
     chartResize() {
+      console.log('刷新')
       this.$nextTick(() => {
-        const pie = this.$refs.pie.refresh()
-        console.log(pie)
+        if (this.$refs.chartData) this.$refs.chartData.refresh()
       })
+    }
+  },
+  watch: {
+    chartData: {
+      handler(value) {
+        if (!value) return
+        const colorList = value.data.map(item => item.color) || []
+        const dataName = value.data.map(item => item.name) || []
+        this.options.title.text = value.TotalProgress + '%'
+        this.options.legend.data = dataName
+        this.options.series[1].color = colorList
+        this.options.series[1].data = value.data
+        // 水位置
+        this.options.series[0].data[0].value = value.TotalProgress ? value.TotalProgress / 100 : 0
+      },
+      deep: true
     }
   }
 }

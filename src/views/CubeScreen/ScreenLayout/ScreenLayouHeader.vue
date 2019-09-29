@@ -68,7 +68,7 @@
             <div class="weather-icon">
               <img :src="cond_txt_dIcon" style="width: 100%; height: 100%;" />
             </div>
-            <div class="weather-text">温度</div>
+            <!-- <div class="weather-text">温度</div> -->
           </div>
           <CubeDecoration10 class="cubeDecoration10" />
         </div>
@@ -97,10 +97,10 @@ export default {
       datatime: dayjs().format('YYYY-MM-DD'),
       time: dayjs().format('HH:mm:ss'),
       taskData: {
-        total: 89,
-        complete: 55,
-        going: 89,
-        overTime: 5
+        total: 26,
+        complete: 7,
+        going: 6,
+        overTime: 0
       }
     }
   },
