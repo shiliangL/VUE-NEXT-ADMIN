@@ -1,0 +1,105 @@
+{
+  "code": 0,
+  "success": true,
+  "message": "请求成功",
+  "data": {
+    "garbageAmount": [
+      {
+        "startPoint": "大鹏新区",
+        "endPoint": "盐田能源生态园",
+        "garbageTotal": 217.3,
+        "transportNum": 14
+      },
+      {
+        "startPoint": "大鹏新区",
+        "endPoint": "下坪环境园",
+        "garbageTotal": 217.3,
+        "transportNum": 23
+      },
+      {
+        "startPoint": "南山区",
+        "endPoint": "南山能源生态园",
+        "garbageTotal": 2075.78,
+        "transportNum": 8
+      },
+      {
+        "startPoint": "南山区",
+        "endPoint": "宝安能源生态园",
+        "garbageTotal": 2075.78,
+        "transportNum": 43
+      },
+      {
+        "startPoint": "盐田区",
+        "endPoint": "下坪环境园",
+        "garbageTotal": 314.37,
+        "transportNum": 34
+      },
+      {
+        "startPoint": "盐田区",
+        "endPoint": "盐田能源生态园",
+        "garbageTotal": 314.37,
+        "transportNum": 16
+      },
+      {
+        "startPoint": "坪山区",
+        "endPoint": "龙岗能源生态园",
+        "garbageTotal": 642.38,
+        "transportNum": 32
+      },
+      {
+        "startPoint": "龙华区",
+        "endPoint": "龙岗能源生态园",
+        "garbageTotal": 2541.57,
+        "transportNum": 37
+      },
+      {
+        "startPoint": "福田区",
+        "endPoint": "南山能源生态园",
+        "garbageTotal": 2104.46,
+        "transportNum": 15
+      },
+      {
+        "startPoint": "福田区",
+        "endPoint": "下坪环境园",
+        "garbageTotal": 2104.46,
+        "transportNum": 49
+      },
+      {
+        "startPoint": "罗湖区",
+        "endPoint": "下坪环境园",
+        "garbageTotal": 1521.32,
+        "transportNum": 62
+      },
+      {
+        "startPoint": "罗湖区",
+        "endPoint": "盐田能源生态园",
+        "garbageTotal": 1521.32,
+        "transportNum": 30
+      },
+      {
+        "startPoint": "光明区",
+        "endPoint": "宝安能源生态园",
+        "garbageTotal": 1058.74,
+        "transportNum": 56
+      },
+      {
+        "startPoint": "宝安区",
+        "endPoint": "宝安能源生态园",
+        "garbageTotal": 5702.71,
+        "transportNum": 84
+      },
+      {
+        "startPoint": "龙岗区",
+        "endPoint": "平湖能源生态园",
+        "garbageTotal": 4996.28,
+        "transportNum": 35
+      },
+      {
+        "startPoint": "龙岗区",
+        "endPoint": "龙岗能源生态园",
+        "garbageTotal": 4996.28,
+        "transportNum": 84
+      }
+    ]
+  }
+}

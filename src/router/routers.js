@@ -73,6 +73,15 @@ export const constantRoutes = [
           hideInMenu: true
         },
         component: () => import('@/views/aapComponents')
+      },
+      {
+        path: '/cubeBlock',
+        name: 'cubeBlock',
+        meta: {
+          title: '区块片段',
+          hideInMenu: true
+        },
+        component: () => import('@/views/cubeBlock')
       }
     ]
   }
