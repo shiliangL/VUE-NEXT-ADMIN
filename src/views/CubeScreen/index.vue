@@ -326,7 +326,7 @@ export default {
     }
     .main-container-layout-header {
       padding: 0.25rem /* 4/16 */ 0;
-      margin-bottom: 1.125rem /* 18/16 */;
+      margin-bottom: .375rem /* 6/16 */;
     }
 
     .main-container-layout-swiper {
@@ -337,7 +337,8 @@ export default {
       .cube-data-box {
         padding: 0.625rem /* 10/16 */ 1.25rem /* 20/16 */;
         height: 15.625rem /* 250/16 */;
-        overflow-y: auto;
+
+        // overflow-y: auto;
 
         .title-data-box {
           font-size: 1.25rem /* 20/16 */;

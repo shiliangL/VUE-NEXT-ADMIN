@@ -62,7 +62,7 @@ export default {
         legend: {
           orient: 'vertical',
           left: 'right',
-          top: '30%',
+          top: 'middle',
           textStyle: {
             color: '#fff',
             fontSize: 14

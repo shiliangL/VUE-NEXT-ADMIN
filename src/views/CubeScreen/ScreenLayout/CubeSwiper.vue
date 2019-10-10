@@ -1,7 +1,11 @@
 <template>
   <div class="CubeSwiper">
     <swiper :options="swiperOption" ref="CubeSwiper">
-      <swiper-slide v-for="(slide,index) in cubeSwiperList" :key="index" @click.native="clickItem(slide,index)">
+      <swiper-slide
+        v-for="(slide,index) in cubeSwiperList"
+        :key="index"
+        @click.native="clickItem(slide,index)"
+      >
         <div class="swiper-cube-card" :class="curIndexActive==index?'activeCard' : ''">
           <div class="project-progress">
             <el-progress
@@ -23,7 +27,6 @@
       <div class="swiper-button-prev" style="display: none;" slot="button-prev"></div>
       <div class="swiper-button-next" style="display: none;" slot="button-next"></div>
     </swiper>
-
   </div>
 </template>
 
@@ -70,21 +73,29 @@ export default {
     if (this.autoplay) {
       this.playToNextProject()
     }
+    this.$nextTick().then(_ => {
+      this.swiper = this.$refs['CubeSwiper'].swiper
+    })
   },
   methods: {
     playToNextProject() {
       const { cubeSwiperList } = this
-      if (!cubeSwiperList.length) return
+      if (cubeSwiperList.length <= 4) return
       // console.log(cubeSwiperList.length, '共')
       if (this.timer) clearInterval(this.timer)
       this.timer = setInterval(() => {
         this.curIndexActive++
-        if (this.curIndexActive >= cubeSwiperList.length) this.curIndexActive = 0
+        console.log(this.curIndexActive, '第几章')
+        if (this.curIndexActive === 4) this.swiper.slideNext()
+        if (this.curIndexActive >= cubeSwiperList.length) {
+          this.curIndexActive = 0
+          this.swiper.slideTo(0)
+        }
         this.$emit('cubeSwiperChange', this.curIndexActive)
       }, 5000)
     },
     clickItem(item, index) {
-      console.log(index, 'xx')
+      console.log(index, '点击项目')
       // if (this.curIndexActive === index) return
       this.curIndexActive = index
       this.playToNextProject()
@@ -189,7 +200,7 @@ export default {
 </style>
 
 <style>
- .el-progress__text {
-    font-size: 1.125rem /* 18/16 */!important;
-  }
+.el-progress__text {
+  font-size: 1.125rem /* 18/16 */ !important;
+}
 </style>
