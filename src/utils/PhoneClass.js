@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 
 export default class PhoneClass {
   constructor() {
@@ -14,7 +15,7 @@ export default class PhoneClass {
     if (this._video) {
       this._video.destroy && this._video.destroy()
     }
-    // eslint-disable-next-line no-undef
+    // eslint-disable-next-line new-cap
     this._video = new byskplayer({
       id: params.id,
       isLive: true,

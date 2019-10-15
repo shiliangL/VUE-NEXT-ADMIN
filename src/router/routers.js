@@ -47,15 +47,15 @@ export const constantRoutes = [
         },
         component: () => import('@/views/CubeScreen')
       },
-      {
-        path: '/cubeCircleChart',
-        name: 'CubeCircleChart',
-        meta: {
-          title: '圆环图表',
-          hideInMenu: true
-        },
-        component: () => import('@/views/cubeCircleChart')
-      },
+      // {
+      //   path: '/cubeCircleChart',
+      //   name: 'CubeCircleChart',
+      //   meta: {
+      //     title: '圆环图表',
+      //     hideInMenu: true
+      //   },
+      //   component: () => import('@/views/cubeCircleChart')
+      // },
       {
         path: '/AppGlass',
         name: 'AppGlass',

@@ -5,15 +5,12 @@ import './styles/index.scss'
 
 import Vue from 'vue'
 import ElementUI from 'element-ui'
-import VueParticles from 'vue-particles'
 
 import localstore from 'store'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import './icons' // icon
-
-Vue.use(VueParticles)
 
 Vue.use(ElementUI, {
   size: localstore.get('size') || 'small' // set element-ui default size
