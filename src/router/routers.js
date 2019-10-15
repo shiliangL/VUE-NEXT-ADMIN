@@ -82,6 +82,15 @@ export const constantRoutes = [
           hideInMenu: true
         },
         component: () => import('@/views/cubeBlock')
+      },
+      {
+        path: '/eventMap',
+        name: 'eventMap',
+        meta: {
+          title: '地图测试',
+          hideInMenu: true
+        },
+        component: () => import('@/views/eventMap')
       }
     ]
   }

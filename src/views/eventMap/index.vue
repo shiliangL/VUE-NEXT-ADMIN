@@ -23,6 +23,7 @@ import directionOfGarbage from '@/mock/directionOfGarbage'
 import VueOverlay from '_c/VueOverlay'
 
 export default {
+  name: 'EventMap',
   data() {
     return {
       map: null,
@@ -325,10 +326,25 @@ export default {
       console.log(item, '点击了线条')
     },
     setIconTips(v) {
-      this.vueOverlayVisible = true
+      if (this.isScanning) {
+        this.map.removeOverlay(this.isScanning)
+        this.isScanning = null
+      }
+
       // eslint-disable-next-line no-undef
-      this.currentPoint = new BMap.Point(v.lng, v.lat)
-      console.log(v, '点击了覆盖物')
+      this.map.centerAndZoom(new BMap.Point(v.lng, v.lat), 16)
+      const html = '<div class="radar"></div>'
+      // eslint-disable-next-line no-undef
+      this.isScanning = new BMap.Label(html, {
+      // eslint-disable-next-line no-undef
+        position: new BMap.Point(v.lng, v.lat)
+      })
+      this.map.addOverlay(this.isScanning)
+
+      // this.vueOverlayVisible = true
+      // // eslint-disable-next-line no-undef
+      // this.currentPoint = new BMap.Point(v.lng, v.lat)
+      // console.log(v, '点击了覆盖物')
     },
     // 设置区
     setAreaIcon(areaArr) {
